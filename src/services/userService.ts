@@ -6,10 +6,7 @@ interface UserResponse {
   user: User;
 }
 
-const API_URL =
-  process.env.NODE_ENV === 'production'
-    ? 'https://dt-webapp-e6b8gxbjhbamb7fu.westeurope-01.azurewebsites.net/api/users'
-    : `${import.meta.env.VITE_API_URL}/users`;
+const API_URL = `${import.meta.env.VITE_API_URL}/users`;
 
 export const register = async (
   username: string,
