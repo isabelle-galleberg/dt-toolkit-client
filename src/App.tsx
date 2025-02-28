@@ -15,7 +15,6 @@ import Welcome from './pages/Welcome';
 import { TaskProgressProvider } from './context/TaskProgressContext';
 import NavbarTop from './components/layout/NavbarTop';
 import NotFoundPage from './pages/NotFoundPage';
-import Todo from './pages/Todo';
 
 function App() {
   const { token } = useUserStore();
@@ -28,7 +27,6 @@ function App() {
       <div className="h-screen w-screen flex flex-col">
         {!token ? (
           <Routes>
-            <Route path="/" element={<Todo />} />
             <Route path="/register" element={<Register />} />
             <Route path="/login" element={<Login />} />
             <Route path="*" element={<Navigate to="/login" replace />} />
