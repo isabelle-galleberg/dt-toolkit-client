@@ -6,11 +6,7 @@ interface UserResponse {
   user: User;
 }
 
-const isProduction = import.meta.env.MODE === 'production';
-
-const API_URL = isProduction
-  ? `${process.env.VITE_API_URL}/users`
-  : `${import.meta.env.VITE_API_URL}/users`;
+const API_URL = `${import.meta.env.VITE_API_URL}/users`;
 
 export const register = async (
   username: string,
