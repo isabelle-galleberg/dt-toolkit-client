@@ -12,6 +12,7 @@ import Empathize from './pages/Empathize/Empathize';
 import SelectPersona from './pages/Empathize/SelectPersona';
 import SelectedPersonaInfo from './pages/Empathize/SelectedPersonaInfo';
 import StoryboardInfo from './pages/Empathize/StoryboardInfo';
+import Storyboard from './pages/Empathize/Storyboard';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Welcome from './pages/Welcome';
@@ -56,6 +57,7 @@ function App() {
                 path="/empathize/storyboard-info"
                 element={<StoryboardInfo />}
               />
+              <Route path="/empathize/storyboard" element={<Storyboard />} />
               <Route path="/define" element={<Define />} />
               <Route
                 path="/define/problem-statement"

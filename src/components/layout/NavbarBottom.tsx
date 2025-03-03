@@ -10,6 +10,7 @@ const getNextPage = (pathname: string) => {
     '/empathize/selected-persona-info',
     '/empathize/persona',
     '/empathize/storyboard-info',
+    '/empathize/storyboard',
     '/define',
     '/define/problem-statement',
     '/ideate',
