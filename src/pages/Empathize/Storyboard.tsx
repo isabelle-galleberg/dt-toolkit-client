@@ -1,10 +1,13 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import ActivityPageLayout from '../../components/layout/ActivityPageLayout';
 import Box from '../../components/Box';
 import { usePersonaStore } from '../../store/personaStore';
+import { useTaskProgress } from '../../context/TaskProgressContext';
 
 function Storyboard() {
   const { persona } = usePersonaStore();
+  const { markTaskComplete, markTaskUndone, isTaskComplete } =
+    useTaskProgress();
   const [selectedEmojis, setSelectedEmojis] = useState<{
     [key: number]: string;
   }>({});
@@ -19,6 +22,19 @@ function Storyboard() {
   const emojiOptions = ['😄', '😢', '😕', '🥱', '😲', '😡', '😨'];
 
   //TODO: save selected emojies to the db
+
+  useEffect(() => {
+    const allEmojisSelected = Object.keys(selectedEmojis).length === 4;
+    if (allEmojisSelected) {
+      if (!isTaskComplete('/empathize/storyboard')) {
+        markTaskComplete('/empathize/storyboard');
+      }
+    } else {
+      if (isTaskComplete('/empathize/storyboard')) {
+        markTaskUndone('/empathize/storyboard');
+      }
+    }
+  }, [selectedEmojis, markTaskComplete, markTaskUndone, isTaskComplete]);
 
   return (
     <div>
