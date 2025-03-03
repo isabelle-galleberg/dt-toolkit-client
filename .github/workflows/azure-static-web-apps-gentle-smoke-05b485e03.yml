@@ -21,7 +21,11 @@ jobs:
           lfs: false
 
       - name: Set up Environment Variables
-        run: echo "VITE_API_URL=${{ secrets.VITE_API_URL }}" >> $GITHUB_ENV
+        run: |
+          echo "VITE_API_URL=${{ secrets.VITE_API_URL }}" >> $GITHUB_ENV
+          echo "VITE_POSTHOG_WS_TOKEN=${{ secrets.VITE_POSTHOG_WS_TOKEN }}" >> $GITHUB_ENV
+          echo "VITE_PUBLIC_POSTHOG_KEY=${{ secrets.VITE_PUBLIC_POSTHOG_KEY }}" >> $GITHUB_ENV
+          echo "VITE_PUBLIC_POSTHOG_HOST=${{ secrets.VITE_PUBLIC_POSTHOG_HOST }}" >> $GITHUB_ENV
 
       - name: Build And Deploy
         id: builddeploy
