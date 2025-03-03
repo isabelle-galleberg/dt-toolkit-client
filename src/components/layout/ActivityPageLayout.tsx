@@ -13,7 +13,7 @@ function ActivityPageLayout({
   phaseColor,
   text,
   activity,
-  centerContent = false, // Default is false
+  centerContent = false,
 }: ActivityPageProps) {
   return (
     <div className="relative min-h-screen flex justify-center px-4">

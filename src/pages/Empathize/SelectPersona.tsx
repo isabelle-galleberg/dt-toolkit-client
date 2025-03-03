@@ -3,28 +3,26 @@ import { useTaskProgress } from '../../context/TaskProgressContext';
 import { usePersonaStore } from '../../store/personaStore';
 import { useState, useEffect } from 'react';
 import { PersonaCard } from '../../types/persona';
-import { getPersonaCards } from '../../services/personaCardService'; // You need to define this service function
+import { getPersonaCards } from '../../services/personaCardService';
 
 function SelectPersona() {
   const { persona, setPersona } = usePersonaStore();
   const { markTaskComplete, isTaskComplete } = useTaskProgress();
-  const [personas, setPersonas] = useState<PersonaCard[]>([]); // State for persona cards
+  const [personas, setPersonas] = useState<PersonaCard[]>([]);
 
-  // Fetch persona cards when the component mounts
   useEffect(() => {
     const fetchPersonas = async () => {
       try {
-        const fetchedPersonas = await getPersonaCards(); // Fetch persona cards from the backend
-        setPersonas(fetchedPersonas); // Set the fetched persona cards to state
+        const fetchedPersonas = await getPersonaCards();
+        setPersonas(fetchedPersonas);
       } catch (error) {
         console.error('Error fetching persona cards:', error);
       }
     };
 
     fetchPersonas();
-  }, []); // The empty array ensures this runs only once, when the component mounts
+  }, []);
 
-  // Handle persona selection
   const handlePersonaSelection = (selectedPersona: PersonaCard) => {
     setPersona(selectedPersona);
     if (!isTaskComplete('/empathize/select-persona')) {
@@ -65,57 +63,3 @@ function SelectPersona() {
 }
 
 export default SelectPersona;
-
-// import ActivityPageLayout from '../../components/layout/ActivityPageLayout';
-// import { useTaskProgress } from '../../context/TaskProgressContext';
-// import { usePersonaStore } from '../../store/personaStore';
-// import { useState } from 'react';
-// import { PersonaCard } from '../../types/persona';
-// import { upsertPersonaCards } from '../../services/personaCardService';
-
-// function SelectPersona() {
-//   const { persona, setPersona } = usePersonaStore();
-//   const { markTaskComplete, isTaskComplete } = useTaskProgress();
-//   const [personas, setPersonas] = useState<PersonaCard[]>([]); // State for persona cards
-
-//   // Handle persona selection
-//   const handlePersonaSelection = (selectedPersona: PersonaCard) => {
-//     setPersona(selectedPersona);
-//     if (!isTaskComplete('/empathize/select-persona')) {
-//       markTaskComplete('/empathize/select-persona');
-//     }
-//   };
-
-//   return (
-//     <div className="flex flex-col items-center px-4">
-//       <ActivityPageLayout
-//         header="Who will you play as?"
-//         phase="Empathize"
-//         phaseColor="text-empathize"
-//         text={
-//           <>
-//             Phishers don't trick everyone the same way!
-//             <br />
-//             Pick a character and see how they deal with online scams:
-//           </>
-//         }
-//         activity={
-//           <div className="flex gap-4">
-//             {personas.map((personaCard) => (
-//               <img
-//                 key={personaCard._id}
-//                 src={personaCard.cardImageUrl}
-//                 alt={`persona-card-${personaCard.alias.toLowerCase()}`}
-//                 className={`w-52 cursor-pointer rounded-lg transition-all duration-300
-//                   ${persona?._id === personaCard._id ? 'scale-110 shadow-lg' : ''}`}
-//                 onClick={() => handlePersonaSelection(personaCard)}
-//               />
-//             ))}
-//           </div>
-//         }
-//       />
-//     </div>
-//   );
-// }
-
-// export default SelectPersona;

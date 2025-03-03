@@ -13,19 +13,6 @@ export const getPersonaCards = async (): Promise<PersonaCard[]> => {
   }
 };
 
-// export const upsertPersonaCards = async (
-//   personaData: Partial<PersonaCard>
-// ): Promise<PersonaCard> => {
-//   try {
-//     const response = await axios.post<PersonaCard>(API_URL, personaData, {});
-//     return response.data;
-//   } catch (error) {
-//     console.error('Error creating/updating personas:', error);
-//     throw error;
-//   }
-// };
-
-// Function to send a POST request to create a new PersonaCard
 export const upsertPersonaCards = async (
   personaData: PersonaCard
 ): Promise<PersonaCard> => {
