@@ -5,22 +5,18 @@ export interface Persona {
   characteristics: string[];
   name: string;
   age: number | null;
-  occupation: string;
-  hobbies: string;
-  goals: string;
-  frustrations: string;
-  slider1: number;
-  slider2: number;
-  slider3: number;
+  occupationAndHobbies: string;
+  technologyUsage: string;
+  sliders: number[];
 }
 
 export interface PersonaCard {
-  _id: string;
-  type: string;
-  description: string;
-  imageUrl: string;
-  quote: string;
+  _id?: string;
+  alias: string;
+  cardImageUrl: string;
+  personaImageUrl: string;
   characteristics: string[];
+  storyline: string[][];
 }
 
 export interface PersonaInfo {
@@ -28,11 +24,7 @@ export interface PersonaInfo {
   characteristics: string[];
   name: string;
   age: number | null;
-  occupation: string;
-  hobbies: string;
-  goals: string;
-  frustrations: string;
-  slider1: number;
-  slider2: number;
-  slider3: number;
+  occupationAndHobbies: string;
+  technologyUsage: string;
+  sliders: number[];
 }
