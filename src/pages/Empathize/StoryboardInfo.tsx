@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import ActivityPageLayout from '../../components/layout/ActivityPageLayout';
 import { useTaskProgress } from '../../context/TaskProgressContext';
 
+// TODO: create unique text for each persona!
 function StoryboardInfo() {
   const { markTaskComplete, isTaskComplete } = useTaskProgress();
 
