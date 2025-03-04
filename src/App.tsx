@@ -1,6 +1,8 @@
 import { useUserStore } from './store/userStore';
 import { Navigate, Route, Routes, useLocation } from 'react-router-dom';
 import Define from './pages/Define/Define';
+import SpotScam from './pages/Define/SpotScam';
+import UnderstandScam from './pages/Define/UnderstandingScam';
 import ProblemStatement from './pages/Define/ProblemStatement';
 import Ideate from './pages/Ideate/Ideate';
 import SelectIdeas from './pages/Ideate/SelectIdeas';
@@ -59,6 +61,11 @@ function App() {
               />
               <Route path="/empathize/storyboard" element={<Storyboard />} />
               <Route path="/define" element={<Define />} />
+              <Route path="/define/spot-scam" element={<SpotScam />} />
+              <Route
+                path="/define/understand-scam"
+                element={<UnderstandScam />}
+              />
               <Route
                 path="/define/problem-statement"
                 element={<ProblemStatement />}

@@ -12,6 +12,8 @@ const getNextPage = (pathname: string) => {
     '/empathize/storyboard-info',
     '/empathize/storyboard',
     '/define',
+    '/define/spot-scam',
+    '/define/understand-scam',
     '/define/problem-statement',
     '/ideate',
     '/ideate/select-ideas',
