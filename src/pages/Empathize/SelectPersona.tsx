@@ -49,7 +49,7 @@ function SelectPersona() {
               <img
                 key={personaCard._id}
                 src={personaCard.cardImageUrl}
-                alt={`persona-card-${personaCard.alias.toLowerCase()}`}
+                alt="persona-card"
                 className={`w-52 cursor-pointer rounded-lg transition-all duration-300 
                   ${persona?._id === personaCard._id ? 'scale-110 shadow-lg' : ''}`}
                 onClick={() => handlePersonaSelection(personaCard)} // Handle persona selection
