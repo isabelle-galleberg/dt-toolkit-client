@@ -12,3 +12,15 @@ export const getPersonaCards = async (): Promise<PersonaCard[]> => {
     throw error;
   }
 };
+
+export const upsertPersonaCards = async (
+  personaData: PersonaCard
+): Promise<PersonaCard> => {
+  try {
+    const response = await axios.post<PersonaCard>(API_URL, personaData);
+    return response.data;
+  } catch (error) {
+    console.error('Error creating/updating persona:', error);
+    throw error;
+  }
+};

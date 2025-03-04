@@ -6,7 +6,11 @@ const getNextPage = (pathname: string) => {
   const routes = [
     '/',
     '/empathize',
+    '/empathize/select-persona',
+    '/empathize/selected-persona-info',
     '/empathize/persona',
+    '/empathize/storyboard-info',
+    '/empathize/storyboard',
     '/define',
     '/define/problem-statement',
     '/ideate',
