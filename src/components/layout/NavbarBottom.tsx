@@ -7,7 +7,7 @@ const getNextPage = (pathname: string) => {
     '/',
     '/empathize',
     '/empathize/select-persona',
-    '/empathize/selected-persona-info',
+    '/empathize/persona-info',
     '/empathize/persona',
     '/empathize/storyboard-info',
     '/empathize/storyboard',

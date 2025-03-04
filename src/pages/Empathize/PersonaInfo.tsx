@@ -3,14 +3,13 @@ import ActivityPageLayout from '../../components/layout/ActivityPageLayout';
 import { useTaskProgress } from '../../context/TaskProgressContext';
 import { usePersonaStore } from '../../store/personaStore';
 
-function SelectedPersonaInfo() {
+function PersonaInfo() {
   const { persona } = usePersonaStore();
   const { markTaskComplete, isTaskComplete } = useTaskProgress();
 
-  // enable next button
   useEffect(() => {
-    if (!isTaskComplete('/empathize/selected-persona-info')) {
-      markTaskComplete('/empathize/selected-persona-info');
+    if (!isTaskComplete('/empathize/persona-info')) {
+      markTaskComplete('/empathize/persona-info');
     }
   }, [isTaskComplete, markTaskComplete]);
 
@@ -41,4 +40,4 @@ function SelectedPersonaInfo() {
   );
 }
 
-export default SelectedPersonaInfo;
+export default PersonaInfo;
