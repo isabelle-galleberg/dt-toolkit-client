@@ -6,7 +6,6 @@ import { useTaskProgress } from '../../context/TaskProgressContext';
 function StoryboardInfo() {
   const { markTaskComplete, isTaskComplete } = useTaskProgress();
 
-  // enable next button
   useEffect(() => {
     if (!isTaskComplete('/empathize/storyboard-info')) {
       markTaskComplete('/empathize/storyboard-info');
