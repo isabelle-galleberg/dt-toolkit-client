@@ -7,24 +7,22 @@ import { getPersonaCards } from '../../services/personaCardService';
 
 function SelectPersona() {
   const { persona, setPersona } = usePersonaStore();
+  const [personaCards, setPersonaCards] = useState<PersonaCard[]>([]);
   const { markTaskComplete, isTaskComplete } = useTaskProgress();
-  const [personas, setPersonas] = useState<PersonaCard[]>([]);
 
   useEffect(() => {
-    const fetchPersonas = async () => {
+    (async () => {
       try {
-        const fetchedPersonas = await getPersonaCards();
-        setPersonas(fetchedPersonas);
+        const cards = await getPersonaCards();
+        setPersonaCards(cards);
       } catch (error) {
         console.error('Error fetching persona cards:', error);
       }
-    };
-
-    fetchPersonas();
+    })();
   }, []);
 
-  const handlePersonaSelection = (selectedPersona: PersonaCard) => {
-    setPersona(selectedPersona);
+  const handlePersonaSelection = (selectedCard: PersonaCard) => {
+    setPersona(selectedCard);
     if (!isTaskComplete('/empathize/select-persona')) {
       markTaskComplete('/empathize/select-persona');
     }
@@ -45,14 +43,14 @@ function SelectPersona() {
         }
         activity={
           <div className="flex gap-4">
-            {personas.map((personaCard) => (
+            {personaCards.map((card) => (
               <img
-                key={personaCard._id}
-                src={personaCard.cardImageUrl}
+                key={card._id}
+                src={card.cardImageUrl}
                 alt="persona-card"
                 className={`w-52 cursor-pointer rounded-lg transition-all duration-300 
-                  ${persona?._id === personaCard._id ? 'scale-110 shadow-lg' : ''}`}
-                onClick={() => handlePersonaSelection(personaCard)} // Handle persona selection
+                  ${persona?._id === card._id ? 'scale-110 shadow-lg' : ''}`}
+                onClick={() => handlePersonaSelection(card)}
               />
             ))}
           </div>

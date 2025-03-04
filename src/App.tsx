@@ -12,7 +12,7 @@ import NavbarBottom from './components/layout/NavbarBottom';
 import Persona from './pages/Empathize/Persona';
 import Empathize from './pages/Empathize/Empathize';
 import SelectPersona from './pages/Empathize/SelectPersona';
-import SelectedPersonaInfo from './pages/Empathize/SelectedPersonaInfo';
+import PersonaInfo from './pages/Empathize/PersonaInfo';
 import StoryboardInfo from './pages/Empathize/StoryboardInfo';
 import Storyboard from './pages/Empathize/Storyboard';
 import Login from './pages/Login';
@@ -50,10 +50,7 @@ function App() {
                 path="/empathize/select-persona"
                 element={<SelectPersona />}
               />
-              <Route
-                path="/empathize/selected-persona-info"
-                element={<SelectedPersonaInfo />}
-              />
+              <Route path="/empathize/persona-info" element={<PersonaInfo />} />
               <Route path="/empathize/persona" element={<Persona />} />
               <Route
                 path="/empathize/storyboard-info"

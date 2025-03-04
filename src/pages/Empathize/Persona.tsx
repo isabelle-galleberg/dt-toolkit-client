@@ -7,15 +7,15 @@ import Box from '../../components/Box';
 import { useTaskProgress } from '../../context/TaskProgressContext';
 
 function Persona() {
-  const { markTaskComplete, markTaskUndone, isTaskComplete } =
-    useTaskProgress();
-  let debounceTimer: NodeJS.Timeout | null = null;
   const { persona } = usePersonaStore();
   const cardId = persona?._id;
+  let debounceTimer: NodeJS.Timeout | null = null;
+  const { markTaskComplete, markTaskUndone, isTaskComplete } =
+    useTaskProgress();
 
   const initialPersona: PersonaInfo = {
     cardId: cardId || '',
-    characteristics: persona?.characteristics || [],
+    traits: [],
     name: '',
     age: null,
     occupationAndHobbies: '',
@@ -24,8 +24,8 @@ function Persona() {
   };
 
   const [personaInfo, setPersonaInfo] = useState<PersonaInfo>(initialPersona);
-  const [addCharacteristic, setAddCharacteristic] = useState(false);
-  const [newCharacteristic, setNewCharacteristic] = useState('');
+  const [addTrait, setAddTrait] = useState(false);
+  const [newTrait, setNewTrait] = useState('');
 
   useEffect(() => {
     if (cardId) {
@@ -99,24 +99,22 @@ function Persona() {
     }
   }, [personaInfo]);
 
-  const handleAddCharacteristic = () => {
-    if (newCharacteristic.trim() !== '') {
+  const handleAddTrait = () => {
+    if (newTrait.trim() !== '') {
       setPersonaInfo({
         ...personaInfo,
-        characteristics: [...personaInfo.characteristics, newCharacteristic],
+        traits: [...personaInfo.traits, newTrait],
       });
-      setNewCharacteristic('');
-      setAddCharacteristic(false);
+      setNewTrait('');
+      setAddTrait(false);
     }
   };
 
-  const handleRemoveCharacteristic = (index: number) => {
-    const updatedCharacteristics = personaInfo.characteristics.filter(
-      (_, i) => i !== index
-    );
+  const handleRemoveTrait = (index: number) => {
+    const updatedtraits = personaInfo.traits.filter((_, i) => i !== index);
     setPersonaInfo({
       ...personaInfo,
-      characteristics: updatedCharacteristics,
+      traits: updatedtraits,
     });
   };
 
@@ -129,13 +127,11 @@ function Persona() {
         <div className="grid grid-cols-[1.5fr_1fr] gap-6">
           <div className="space-y-4">
             <div className="flex space-x-12 tracking-widest">
-              {/* Image */}
               <img
                 src={persona?.personaImageUrl || ''}
                 alt="persona grandma"
                 className="w-28"
               />
-              {/* Personal traits */}
               <div>
                 <p
                   className="text-left font-semibold text-[15px] mb-4"
@@ -144,7 +140,7 @@ function Persona() {
                   PERSONAL TRAITS
                 </p>
                 <div className="flex flex-wrap gap-2">
-                  {persona?.characteristics?.map((char, index) => (
+                  {persona?.traits?.map((char, index) => (
                     <div
                       key={index}
                       className="bg-empathize p-1.5 rounded-lg text-define text-[10px] font-regular"
@@ -153,7 +149,7 @@ function Persona() {
                       {char}
                     </div>
                   ))}
-                  {personaInfo.characteristics.map((char, index) => (
+                  {personaInfo.traits.map((char, index) => (
                     <div
                       key={index}
                       className="bg-empathize p-1.5 rounded-lg text-define text-[10px] font-regular"
@@ -161,16 +157,16 @@ function Persona() {
                     >
                       <span>{char}</span>
                       <button
-                        onClick={() => handleRemoveCharacteristic(index)}
+                        onClick={() => handleRemoveTrait(index)}
                         className="text-define ps-2"
                       >
                         ×
                       </button>
                     </div>
                   ))}
-                  {!addCharacteristic ? (
+                  {!addTrait ? (
                     <button
-                      onClick={() => setAddCharacteristic(true)}
+                      onClick={() => setAddTrait(true)}
                       className="badge p-1.5 rounded-lg text-define border-empathize text-[10px] font-regular"
                       style={{ fontFamily: 'Poppins', height: '27px' }}
                     >
@@ -180,14 +176,14 @@ function Persona() {
                     <div className="flex gap-2">
                       <input
                         type="text"
-                        value={newCharacteristic}
-                        onChange={(e) => setNewCharacteristic(e.target.value)}
+                        value={newTrait}
+                        onChange={(e) => setNewTrait(e.target.value)}
                         placeholder="Personal trait"
                         className="p-1.5 rounded-lg text-define text-[10px] font-regular border border-empathize bg-transparent"
                         style={{ fontFamily: 'Poppins', height: '27px' }}
                       />
                       <button
-                        onClick={handleAddCharacteristic}
+                        onClick={handleAddTrait}
                         className="badge p-1.5 rounded-lg text-define border-empathize text-[10px] font-regular"
                         style={{ fontFamily: 'Poppins', height: '27px' }}
                       >
@@ -198,7 +194,6 @@ function Persona() {
                 </div>
               </div>
             </div>
-            {/* Input fields */}
             <Box
               header="GRANDMA"
               content={
@@ -243,7 +238,6 @@ function Persona() {
               }
             ></Box>
           </div>
-          {/* Technology and internet usage */}
           <div className="flex flex-col space-y-10">
             <div className="space-y-2">
               <p className="text-left font-semibold text-[15px] font-poppins tracking-widest mb-6">
@@ -258,7 +252,7 @@ function Persona() {
                   },
                   {
                     labelLeft: 'Careful with Sharing',
-                    labelRight: 'Share Easily',
+                    labelRight: 'Shares Easily',
                   },
                   {
                     labelLeft: 'Quiet Online',

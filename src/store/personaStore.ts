@@ -7,6 +7,9 @@ interface PersonaState {
 }
 
 export const usePersonaStore = create<PersonaState>((set) => ({
-  persona: null,
-  setPersona: (persona) => set({ persona }),
+  persona: JSON.parse(localStorage.getItem('persona') || 'null'),
+  setPersona: (persona) => {
+    localStorage.setItem('persona', JSON.stringify(persona));
+    set({ persona });
+  },
 }));

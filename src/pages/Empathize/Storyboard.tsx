@@ -90,7 +90,6 @@ function Storyboard() {
                   />
                 </div>
               </div>
-
               {/* Box 2 */}
               <div className="w-full md:w-1/4 p-1 text-gray-700">
                 <Box
@@ -127,7 +126,6 @@ function Storyboard() {
                   fillHeight={true}
                 />
               </div>
-
               {/* Box 3 */}
               <div className="w-full md:w-2/4 p-1 text-gray-200 grid grid-rows-[auto_1fr] gap-2">
                 <div>
@@ -165,7 +163,6 @@ function Storyboard() {
                     fillHeight={true}
                   />
                 </div>
-
                 {/* Box 4 */}
                 <div>
                   <Box

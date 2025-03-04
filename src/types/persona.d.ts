@@ -2,7 +2,7 @@ export interface Persona {
   _id: string;
   userId: string;
   cardId: string;
-  characteristics: string[];
+  traits: string[];
   name: string;
   age: number | null;
   occupationAndHobbies: string;
@@ -15,13 +15,13 @@ export interface PersonaCard {
   alias: string;
   cardImageUrl: string;
   personaImageUrl: string;
-  characteristics: string[];
+  traits: string[];
   storyline: string[][];
 }
 
 export interface PersonaInfo {
   cardId: string;
-  characteristics: string[];
+  traits: string[];
   name: string;
   age: number | null;
   occupationAndHobbies: string;
