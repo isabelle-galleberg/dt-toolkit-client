@@ -13,3 +13,13 @@ export interface ProblemExploration {
   text: string;
   selected: boolean;
 }
+
+export interface SpottedScam {
+  _id: string;
+  userId: string;
+  cardId: string;
+  numeration: number;
+  inputText: string;
+  pin_x: number;
+  pin_y: number;
+}
