@@ -4,10 +4,13 @@ interface NumberedInputProps {
   number: number;
   placeholder?: string;
   onDelete: () => void;
+  onChange: (value: string) => void;
+  onBlur?: () => void;
+  defaultValue?: string;
 }
 
 const NumberedInput = forwardRef<HTMLInputElement, NumberedInputProps>(
-  ({ number, placeholder, onDelete }, ref) => {
+  ({ number, placeholder, onDelete, onChange, onBlur, defaultValue }, ref) => {
     return (
       <div className="flex items-center w-full p-2 border-2 border-define rounded-full text-[12px] tracking-widest">
         {/* Circle number */}
@@ -21,6 +24,11 @@ const NumberedInput = forwardRef<HTMLInputElement, NumberedInputProps>(
           type="text"
           placeholder={placeholder || 'Add reason here ...'}
           className="flex-1 bg-transparent border-none text-primary focus:outline-none px-3"
+          defaultValue={defaultValue}
+          onChange={(e) => {
+            onChange(e.target.value);
+          }}
+          onBlur={onBlur}
         />
 
         {/* Delete button */}
