@@ -1,16 +1,45 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import ActivityPageLayout from '../../components/layout/ActivityPageLayout';
 import Box from '../../components/Box';
 import { usePersonaStore } from '../../store/personaStore';
-import { useTaskProgress } from '../../context/TaskProgressContext';
+import { getStory } from '../../services/storyService';
+import { Story } from '../../types/story';
+import lockIcon from '../../assets/Vector.png';
 
 function Storyboard() {
+  const [story, setStory] = useState<Story>();
   const { persona } = usePersonaStore();
-  const { markTaskComplete, markTaskUndone, isTaskComplete } =
-    useTaskProgress();
   const [selectedEmojis, setSelectedEmojis] = useState<{
     [key: number]: string;
   }>({});
+  const [activeIndex, setActiveIndex] = useState(0); // Track the active box index
+  const scrollRef = useRef<HTMLDivElement>(null);
+
+  const fetchStory = async () => {
+    try {
+      const data = await getStory(persona?._id || '');
+      setStory(data[0]);
+    } catch (error) {
+      console.error('Error fetching story:', error);
+    }
+  };
+
+  useEffect(() => {
+    fetchStory();
+  }, []);
+
+  // Load selected emojis from localStorage on component mount
+  useEffect(() => {
+    const storedEmojis = localStorage.getItem('selectedEmojis');
+    if (storedEmojis) {
+      setSelectedEmojis(JSON.parse(storedEmojis));
+    }
+  }, []);
+
+  // Save selected emojis to localStorage whenever they change
+  useEffect(() => {
+    localStorage.setItem('selectedEmojis', JSON.stringify(selectedEmojis));
+  }, [selectedEmojis]);
 
   const handleEmojiClick = (boxId: number, emoji: string) => {
     setSelectedEmojis((prev) => ({
@@ -19,22 +48,25 @@ function Storyboard() {
     }));
   };
 
-  const emojiOptions = ['😄', '😢', '😕', '🥱', '😲', '😡', '😨'];
-
-  //TODO: save selected emojies to the db
-
-  useEffect(() => {
-    const allEmojisSelected = Object.keys(selectedEmojis).length === 4;
-    if (allEmojisSelected) {
-      if (!isTaskComplete('/empathize/storyboard')) {
-        markTaskComplete('/empathize/storyboard');
-      }
-    } else {
-      if (isTaskComplete('/empathize/storyboard')) {
-        markTaskUndone('/empathize/storyboard');
-      }
+  const scroll = (direction: 'left' | 'right') => {
+    if (scrollRef.current) {
+      const scrollAmount = 400;
+      scrollRef.current.scrollBy({
+        left: direction === 'right' ? scrollAmount : -scrollAmount,
+        behavior: 'smooth',
+      });
     }
-  }, [selectedEmojis, markTaskComplete, markTaskUndone, isTaskComplete]);
+  };
+
+  // Map emojis to story image URLs
+  const emojiToImageMap: { [key: string]: keyof Story } = {
+    '😄': 'imgHappy',
+    '😢': 'imgSad',
+    '😕': 'imgDisappointed',
+    '😲': 'imgSuprised',
+    '😡': 'imgAngry',
+    '😨': 'imgScared',
+  };
 
   return (
     <div>
@@ -44,162 +76,96 @@ function Storyboard() {
         phaseColor="text-empathize"
         activity={
           <div className="relative w-full max-w-5xl mx-auto">
-            <div className="flex md:flex-row flex-wrap">
-              {/* Box 1 */}
-              <div className="w-full md:w-1/4 p-1 text-gray-200 grid grid-rows-[auto_1fr] gap-2">
-                <div className="mb-2">
-                  <img
-                    src={persona?.personaImageUrl}
-                    alt="persona"
-                    className="w-28"
-                  />
-                </div>
-                <div>
-                  <Box
-                    icon="1"
-                    header={persona?.storyline[0][0] || ''}
-                    content={
-                      <div className="p-4 text-primary text-sm">
-                        {persona?.storyline[0][1] || ''}
-                        <br />
-                        <br />
-                        {persona?.storyline[0][2] || ''}
-                      </div>
-                    }
-                    bottomContent={
-                      <div className="flex space-x-2 text-lg justify-center items-end">
-                        {emojiOptions.map((emoji) => (
-                          <span
-                            key={emoji}
-                            className="cursor-pointer transition-all"
-                            style={{
-                              filter:
-                                selectedEmojis[1] === emoji
-                                  ? 'none'
-                                  : 'grayscale(100%)',
-                              opacity: selectedEmojis[1] === emoji ? 1 : 0.5,
-                            }}
-                            onClick={() => handleEmojiClick(1, emoji)}
-                          >
-                            {emoji}
-                          </span>
-                        ))}
-                      </div>
-                    }
-                    fillHeight={true}
-                  />
-                </div>
-              </div>
-              {/* Box 2 */}
-              <div className="w-full md:w-1/4 p-1 text-gray-700">
-                <Box
-                  icon="2"
-                  header={persona?.storyline[1][0] || ''}
-                  content={
-                    <div className="p-4 text-primary text-sm space-y-4">
-                      {persona?.storyline[1][1] || ''}
-                      <br />
-                      <br />
-                      {persona?.storyline[1][2] || ''}
-                    </div>
-                  }
-                  bottomContent={
-                    <div className="flex space-x-2 text-lg justify-center items-end">
-                      {emojiOptions.map((emoji) => (
-                        <span
-                          key={emoji}
-                          className="cursor-pointer transition-all"
-                          style={{
-                            filter:
-                              selectedEmojis[2] === emoji
-                                ? 'none'
-                                : 'grayscale(100%)',
-                            opacity: selectedEmojis[2] === emoji ? 1 : 0.5,
-                          }}
-                          onClick={() => handleEmojiClick(2, emoji)}
-                        >
-                          {emoji}
-                        </span>
-                      ))}
-                    </div>
-                  }
-                  fillHeight={true}
-                />
-              </div>
-              {/* Box 3 */}
-              <div className="w-full md:w-2/4 p-1 text-gray-200 grid grid-rows-[auto_1fr] gap-2">
-                <div>
-                  <Box
-                    icon="3"
-                    header={persona?.storyline[2][0] || ''}
-                    content={
-                      <div className="p-4 text-primary text-sm">
-                        {persona?.storyline[2][1] || ''}
-                        <br />
-                        <br />
-                        {persona?.storyline[2][2] || ''}
-                      </div>
-                    }
-                    bottomContent={
-                      <div className="flex space-x-2 text-lg justify-center items-end">
-                        {emojiOptions.map((emoji) => (
-                          <span
-                            key={emoji}
-                            className="cursor-pointer transition-all"
-                            style={{
-                              filter:
-                                selectedEmojis[3] === emoji
-                                  ? 'none'
-                                  : 'grayscale(100%)',
-                              opacity: selectedEmojis[3] === emoji ? 1 : 0.5,
-                            }}
-                            onClick={() => handleEmojiClick(3, emoji)}
-                          >
-                            {emoji}
-                          </span>
-                        ))}
-                      </div>
-                    }
-                    fillHeight={true}
-                  />
-                </div>
-                {/* Box 4 */}
-                <div>
-                  <Box
-                    icon="4"
-                    header={persona?.storyline[3][0] || ''}
-                    content={
-                      <div className="p-4 text-primary text-sm">
-                        {persona?.storyline[3][1] || ''}
-                        <br />
-                        <br />
-                        {persona?.storyline[3][2] || ''}
-                      </div>
-                    }
-                    bottomContent={
-                      <div className="flex space-x-2 text-lg justify-center items-end">
-                        {emojiOptions.map((emoji) => (
-                          <span
-                            key={emoji}
-                            className="cursor-pointer transition-all"
-                            style={{
-                              filter:
-                                selectedEmojis[4] === emoji
-                                  ? 'none'
-                                  : 'grayscale(100%)',
-                              opacity: selectedEmojis[4] === emoji ? 1 : 0.5,
-                            }}
-                            onClick={() => handleEmojiClick(4, emoji)}
-                          >
-                            {emoji}
-                          </span>
-                        ))}
-                      </div>
-                    }
-                    fillHeight={true}
-                  />
-                </div>
-              </div>
+            <div
+              ref={scrollRef}
+              className="flex overflow-x-auto no-scrollbar whitespace-nowrap space-x-4"
+              style={{ scrollBehavior: 'smooth' }}
+            >
+              {story?.storyline.map((scene, index) => {
+                const selectedEmoji = selectedEmojis[index];
+                const imageKey = selectedEmoji
+                  ? emojiToImageMap[selectedEmoji]
+                  : null;
+                const imageUrl =
+                  imageKey && story && typeof story[imageKey] === 'string'
+                    ? story[imageKey]
+                    : persona?.personaImageUrl;
+
+                return (
+                  <div
+                    key={index}
+                    className={`inline-block w-96 flex-shrink-0 relative ${
+                      index > activeIndex ? 'bg-primary rounded-xl' : ''
+                    }`} // Add rounded-xl to bg-primary
+                  >
+                    <Box
+                      icon={String(index + 1)}
+                      header={scene[0] || ''}
+                      content={
+                        index > activeIndex ? (
+                          <div className="flex justify-center items-center h-96">
+                            <img src={lockIcon} className="w-14" />
+                          </div>
+                        ) : (
+                          <div className="p-4 text-primary text-sm space-y-4 break-words whitespace-normal relative z-10">
+                            <p>{scene[1]}</p>
+                            <p>Pick an icon that fits their feelings!</p>
+                            <div className="flex space-x-2 text-lg justify-center">
+                              {['😄', '😢', '😕', '😲', '😡', '😨'].map(
+                                (emoji) => (
+                                  <span
+                                    key={emoji}
+                                    className={`cursor-pointer transition-all relative p-1 ${
+                                      selectedEmoji === emoji
+                                        ? 'bg-primary text-white rounded-full py-1 px-2'
+                                        : ''
+                                    }`}
+                                    style={{
+                                      filter:
+                                        selectedEmoji === emoji
+                                          ? 'none'
+                                          : 'grayscale(100%)',
+                                      opacity:
+                                        selectedEmoji === emoji ? 1 : 0.5,
+                                    }}
+                                    onClick={() =>
+                                      handleEmojiClick(index, emoji)
+                                    }
+                                  >
+                                    {emoji}
+                                  </span>
+                                )
+                              )}
+                            </div>
+                          </div>
+                        )
+                      }
+                      bottomContent={
+                        index <= activeIndex && (
+                          <div className="flex flex-col items-center space-y-4">
+                            <div className="w-40 h-40 flex justify-center items-center">
+                              <img src={imageUrl} alt="emotion" />
+                            </div>
+                            <button
+                              className="btn btn-primary mt-2 w-full"
+                              onClick={() => {
+                                if (activeIndex < story?.storyline.length - 1) {
+                                  setActiveIndex((prev) => prev + 1); // Move to the next box
+                                  scroll('right');
+                                }
+                              }}
+                              disabled={!selectedEmoji} // Disable button until emoji is selected
+                            >
+                              Next
+                            </button>
+                          </div>
+                        )
+                      }
+                      fillHeight={true}
+                    />
+                  </div>
+                );
+              })}
             </div>
           </div>
         }
