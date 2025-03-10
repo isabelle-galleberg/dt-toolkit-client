@@ -126,11 +126,11 @@ function Persona() {
       activity={
         <div className="grid grid-cols-[1.5fr_1fr] gap-6">
           <div className="space-y-4">
-            <div className="flex space-x-12 tracking-widest">
+            <div className="flex space-x-6 tracking-widest">
               <img
                 src={persona?.personaImageUrl || ''}
                 alt="persona grandma"
-                className="w-28"
+                className="w-46"
               />
               <div>
                 <p

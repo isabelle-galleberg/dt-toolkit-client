@@ -16,7 +16,6 @@ export interface PersonaCard {
   cardImageUrl: string;
   personaImageUrl: string;
   traits: string[];
-  storyline: string[][];
 }
 
 export interface PersonaInfo {

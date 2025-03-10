@@ -55,9 +55,8 @@ function AddQuestionCard() {
 
   const handleDeleteCard = async (cardIdToDelete: string) => {
     try {
-      await deleteQuestionCard(cardIdToDelete); // Call API
+      await deleteQuestionCard(cardIdToDelete);
 
-      // Remove from state
       setQuestionCards((prevCards) =>
         prevCards.filter((card) => card._id !== cardIdToDelete)
       );
@@ -79,7 +78,7 @@ function AddQuestionCard() {
                 <div
                   key={index}
                   ref={index === questionCards.length - 1 ? lastCardRef : null}
-                  className={`w-40 h-56 rounded-lg shadow-lg transition-transform duration-500 relative cursor-pointer
+                  className={`w-48 h-64 rounded-lg shadow-lg transition-transform duration-500 relative cursor-pointer
                               -ml-16 first:ml-0 hover:ml-0 hover:z-10
                               ${index === questionCards.length - 1 ? 'mr-6' : ''}`}
                   onClick={() => setFlippedIndex(index)}
@@ -134,7 +133,7 @@ function AddQuestionCard() {
                   }
                 }}
                 disabled={questionCards.length >= 5}
-                className={`w-40 h-56 border-2 border-dashed border-primary flex flex-col items-center justify-center rounded-lg
+                className={`w-48 h-64 border-2 border-dashed border-primary flex flex-col items-center justify-center rounded-lg
     ${questionCards.length >= 5 ? 'opacity-50 cursor-not-allowed' : 'hover:border-primary'}`}
               >
                 <span className="text-3xl">+</span>
