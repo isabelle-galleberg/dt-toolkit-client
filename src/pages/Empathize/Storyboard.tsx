@@ -5,11 +5,7 @@ import { usePersonaStore } from '../../store/personaStore';
 import { getStory } from '../../services/storyService';
 import { Story } from '../../types/story';
 import lockIcon from '../../assets/Vector.png';
-import {
-  addEmotion,
-  updateEmotion,
-  getEmotions,
-} from '../../services/emotionService';
+import { getEmotions, updateEmotions } from '../../services/emotionService';
 
 function Storyboard() {
   const { persona } = usePersonaStore();
@@ -32,34 +28,31 @@ function Storyboard() {
   );
 
   useEffect(() => {
-    const fetchStory = async () => {
-      try {
-        const data = await getStory(persona?._id || '');
-        if (data.length > 0) {
-          setStory(data[0]);
-          fetchEmotions(data[0].storyline.length);
-        }
-      } catch (error) {
-        console.error('Error fetching story:', error);
-      }
-    };
     fetchStory();
+    fetchEmotions();
   }, [persona]);
 
-  const fetchEmotions = async (storyLength: number) => {
+  const fetchStory = async () => {
     try {
-      const emotionsData = (await getEmotions())[0]?.emotions || [];
-      if (emotionsData.length !== 0) {
-        setActiveIndex(emotionsData.length - 1);
+      const data = await getStory(persona?._id || '');
+      if (data.length > 0) {
+        setStory(data[0]);
       }
+    } catch (error) {
+      console.error('Error fetching story:', error);
+    }
+  };
 
-      const emotionsArray = new Array(storyLength)
-        .fill('')
-        .map((_, index) =>
-          emotionsData[index] ? labelToEmojiMap[emotionsData[index]] || '' : ''
-        );
-
-      setEmotions(emotionsArray);
+  const fetchEmotions = async () => {
+    try {
+      const emotionLabels = (await getEmotions()) || [];
+      if (emotionLabels.length !== 0) {
+        setActiveIndex(emotionLabels.length - 1);
+      }
+      const emotionEmojis = emotionLabels.map(
+        (label) => labelToEmojiMap[label] || ''
+      );
+      setEmotions(emotionEmojis);
     } catch (error) {
       console.error('Error fetching emotions:', error);
     }
@@ -76,13 +69,7 @@ function Storyboard() {
     if (!emotionLabel) return;
 
     try {
-      if (emotions[boxId]) {
-        // If an emotion already exists, update it
-        await updateEmotion(boxId, emotionLabel);
-      } else {
-        // Otherwise, add a new emotion
-        await addEmotion(emotionLabel);
-      }
+      await updateEmotions(boxId.toString(), emotionLabel);
     } catch (error) {
       console.error('Error saving emotion:', error);
     }
@@ -103,14 +90,6 @@ function Storyboard() {
             >
               {story?.storyline.map((scene, index) => {
                 const selectedEmoji = emotions[index];
-                const imageKey = selectedEmoji
-                  ? emojiToLabelMap[selectedEmoji]
-                  : null;
-                const imageUrl =
-                  imageKey && story
-                    ? story[imageKey as keyof Story] || persona?.personaImageUrl
-                    : persona?.personaImageUrl;
-
                 return (
                   <div
                     key={index}
@@ -165,7 +144,10 @@ function Storyboard() {
                         index <= activeIndex && (
                           <div className="flex flex-col items-center space-y-4">
                             <div className="w-40 h-40 flex justify-center items-center">
-                              <img src={imageUrl} alt="emotion" />
+                              <img
+                                src={persona?.personaImageUrl}
+                                alt="emotion"
+                              />
                             </div>
                           </div>
                         )
