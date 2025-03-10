@@ -106,6 +106,11 @@ function Storyboard() {
             >
               {story?.storyline.map((scene, index) => {
                 const selectedEmoji = emotions[index];
+                const imageKey = selectedEmoji
+                  ? `${emojiToLabelMap[selectedEmoji]}Img`
+                  : '';
+                const imageUrl =
+                  (story as any)?.[imageKey] || persona?.personaImageUrl;
                 return (
                   <div
                     key={index}
@@ -160,10 +165,7 @@ function Storyboard() {
                         index <= activeIndex && (
                           <div className="flex flex-col items-center space-y-4">
                             <div className="w-40 h-40 flex justify-center items-center">
-                              <img
-                                src={persona?.personaImageUrl}
-                                alt="emotion"
-                              />
+                              <img src={imageUrl} alt="emotion" />
                             </div>
                           </div>
                         )
