@@ -12,7 +12,7 @@ function Storyboard() {
   const [selectedEmojis, setSelectedEmojis] = useState<{
     [key: number]: string;
   }>({});
-  const [activeIndex, setActiveIndex] = useState(0); // Track the active box index
+  const [activeIndex, setActiveIndex] = useState(0);
   const scrollRef = useRef<HTMLDivElement>(null);
 
   const fetchStory = async () => {
@@ -28,7 +28,6 @@ function Storyboard() {
     fetchStory();
   }, []);
 
-  // Load selected emojis from localStorage on component mount
   useEffect(() => {
     const storedEmojis = localStorage.getItem('selectedEmojis');
     if (storedEmojis) {
@@ -36,7 +35,6 @@ function Storyboard() {
     }
   }, []);
 
-  // Save selected emojis to localStorage whenever they change
   useEffect(() => {
     localStorage.setItem('selectedEmojis', JSON.stringify(selectedEmojis));
   }, [selectedEmojis]);
@@ -58,7 +56,6 @@ function Storyboard() {
     }
   };
 
-  // Map emojis to story image URLs
   const emojiToImageMap: { [key: string]: keyof Story } = {
     '😄': 'imgHappy',
     '😢': 'imgSad',
@@ -66,6 +63,15 @@ function Storyboard() {
     '😲': 'imgSuprised',
     '😡': 'imgAngry',
     '😨': 'imgScared',
+  };
+
+  const emojiLabels: { [key: string]: string } = {
+    '😄': 'happy',
+    '😢': 'sad',
+    '😕': 'disappointed',
+    '😲': 'surprised',
+    '😡': 'angry',
+    '😨': 'scared',
   };
 
   return (
@@ -94,9 +100,7 @@ function Storyboard() {
                 return (
                   <div
                     key={index}
-                    className={`inline-block w-96 flex-shrink-0 relative ${
-                      index > activeIndex ? 'bg-primary rounded-xl' : ''
-                    }`} // Add rounded-xl to bg-primary
+                    className={`inline-block w-96 flex-shrink-0 relative ${index > activeIndex ? 'bg-primary rounded-xl' : ''}`}
                   >
                     <Box
                       icon={String(index + 1)}
@@ -110,32 +114,35 @@ function Storyboard() {
                           <div className="p-4 text-primary text-sm space-y-4 break-words whitespace-normal relative z-10">
                             <p>{scene[1]}</p>
                             <p>Pick an icon that fits their feelings!</p>
-                            <div className="flex space-x-2 text-lg justify-center">
-                              {['😄', '😢', '😕', '😲', '😡', '😨'].map(
-                                (emoji) => (
-                                  <span
-                                    key={emoji}
-                                    className={`cursor-pointer transition-all relative p-1 ${
-                                      selectedEmoji === emoji
-                                        ? 'bg-primary text-white rounded-full py-1 px-2'
-                                        : ''
-                                    }`}
-                                    style={{
-                                      filter:
-                                        selectedEmoji === emoji
-                                          ? 'none'
-                                          : 'grayscale(100%)',
-                                      opacity:
-                                        selectedEmoji === emoji ? 1 : 0.5,
-                                    }}
-                                    onClick={() =>
-                                      handleEmojiClick(index, emoji)
-                                    }
-                                  >
-                                    {emoji}
-                                  </span>
-                                )
-                              )}
+                            <div className="flex flex-col items-center space-y-2">
+                              <div className="flex space-x-2 text-lg justify-center">
+                                {Object.entries(emojiLabels).map(
+                                  ([emoji, label]) => (
+                                    <div
+                                      key={emoji}
+                                      className="flex flex-col items-center"
+                                    >
+                                      <span
+                                        className={`cursor-pointer transition-all rounded-full h-10 w-10 flex justify-center items-center text-center ${
+                                          selectedEmoji === emoji
+                                            ? 'bg-primary opacity-100'
+                                            : 'grayscale opacity-50'
+                                        }`}
+                                        onClick={() =>
+                                          handleEmojiClick(index, emoji)
+                                        }
+                                      >
+                                        {emoji}
+                                      </span>
+                                      <span
+                                        className={`text-xs mt-1 ${selectedEmoji === emoji ? 'font-bold' : ''}`}
+                                      >
+                                        {label}
+                                      </span>
+                                    </div>
+                                  )
+                                )}
+                              </div>
                             </div>
                           </div>
                         )
@@ -147,14 +154,14 @@ function Storyboard() {
                               <img src={imageUrl} alt="emotion" />
                             </div>
                             <button
-                              className="btn btn-primary mt-2 w-full"
+                              className="btn btn-primary"
                               onClick={() => {
                                 if (activeIndex < story?.storyline.length - 1) {
-                                  setActiveIndex((prev) => prev + 1); // Move to the next box
+                                  setActiveIndex((prev) => prev + 1);
                                   scroll('right');
                                 }
                               }}
-                              disabled={!selectedEmoji} // Disable button until emoji is selected
+                              disabled={!selectedEmoji}
                             >
                               Next
                             </button>
