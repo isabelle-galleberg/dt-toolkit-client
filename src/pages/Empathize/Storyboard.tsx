@@ -96,7 +96,7 @@ function Storyboard() {
         phase="Empathize"
         phaseColor="text-empathize"
         activity={
-          <div className="relative w-full max-w-5xl mx-auto">
+          <div className="relative w-screen mx-auto pl-32">
             <div
               ref={scrollRef}
               className="flex overflow-x-auto no-scrollbar whitespace-nowrap space-x-4"
