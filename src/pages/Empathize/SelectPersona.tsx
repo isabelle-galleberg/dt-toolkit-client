@@ -11,6 +11,12 @@ function SelectPersona() {
   const { markTaskComplete, isTaskComplete } = useTaskProgress();
 
   useEffect(() => {
+    if (persona && !isTaskComplete('/empathize/select-persona')) {
+      markTaskComplete('/empathize/select-persona');
+    }
+  }, []);
+
+  useEffect(() => {
     (async () => {
       try {
         const cards = await getPersonaCards();

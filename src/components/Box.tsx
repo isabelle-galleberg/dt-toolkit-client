@@ -2,7 +2,7 @@ interface BoxProps {
   icon?: string;
   header: string;
   content?: JSX.Element;
-  bottomContent?: JSX.Element;
+  bottomContent?: JSX.Element | boolean;
   fillHeight?: boolean;
 }
 
