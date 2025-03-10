@@ -6,6 +6,7 @@ import { getStory } from '../../services/storyService';
 import { Story } from '../../types/story';
 import lockIcon from '../../assets/Vector.png';
 import { getEmotions, updateEmotions } from '../../services/emotionService';
+import { useTaskProgress } from '../../context/TaskProgressContext';
 
 function Storyboard() {
   const { persona } = usePersonaStore();
@@ -13,6 +14,7 @@ function Storyboard() {
   const [emotions, setEmotions] = useState<string[]>([]);
   const [activeIndex, setActiveIndex] = useState(0);
   const scrollRef = useRef<HTMLDivElement>(null);
+  const { markTaskComplete, isTaskComplete } = useTaskProgress();
 
   const labelToEmojiMap: { [key: string]: string } = {
     happy: '😄',
@@ -26,6 +28,12 @@ function Storyboard() {
   const emojiToLabelMap = Object.fromEntries(
     Object.entries(labelToEmojiMap).map(([key, value]) => [value, key])
   );
+
+  useEffect(() => {
+    if (emotions.length === 4 && !isTaskComplete('/empathize/storyboard')) {
+      markTaskComplete('/empathize/storyboard');
+    }
+  }, [emotions, markTaskComplete, isTaskComplete]);
 
   useEffect(() => {
     fetchStory();
@@ -47,7 +55,7 @@ function Storyboard() {
     try {
       const emotionLabels = (await getEmotions()) || [];
       if (emotionLabels.length !== 0) {
-        setActiveIndex(emotionLabels.length - 1);
+        setActiveIndex(emotionLabels.length);
       }
       const emotionEmojis = emotionLabels.map(
         (label) => labelToEmojiMap[label] || ''
@@ -59,6 +67,14 @@ function Storyboard() {
   };
 
   const handleEmojiClick = async (boxId: number, emoji: string) => {
+    if (boxId >= activeIndex) {
+      setActiveIndex(boxId + 1);
+    }
+    scrollRef.current?.scrollTo({
+      left: boxId * 400,
+      behavior: 'smooth',
+    });
+
     setEmotions((prev) => {
       const updatedEmotions = [...prev];
       updatedEmotions[boxId] = emoji;
@@ -116,7 +132,7 @@ function Storyboard() {
                                       className="flex flex-col items-center"
                                     >
                                       <span
-                                        className={`cursor-pointer transition-all rounded-full h-10 w-10 flex justify-center items-center text-center ${
+                                        className={`cursor-pointer transition-all rounded-full h-9 w-9 flex justify-center items-center text-center ${
                                           selectedEmoji === emoji
                                             ? 'bg-primary border-2 border-primary opacity-100'
                                             : 'grayscale opacity-50'
