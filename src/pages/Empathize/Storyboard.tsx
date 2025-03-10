@@ -124,9 +124,12 @@ function Storyboard() {
                           </div>
                         ) : (
                           <div className="p-4 text-primary text-sm space-y-4 break-words whitespace-normal relative z-10">
-                            <p>{scene[1]}</p>
-                            <p>Pick an icon that fits their feelings!</p>
+                            <div className="flex flex-col space-y-2 h-28">
+                              <p>{scene[1]}</p>
+                              <p>{scene[2]}</p>
+                            </div>
                             <div className="flex flex-col items-center space-y-2">
+                              <p>Pick an icon that fits their feelings!</p>
                               <div className="flex space-x-2 text-lg justify-center">
                                 {Object.entries(labelToEmojiMap).map(
                                   ([label, emoji]) => (
