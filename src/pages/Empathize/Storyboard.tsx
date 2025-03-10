@@ -42,10 +42,8 @@ function Storyboard() {
 
   const fetchStory = async () => {
     try {
-      const data = await getStory(persona?._id || '');
-      if (data.length > 0) {
-        setStory(data[0]);
-      }
+      const story = await getStory(persona?._id || '');
+      setStory(story);
     } catch (error) {
       console.error('Error fetching story:', error);
     }
