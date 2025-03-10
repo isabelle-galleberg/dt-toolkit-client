@@ -132,7 +132,7 @@ function Storyboard() {
                               <p>Pick an icon that fits their feelings!</p>
                               <div className="flex space-x-2 text-lg justify-center">
                                 {Object.entries(labelToEmojiMap).map(
-                                  ([label, emoji]) => (
+                                  ([_, emoji]) => (
                                     <div
                                       key={emoji}
                                       className="flex flex-col items-center"
@@ -140,7 +140,7 @@ function Storyboard() {
                                       <span
                                         className={`cursor-pointer transition-all rounded-full h-9 w-9 flex justify-center items-center text-center ${
                                           selectedEmoji === emoji
-                                            ? 'bg-primary border-2 border-primary opacity-100'
+                                            ? 'opacity-100'
                                             : 'grayscale opacity-50'
                                         }`}
                                         onClick={() =>
@@ -149,11 +149,11 @@ function Storyboard() {
                                       >
                                         {emoji}
                                       </span>
-                                      <span
+                                      {/* <span
                                         className={`text-xs mt-1 ${selectedEmoji === emoji ? 'font-bold' : ''}`}
                                       >
                                         {label}
-                                      </span>
+                                      </span> */}
                                     </div>
                                   )
                                 )}
@@ -165,7 +165,7 @@ function Storyboard() {
                       bottomContent={
                         index <= activeIndex && (
                           <div className="flex flex-col items-center space-y-4">
-                            <div className="w-46 h-46 flex justify-center items-center">
+                            <div className="w-36 h-36 flex justify-center items-center">
                               <img src={imageUrl} alt="emotion" />
                             </div>
                           </div>
