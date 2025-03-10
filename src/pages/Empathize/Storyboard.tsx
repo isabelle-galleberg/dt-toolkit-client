@@ -5,45 +5,69 @@ import { usePersonaStore } from '../../store/personaStore';
 import { getStory } from '../../services/storyService';
 import { Story } from '../../types/story';
 import lockIcon from '../../assets/Vector.png';
+import { addEmotion, getEmotions } from '../../services/emotionService';
 
 function Storyboard() {
-  const [story, setStory] = useState<Story>();
   const { persona } = usePersonaStore();
-  const [selectedEmojis, setSelectedEmojis] = useState<{
-    [key: number]: string;
-  }>({});
+  const [story, setStory] = useState<Story | null>(null);
+  const [emotions, setEmotions] = useState<string[]>([]);
   const [activeIndex, setActiveIndex] = useState(0);
   const scrollRef = useRef<HTMLDivElement>(null);
 
-  const fetchStory = async () => {
+  const labelToEmojiMap: { [key: string]: string } = {
+    happy: '😄',
+    sad: '😢',
+    disappointed: '😕',
+    surprised: '😲',
+    angry: '😡',
+    scared: '😨',
+  };
+
+  // map emojis to labels (for API requests)
+  const emojiToLabelMap = Object.fromEntries(
+    Object.entries(labelToEmojiMap).map(([key, value]) => [value, key])
+  );
+
+  useEffect(() => {
+    const fetchStory = async () => {
+      try {
+        const data = await getStory(persona?._id || '');
+        if (data.length > 0) {
+          setStory(data[0]);
+          fetchEmotions(data[0].storyline.length);
+        }
+      } catch (error) {
+        console.error('Error fetching story:', error);
+      }
+    };
+    fetchStory();
+  }, [persona]);
+
+  const fetchEmotions = async (storyLength: number) => {
     try {
-      const data = await getStory(persona?._id || '');
-      setStory(data[0]);
+      const emotionsData = (await getEmotions())[0]?.emotions || [];
+      if (emotionsData.length !== 0) {
+        setActiveIndex(emotionsData.length - 1);
+      }
+
+      const emotionsArray = new Array(storyLength)
+        .fill('')
+        .map((_, index) =>
+          emotionsData[index] ? labelToEmojiMap[emotionsData[index]] || '' : ''
+        );
+
+      setEmotions(emotionsArray);
     } catch (error) {
-      console.error('Error fetching story:', error);
+      console.error('Error fetching emotions:', error);
     }
   };
 
-  useEffect(() => {
-    fetchStory();
-  }, []);
-
-  useEffect(() => {
-    const storedEmojis = localStorage.getItem('selectedEmojis');
-    if (storedEmojis) {
-      setSelectedEmojis(JSON.parse(storedEmojis));
-    }
-  }, []);
-
-  useEffect(() => {
-    localStorage.setItem('selectedEmojis', JSON.stringify(selectedEmojis));
-  }, [selectedEmojis]);
-
   const handleEmojiClick = (boxId: number, emoji: string) => {
-    setSelectedEmojis((prev) => ({
-      ...prev,
-      [boxId]: emoji,
-    }));
+    setEmotions((prev) => {
+      const updatedEmotions = [...prev];
+      updatedEmotions[boxId] = emoji;
+      return updatedEmotions;
+    });
   };
 
   const scroll = (direction: 'left' | 'right') => {
@@ -56,22 +80,23 @@ function Storyboard() {
     }
   };
 
-  const emojiToImageMap: { [key: string]: keyof Story } = {
-    '😄': 'imgHappy',
-    '😢': 'imgSad',
-    '😕': 'imgDisappointed',
-    '😲': 'imgSuprised',
-    '😡': 'imgAngry',
-    '😨': 'imgScared',
-  };
+  const handleNextClick = async () => {
+    const selectedEmoji = emotions[activeIndex];
+    if (!selectedEmoji) return;
 
-  const emojiLabels: { [key: string]: string } = {
-    '😄': 'happy',
-    '😢': 'sad',
-    '😕': 'disappointed',
-    '😲': 'surprised',
-    '😡': 'angry',
-    '😨': 'scared',
+    const emotionLabel = emojiToLabelMap[selectedEmoji];
+    if (!emotionLabel) return;
+
+    try {
+      await addEmotion(emotionLabel);
+    } catch (error) {
+      console.error('Error adding emotion:', error);
+    }
+
+    if (story && activeIndex < story.storyline.length - 1) {
+      setActiveIndex((prev) => prev + 1);
+      scroll('right');
+    }
   };
 
   return (
@@ -88,13 +113,13 @@ function Storyboard() {
               style={{ scrollBehavior: 'smooth' }}
             >
               {story?.storyline.map((scene, index) => {
-                const selectedEmoji = selectedEmojis[index];
+                const selectedEmoji = emotions[index];
                 const imageKey = selectedEmoji
-                  ? emojiToImageMap[selectedEmoji]
+                  ? emojiToLabelMap[selectedEmoji]
                   : null;
                 const imageUrl =
-                  imageKey && story && typeof story[imageKey] === 'string'
-                    ? story[imageKey]
+                  imageKey && story
+                    ? story[imageKey as keyof Story] || persona?.personaImageUrl
                     : persona?.personaImageUrl;
 
                 return (
@@ -108,7 +133,7 @@ function Storyboard() {
                       content={
                         index > activeIndex ? (
                           <div className="flex justify-center items-center h-96">
-                            <img src={lockIcon} className="w-14" />
+                            <img src={lockIcon} className="w-14" alt="locked" />
                           </div>
                         ) : (
                           <div className="p-4 text-primary text-sm space-y-4 break-words whitespace-normal relative z-10">
@@ -116,8 +141,8 @@ function Storyboard() {
                             <p>Pick an icon that fits their feelings!</p>
                             <div className="flex flex-col items-center space-y-2">
                               <div className="flex space-x-2 text-lg justify-center">
-                                {Object.entries(emojiLabels).map(
-                                  ([emoji, label]) => (
+                                {Object.entries(labelToEmojiMap).map(
+                                  ([label, emoji]) => (
                                     <div
                                       key={emoji}
                                       className="flex flex-col items-center"
@@ -125,7 +150,7 @@ function Storyboard() {
                                       <span
                                         className={`cursor-pointer transition-all rounded-full h-10 w-10 flex justify-center items-center text-center ${
                                           selectedEmoji === emoji
-                                            ? 'bg-primary opacity-100'
+                                            ? 'bg-primary border-2 border-primary opacity-100'
                                             : 'grayscale opacity-50'
                                         }`}
                                         onClick={() =>
@@ -155,12 +180,7 @@ function Storyboard() {
                             </div>
                             <button
                               className="btn btn-primary"
-                              onClick={() => {
-                                if (activeIndex < story?.storyline.length - 1) {
-                                  setActiveIndex((prev) => prev + 1);
-                                  scroll('right');
-                                }
-                              }}
+                              onClick={handleNextClick}
                               disabled={!selectedEmoji}
                             >
                               Next
