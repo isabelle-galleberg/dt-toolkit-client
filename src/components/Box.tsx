@@ -1,12 +1,10 @@
-import { useNavigate } from 'react-router-dom';
-
 interface BoxProps {
   icon?: string;
   header: string;
   content?: JSX.Element;
   bottomContent?: JSX.Element;
   fillHeight?: boolean;
-  exitPath?: string;
+  onExit?: () => void;
 }
 
 function Box({
@@ -15,9 +13,8 @@ function Box({
   content,
   bottomContent,
   fillHeight = false,
-  exitPath,
+  onExit,
 }: BoxProps) {
-  const navigate = useNavigate();
   const boxClassName = `relative rounded-[20px] flex flex-col ${fillHeight ? 'h-full' : ''}`;
 
   return (
@@ -36,17 +33,17 @@ function Box({
             {header}
           </p>
         </div>
-        {exitPath && (
+        {onExit && (
           <button
             className="ml-2 text-base-100 text-[15px] hover:text-red-600 text-xs"
-            onClick={() => navigate(exitPath)}
+            onClick={onExit}
           >
             ✕
           </button>
         )}
       </div>
       <div
-        className={`border border-primary rounded-b-[20px] flex flex-col ${fillHeight ? 'flex-grow' : ''}`}
+        className={`bg-base-100 border border-primary rounded-b-[20px] flex flex-col ${fillHeight ? 'flex-grow' : ''}`}
       >
         <div className="flex-grow p-4">{content}</div>
         {bottomContent && (

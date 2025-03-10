@@ -16,6 +16,7 @@ const getNextPage = (pathname: string) => {
     '/define/understand-scam',
     '/define/problem-statement',
     '/ideate',
+    '/ideate/question-card',
     '/ideate/select-ideas',
     '/prototype',
     '/test',

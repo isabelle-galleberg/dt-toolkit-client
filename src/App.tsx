@@ -5,6 +5,7 @@ import SpotScam from './pages/Define/SpotScam';
 import UnderstandScam from './pages/Define/UnderstandingScam';
 import ProblemStatement from './pages/Define/ProblemStatement';
 import Ideate from './pages/Ideate/Ideate';
+import AddQuestionCard from './pages/Ideate/AddQuestionCard';
 import SelectIdeas from './pages/Ideate/SelectIdeas';
 import Prototype from './pages/Prototype';
 import Test from './pages/Test';
@@ -68,6 +69,11 @@ function App() {
                 element={<ProblemStatement />}
               />
               <Route path="/ideate" element={<Ideate />} />
+              <Route
+                path="/ideate/question-card"
+                element={<AddQuestionCard />}
+              />
+
               <Route path="/ideate/select-ideas" element={<SelectIdeas />} />
               <Route path="/prototype" element={<Prototype />} />
               <Route path="/test" element={<Test />} />
