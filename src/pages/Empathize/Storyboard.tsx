@@ -5,7 +5,11 @@ import { usePersonaStore } from '../../store/personaStore';
 import { getStory } from '../../services/storyService';
 import { Story } from '../../types/story';
 import lockIcon from '../../assets/Vector.png';
-import { addEmotion, getEmotions } from '../../services/emotionService';
+import {
+  addEmotion,
+  updateEmotion,
+  getEmotions,
+} from '../../services/emotionService';
 
 function Storyboard() {
   const { persona } = usePersonaStore();
@@ -23,7 +27,6 @@ function Storyboard() {
     scared: '😨',
   };
 
-  // map emojis to labels (for API requests)
   const emojiToLabelMap = Object.fromEntries(
     Object.entries(labelToEmojiMap).map(([key, value]) => [value, key])
   );
@@ -62,40 +65,26 @@ function Storyboard() {
     }
   };
 
-  const handleEmojiClick = (boxId: number, emoji: string) => {
+  const handleEmojiClick = async (boxId: number, emoji: string) => {
     setEmotions((prev) => {
       const updatedEmotions = [...prev];
       updatedEmotions[boxId] = emoji;
       return updatedEmotions;
     });
-  };
 
-  const scroll = (direction: 'left' | 'right') => {
-    if (scrollRef.current) {
-      const scrollAmount = 400;
-      scrollRef.current.scrollBy({
-        left: direction === 'right' ? scrollAmount : -scrollAmount,
-        behavior: 'smooth',
-      });
-    }
-  };
-
-  const handleNextClick = async () => {
-    const selectedEmoji = emotions[activeIndex];
-    if (!selectedEmoji) return;
-
-    const emotionLabel = emojiToLabelMap[selectedEmoji];
+    const emotionLabel = emojiToLabelMap[emoji];
     if (!emotionLabel) return;
 
     try {
-      await addEmotion(emotionLabel);
+      if (emotions[boxId]) {
+        // If an emotion already exists, update it
+        await updateEmotion(boxId, emotionLabel);
+      } else {
+        // Otherwise, add a new emotion
+        await addEmotion(emotionLabel);
+      }
     } catch (error) {
-      console.error('Error adding emotion:', error);
-    }
-
-    if (story && activeIndex < story.storyline.length - 1) {
-      setActiveIndex((prev) => prev + 1);
-      scroll('right');
+      console.error('Error saving emotion:', error);
     }
   };
 
@@ -178,13 +167,6 @@ function Storyboard() {
                             <div className="w-40 h-40 flex justify-center items-center">
                               <img src={imageUrl} alt="emotion" />
                             </div>
-                            <button
-                              className="btn btn-primary"
-                              onClick={handleNextClick}
-                              disabled={!selectedEmoji}
-                            >
-                              Next
-                            </button>
                           </div>
                         )
                       }
