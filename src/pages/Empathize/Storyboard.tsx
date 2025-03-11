@@ -69,7 +69,7 @@ function Storyboard() {
       setActiveIndex(boxId + 1);
     }
     scrollRef.current?.scrollTo({
-      left: boxId * 400,
+      left: boxId * 480,
       behavior: 'smooth',
     });
 
@@ -112,7 +112,7 @@ function Storyboard() {
                 return (
                   <div
                     key={index}
-                    className={`inline-block w-96 flex-shrink-0 relative ${index > activeIndex ? 'bg-primary rounded-xl' : ''}`}
+                    className={`inline-block w-[480px] flex-shrink-0 relative ${index > activeIndex ? 'bg-primary rounded-xl' : ''}`}
                   >
                     <Box
                       icon={String(index + 1)}
@@ -123,7 +123,7 @@ function Storyboard() {
                             <img src={lockIcon} className="w-14" alt="locked" />
                           </div>
                         ) : (
-                          <div className="p-4 text-primary text-sm space-y-4 break-words whitespace-normal relative z-10">
+                          <div className="px-4 pt-4 text-primary text-sm break-words whitespace-normal relative z-10">
                             <div className="flex flex-col space-y-2 h-28">
                               <p>{scene[1]}</p>
                               <p>{scene[2]}</p>
@@ -132,7 +132,7 @@ function Storyboard() {
                               <p>Pick an icon that fits their feelings!</p>
                               <div className="flex space-x-2 text-lg justify-center">
                                 {Object.entries(labelToEmojiMap).map(
-                                  ([_, emoji]) => (
+                                  ([label, emoji]) => (
                                     <div
                                       key={emoji}
                                       className="flex flex-col items-center"
@@ -149,11 +149,11 @@ function Storyboard() {
                                       >
                                         {emoji}
                                       </span>
-                                      {/* <span
+                                      <span
                                         className={`text-xs mt-1 ${selectedEmoji === emoji ? 'font-bold' : ''}`}
                                       >
                                         {label}
-                                      </span> */}
+                                      </span>
                                     </div>
                                   )
                                 )}
@@ -164,7 +164,7 @@ function Storyboard() {
                       }
                       bottomContent={
                         index <= activeIndex && (
-                          <div className="flex flex-col items-center space-y-4">
+                          <div className="flex flex-col items-center">
                             <div className="w-36 h-36 flex justify-center items-center">
                               <img src={imageUrl} alt="emotion" />
                             </div>
