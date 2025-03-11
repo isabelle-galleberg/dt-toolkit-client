@@ -13,7 +13,7 @@ const getNextPage = (pathname: string) => {
     '/empathize/storyboard',
     '/define',
     '/define/spot-scam',
-    '/define/understand-scam',
+    '/define/problem-understanding',
     '/define/problem-statement',
     '/ideate',
     '/ideate/question-card',
