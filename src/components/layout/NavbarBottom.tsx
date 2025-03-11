@@ -16,10 +16,12 @@ const getNextPage = (pathname: string) => {
     '/define/problem-understanding',
     '/define/problem-statement',
     '/ideate',
+    '/ideate/question-card-info',
     '/ideate/question-card',
-    '/ideate/select-ideas',
     '/prototype',
+    '/prototype/gearsbot',
     '/test',
+    '/test/feedback',
   ].filter(Boolean);
 
   const nextRouteIndex = (routes.indexOf(pathname) + 1) % routes.length;
@@ -91,7 +93,7 @@ function Navbar() {
           <button
             className={getButtonClass('/define', 'define')}
             onClick={() => navigate('/define')}
-            disabled={!isTaskComplete('/empathize/persona')} //TODO: fix the disabled styling?
+            disabled={!isTaskComplete('/empathize/storyboard')} //TODO: fix the disabled styling?
           >
             DEFINE
           </button>
@@ -105,14 +107,14 @@ function Navbar() {
           <button
             className={getButtonClass('/prototype', 'prototype')}
             onClick={() => navigate('/prototype')}
-            disabled={!isTaskComplete('/ideate/select-ideas')}
+            disabled={!isTaskComplete('/ideate/question-card')}
           >
             PROTOTYPE
           </button>
           <button
             className={getButtonClass('/test', 'test')}
             onClick={() => navigate('/test')}
-            disabled={!isTaskComplete('/prototype')}
+            disabled={!isTaskComplete('/prototype/gearsbot')}
           >
             TEST
           </button>
@@ -127,7 +129,7 @@ function Navbar() {
             onClick={goToNextPage}
             disabled={isNextDisabled}
           >
-            {location.pathname === '/test' ? 'Finish' : 'Next'}
+            {location.pathname === '/test/feedback' ? 'Finish' : 'Next'}
           </button>
         )}
       </div>

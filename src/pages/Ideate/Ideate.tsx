@@ -1,34 +1,23 @@
-import ActivityPageLayout from '../../components/layout/ActivityPageLayout';
-import { useNavigate } from 'react-router-dom';
+import { useTaskProgress } from '../../context/TaskProgressContext';
+import { useEffect } from 'react';
+import InfoPageLayout from '../../components/layout/InfoPageLayout';
 
 function Ideate() {
-  const navigate = useNavigate();
+  const { markTaskComplete, isTaskComplete } = useTaskProgress();
+
+  useEffect(() => {
+    if (!isTaskComplete('/ideate')) {
+      markTaskComplete('/ideate');
+    }
+  }, [isTaskComplete, markTaskComplete]);
 
   return (
-    <ActivityPageLayout
-      header="Think of ways to stay safe online!"
-      phase="Ideate"
-      phaseColor="text-ideate"
+    <InfoPageLayout
+      header={'IDEATE'}
       text={
-        <>
-          We need to help Grandma Lily with a quiz to train her cybersecurity
-          skills in a safe environment! Create some questions and answer them to
-          create a quiz card deck.
-          <br />
-          <br />
-          Start by clicking here!
-        </>
+        "Now that we've defined the problem, we'll move to the ideate phase, where you will brainstorm solutions to help Grandma Lily avoid phishing scams in the future! For this scope, we need to create a quiz to train Grandma Lily"
       }
-      activity={
-        <>
-          <button
-            className="btn bg-ideate text-primary px-6 py-2 text-[12px] tracking-widest font-poppins font-semibold hover:bg-ideate hover:text-primary hover:border-primary"
-            onClick={() => navigate('/ideate/question-card')}
-          >
-            Add question card
-          </button>
-        </>
-      }
+      headerColor={'text-ideate'}
     />
   );
 }

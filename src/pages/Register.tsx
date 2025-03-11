@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import Layout from '../components/layout/Layout';
 import { UserIcon } from '@heroicons/react/24/solid';
 import Alert from '../components/Alert';
 import { useUserStore } from '../store/userStore';
 import PasswordInput from '../components/PasswordInput';
+import ActivityPageLayout from '../components/layout/ActivityPageLayout';
 
 const RegisterPage = () => {
   const { registerUser } = useUserStore();
@@ -31,10 +31,16 @@ const RegisterPage = () => {
   };
 
   return (
-    <Layout
-      topContentText="Welcome to a creative space where you can learn, collaborate, and innovate! By signing up, you'll gain access to tools and resources that will help you unlock your potential in Design Thinking."
-      topContentTitle="Register for an Account"
-      middleContent={
+    <ActivityPageLayout
+      header="Register for an Account"
+      text={
+        <>
+          Welcome to a creative space where you can learn, collaborate, and
+          innovate! By signing up, you'll gain access to tools and resources
+          that will help you unlock your potential in Design Thinking.
+        </>
+      }
+      activity={
         <div>
           <form onSubmit={handleRegister} className="space-y-4">
             <label className="input input-bordered flex items-center gap-2">
@@ -66,7 +72,7 @@ const RegisterPage = () => {
           <div>{errorMessage && <Alert message={errorMessage} />}</div>
         </div>
       }
-    ></Layout>
+    />
   );
 };
 

@@ -11,7 +11,7 @@ function NavbarTop() {
   }
 
   return (
-    <div className="navbar fixed p-4">
+    <div className="navbar fixed p-4 z-50">
       <div className="navbar-start"></div>
       <div className="navbar-center hidden lg:flex"></div>
       <div className="navbar-end">
