@@ -45,7 +45,7 @@ function Box({
       <div
         className={`bg-base-100 border border-primary rounded-b-[20px] flex flex-col ${fillHeight ? 'flex-grow' : ''}`}
       >
-        <div className="flex-grow p-4">{content}</div>
+        <div className="flex-grow">{content}</div>
         {bottomContent && (
           <div className="mt-auto text-primary p-4">{bottomContent}</div>
         )}
