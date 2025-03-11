@@ -35,7 +35,7 @@ function Box({
         </div>
         {onExit && (
           <button
-            className="ml-2 text-base-100 text-[15px] hover:text-red-600 text-xs"
+            className="ml-2 text-base-100 text-[15px] hover:text-red-600 text-xs flex mb-6"
             onClick={onExit}
           >
             ✕
