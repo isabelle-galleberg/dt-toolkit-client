@@ -5,10 +5,12 @@ import SpotScam from './pages/Define/SpotScam';
 import ProblemUnderstanding from './pages/Define/ProblemUnderstanding';
 import ProblemStatement from './pages/Define/ProblemStatement';
 import Ideate from './pages/Ideate/Ideate';
+import QuestionCardInfo from './pages/Ideate/QuestionCardInfo';
 import AddQuestionCard from './pages/Ideate/AddQuestionCard';
-import SelectIdeas from './pages/Ideate/SelectIdeas';
-import Prototype from './pages/Prototype';
-import Test from './pages/Test';
+import Prototype from './pages/Prototype/Prototype';
+import GearsBot from './pages/Prototype/GearsBot';
+import Test from './pages/Test/Test';
+import Feedback from './pages/Test/Feedback';
 import NavbarBottom from './components/layout/NavbarBottom';
 import Persona from './pages/Empathize/Persona';
 import Empathize from './pages/Empathize/Empathize';
@@ -70,13 +72,17 @@ function App() {
               />
               <Route path="/ideate" element={<Ideate />} />
               <Route
+                path="/ideate/question-card-info"
+                element={<QuestionCardInfo />}
+              />
+              <Route
                 path="/ideate/question-card"
                 element={<AddQuestionCard />}
               />
-
-              <Route path="/ideate/select-ideas" element={<SelectIdeas />} />
               <Route path="/prototype" element={<Prototype />} />
+              <Route path="/prototype/gearsbot" element={<GearsBot />} />
               <Route path="/test" element={<Test />} />
+              <Route path="/test/feedback" element={<Feedback />} />
             </Routes>
           </>
         )}
