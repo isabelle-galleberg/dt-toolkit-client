@@ -126,19 +126,20 @@ function AddQuestionCard() {
               ))}
 
               {/* ADD CARD Button */}
-              <button
-                onClick={() => {
-                  if (questionCards.length < 5) {
-                    setShowPopup(true);
-                  }
-                }}
-                disabled={questionCards.length >= 5}
-                className={`w-48 h-64 border-2 border-dashed border-primary flex flex-col items-center justify-center rounded-lg
-    ${questionCards.length >= 5 ? 'opacity-50 cursor-not-allowed' : 'hover:border-primary'}`}
-              >
-                <span className="text-3xl">+</span>
-                <span className="text-sm mt-2">ADD CARD</span>
-              </button>
+              {questionCards.length < 5 && (
+                <button
+                  onClick={() => {
+                    if (questionCards.length < 5) {
+                      setShowPopup(true);
+                    }
+                  }}
+                  disabled={questionCards.length >= 5}
+                  className="w-48 h-64 border-2 border-dashed border-primary flex flex-col items-center justify-center rounded-lg"
+                >
+                  <span className="text-3xl">+</span>
+                  <span className="text-sm mt-2">ADD CARD</span>
+                </button>
+              )}
             </div>
           </div>
 
