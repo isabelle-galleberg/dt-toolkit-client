@@ -8,6 +8,7 @@ import {
 import { usePersonaStore } from '../../store/personaStore';
 import { QuestionCardType } from '../../types/questioncard';
 import { useTaskProgress } from '../../context/TaskProgressContext';
+import cardLogo from '../../assets/idea-card-logo.png';
 
 function AddQuestionCard() {
   const [showPopup, setShowPopup] = useState(false);
@@ -53,18 +54,18 @@ function AddQuestionCard() {
       phaseColor="text-ideate"
       activity={
         <>
-          <div className="flex items-center overflow-x-auto">
-            <div className="relative flex py-10">
+          <div className="flex items-center">
+            <div className="relative flex py-10 h-96 ">
               {questionCards.map((card, index) => (
                 <>
                   <label className="swap swap-flip m-2">
                     <input type="checkbox" />
                     {/* Front Side */}
-                    <div className="swap-off w-48 card shadow-xl bg-[#1ab3f7] p-12 justify-between text-center items-center rounded-lg text-primary h-full">
+                    <div className="swap-off h-64 w-48 card shadow-xl bg-[#1ab3f7] p-12 justify-between text-center items-center rounded-lg text-primary">
                       <h3 className="text-xs font-bold">QUESTION CARD</h3>
                       <p className="text-4xl mt-2">
                         <img
-                          src="/src/assets/idea-card-logo.png"
+                          src={cardLogo}
                           alt="Question Mark"
                           className="h-24 mt-2"
                         />
@@ -72,7 +73,7 @@ function AddQuestionCard() {
                       <p className="text-xs mt-4">NUMBER {index + 1}</p>
                     </div>
                     {/* Back Side (Question & Answer) */}
-                    <div className="swap-on w-48 card shadow-xl bg-[#beebfa] p-12 text-center text-[#1ab3f7] pt-8 rounded-lg h-full justify-center">
+                    <div className="swap-on h-64 w-48 card shadow-xl bg-[#beebfa] p-12 text-center text-[#1ab3f7] pt-8 rounded-lg justify-center">
                       <button
                         onClick={() => handleDeleteCard(card._id)}
                         className="absolute top-2 right-2 p-1 text-[10px] text-base-100 rounded-full hover:text-red-600 transition"
@@ -96,7 +97,7 @@ function AddQuestionCard() {
                     }
                   }}
                   disabled={questionCards.length >= 5}
-                  className="m-2 w-48 h-66 border-2 border-dashed border-primary flex flex-col items-center justify-center rounded-lg"
+                  className="m-2 mt-6 w-48 h-64 border-2 border-dashed border-primary flex flex-col items-center justify-center rounded-lg"
                 >
                   <span className="text-3xl">+</span>
                   <span className="text-sm mt-2">ADD CARD</span>
