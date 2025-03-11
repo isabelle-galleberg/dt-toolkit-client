@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import ActivityPageLayout from '../../components/layout/ActivityPageLayout';
 import QuestionCard from '../../components/QuestionCard';
 import {
