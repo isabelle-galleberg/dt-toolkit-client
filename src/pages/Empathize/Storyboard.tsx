@@ -83,7 +83,7 @@ function Storyboard() {
     if (!emotionLabel) return;
 
     try {
-      await updateEmotions(boxId.toString(), emotionLabel);
+      await updateEmotions(persona?._id || '', boxId.toString(), emotionLabel);
     } catch (error) {
       console.error('Error saving emotion:', error);
     }
