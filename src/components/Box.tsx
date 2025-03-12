@@ -26,12 +26,7 @@ function Box({
               <span className="text-sm text-primary">{icon}</span>
             </div>
           )}
-          <p
-            className="text-left text-[15px] tracking-widest"
-            style={{ fontFamily: 'Poppins' }}
-          >
-            {header}
-          </p>
+          <p className="text-left text-[15px] tracking-widest">{header}</p>
         </div>
         {onExit && (
           <button

@@ -137,10 +137,7 @@ function Persona() {
               </div>
 
               <div>
-                <p
-                  className="text-left font-semibold text-[15px] mb-4"
-                  style={{ fontFamily: 'Poppins' }}
-                >
+                <p className="text-left font-semibold text-[15px] mb-4">
                   PERSONAL TRAITS
                 </p>
                 <div className="flex flex-wrap gap-2">
@@ -148,7 +145,6 @@ function Persona() {
                     <div
                       key={index}
                       className="bg-empathize p-1.5 rounded-lg text-define text-[10px] font-regular"
-                      style={{ fontFamily: 'Poppins', height: '27px' }}
                     >
                       {char}
                     </div>
@@ -157,7 +153,6 @@ function Persona() {
                     <div
                       key={index}
                       className="bg-empathize p-1.5 rounded-lg text-define text-[10px] font-regular"
-                      style={{ fontFamily: 'Poppins', height: '27px' }}
                     >
                       <span>{char}</span>
                       <button
@@ -171,8 +166,7 @@ function Persona() {
                   {!addTrait ? (
                     <button
                       onClick={() => setAddTrait(true)}
-                      className="badge p-1.5 rounded-lg text-define border-empathize text-[10px] font-regular"
-                      style={{ fontFamily: 'Poppins', height: '27px' }}
+                      className="badge p-1.5 rounded-lg text-define border-empathize text-md  w-[27px] h-[27px] flex justify-center items-center text-center"
                     >
                       +
                     </button>
@@ -184,12 +178,10 @@ function Persona() {
                         onChange={(e) => setNewTrait(e.target.value)}
                         placeholder="Personal trait"
                         className="p-1.5 rounded-lg text-define text-[10px] font-regular border border-empathize bg-transparent"
-                        style={{ fontFamily: 'Poppins', height: '27px' }}
                       />
                       <button
                         onClick={handleAddTrait}
-                        className="badge p-1.5 rounded-lg text-define border-empathize text-[10px] font-regular"
-                        style={{ fontFamily: 'Poppins', height: '27px' }}
+                        className="badge p-1.5 rounded-lg text-define border-empathize text-[10px] font-regular h-[27px]"
                       >
                         Add
                       </button>
@@ -203,14 +195,14 @@ function Persona() {
               content={
                 <div className="p-6 space-y-4 text-[12px] tracking-widest">
                   <div className="flex gap-4">
-                    <label className="font-poppins font-semibold">Name:</label>
+                    <label className="font-semibold">Name:</label>
                     <input
                       type="text"
                       value={personaInfo.name ?? ''}
                       onChange={handleInputChange('name')}
                       className="border-b border-dashed border-gray-500 w-48 bg-transparent px-2"
                     />
-                    <label className="font-poppins font-semibold">Age:</label>
+                    <label className=" font-semibold">Age:</label>
                     <input
                       type="number"
                       value={personaInfo.age ?? ''}
@@ -219,9 +211,7 @@ function Persona() {
                     />
                   </div>
                   <div>
-                    <p className="font-poppins font-semibold">
-                      Occupation and Hobbies:
-                    </p>
+                    <p className=" font-semibold">Occupation and Hobbies:</p>
                     <textarea
                       value={personaInfo.occupationAndHobbies}
                       onChange={handleInputChange('occupationAndHobbies')}
@@ -229,9 +219,7 @@ function Persona() {
                     />
                   </div>
                   <div>
-                    <p className="font-poppins font-semibold">
-                      Technology Usage:
-                    </p>
+                    <p className=" font-semibold">Technology Usage:</p>
                     <textarea
                       value={personaInfo.technologyUsage}
                       onChange={handleInputChange('technologyUsage')}
@@ -244,7 +232,7 @@ function Persona() {
           </div>
           <div className="flex flex-col space-y-10">
             <div className="space-y-2">
-              <p className="text-left font-semibold text-[15px] font-poppins tracking-widest mb-6">
+              <p className="text-left font-semibold text-[15px]  tracking-widest mb-6">
                 TECHNOLOGY & INTERNET USAGE
               </p>
               <div className="flex flex-col space-y-8">
@@ -272,7 +260,7 @@ function Persona() {
                   },
                 ].map((slider, index) => (
                   <div key={index} className="flex flex-col gap-1">
-                    <div className="flex justify-between text-[10px] font-poppins font-regular tracking-widest text-define">
+                    <div className="flex justify-between text-[10px]  font-regular tracking-widest text-define">
                       <p>{slider.labelLeft}</p>
                       <p>{slider.labelRight}</p>
                     </div>

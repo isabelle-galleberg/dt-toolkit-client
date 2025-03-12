@@ -50,7 +50,7 @@ function QuestionCard({ onClose, setQuestionCards }: QuestionCardProps) {
       icon="✎"
       onExit={onClose}
       content={
-        <div className="p-4 text-[12px] text-primary tracking-widest font-poppins font-semibold">
+        <div className="p-4 text-[12px] text-primary tracking-widest font-semibold">
           <label className="block font-bold text-primary mb-2 tracking-widest">
             WRITE DOWN YOUR QUESTION
           </label>
@@ -105,7 +105,7 @@ function QuestionCard({ onClose, setQuestionCards }: QuestionCardProps) {
       bottomContent={
         <div className="flex justify-end">
           <button
-            className={`btn px-6 py-2 text-[12px] tracking-widest font-poppins font-semibold ${
+            className={`btn px-6 py-2 text-[12px] tracking-widest font-semibold ${
               question.trim() === '' || !selectedAnswer
                 ? 'btn-primary btn-outline disable cursor-not-allowed'
                 : 'bg-primary text-base-100 hover:bg-ideate hover:text-primary hover:border-primary'
