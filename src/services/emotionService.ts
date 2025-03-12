@@ -16,13 +16,14 @@ export const getEmotions = async (): Promise<string[]> => {
 };
 
 export const updateEmotions = async (
+  personaId: string,
   index: string,
   emotion: string
 ): Promise<Emotions> => {
   try {
     const token = localStorage.getItem('token');
     const response = await axios.post(
-      API_URL,
+      `${API_URL}/emotions/${personaId}`,
       { index, emotion },
       {
         headers: { Authorization: `Bearer ${token}` },
