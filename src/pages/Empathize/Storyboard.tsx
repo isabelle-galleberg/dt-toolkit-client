@@ -51,7 +51,7 @@ function Storyboard() {
 
   const fetchEmotions = async () => {
     try {
-      const emotionLabels = (await getEmotions()) || [];
+      const emotionLabels = (await getEmotions(persona?._id || '')) || [];
       if (emotionLabels.length !== 0) {
         setActiveIndex(emotionLabels.length);
       }
