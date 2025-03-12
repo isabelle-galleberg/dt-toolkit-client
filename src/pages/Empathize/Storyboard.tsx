@@ -165,8 +165,13 @@ function Storyboard() {
                       bottomContent={
                         index <= activeIndex && (
                           <div className="flex flex-col items-center">
-                            <div className="w-36 h-36 flex justify-center items-center">
-                              <img src={imageUrl} alt="emotion" />
+                            <div className="relative w-36 h-36 flex justify-center items-center">
+                              <img
+                                src={imageUrl}
+                                alt="emotion"
+                                className="w-full h-full rounded-full"
+                              />
+                              <div className="absolute inset-0 border-[4px] border-[#216646] rounded-full pointer-events-none"></div>
                             </div>
                           </div>
                         )

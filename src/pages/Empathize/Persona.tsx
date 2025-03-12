@@ -127,11 +127,15 @@ function Persona() {
         <div className="grid grid-cols-[1.5fr_1fr] gap-6">
           <div className="space-y-4">
             <div className="flex space-x-6 tracking-widest">
-              <img
-                src={persona?.personaImageUrl || ''}
-                alt="persona grandma"
-                className="w-46"
-              />
+              <div className="relative">
+                <img
+                  src={persona?.personaImageUrl || ''}
+                  alt="persona grandma"
+                  className="w-46 rounded-full"
+                />
+                <div className="absolute inset-0 border-[4px] border-[#216646] rounded-full pointer-events-none"></div>
+              </div>
+
               <div>
                 <p
                   className="text-left font-semibold text-[15px] mb-4"
