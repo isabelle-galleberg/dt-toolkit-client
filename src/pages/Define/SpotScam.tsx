@@ -1,7 +1,6 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import ActivityPageLayout from '../../components/layout/ActivityPageLayout';
 import Box from '../../components/Box';
-import email from '../../assets/email-phone.svg';
 import NumberedInput from '../../components/NumberedInput';
 import { useTaskProgress } from '../../context/TaskProgressContext';
 import {
@@ -186,7 +185,7 @@ function SpotScam() {
           {/* Right Side: Email image with clickable functionality */}
           <div className="w-1/4 relative">
             <img
-              src={email}
+              src={persona?.phoneImageUrl}
               alt="Email"
               className="h-full cursor-pointer"
               onClick={handleEmailClick}
