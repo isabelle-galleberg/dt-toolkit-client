@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useCallback } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import ActivityPageLayout from '../../components/layout/ActivityPageLayout';
 import Box from '../../components/Box';
 import { useTaskProgress } from '../../context/TaskProgressContext';
@@ -9,8 +9,17 @@ import {
   upsertProblemStatement,
 } from '../../services/problemStatementService';
 
+const questions = [
+  'Who got scammed?',
+  'Why did they fall for the scam?',
+  'What tactic was used? (urgency, fear, ...)',
+  'What action did they take?',
+  'What was the result?',
+];
+
 const ProblemStatement = () => {
   const { persona } = usePersonaStore();
+  const { markTaskComplete, isTaskComplete } = useTaskProgress();
   const cardId = persona?._id || '';
 
   const initialState: ProblemStatementInfo = {
@@ -24,9 +33,6 @@ const ProblemStatement = () => {
 
   const [problemStatementInfo, setProblemStatementInfo] =
     useState(initialState);
-  const [inputWidths, setInputWidths] = useState<Record<number, number>>({});
-  const spanRefs = useRef<Record<number, HTMLSpanElement | null>>({});
-  const { markTaskComplete, isTaskComplete } = useTaskProgress();
 
   const fetchProblemStatement = useCallback(async () => {
     if (!cardId) return;
@@ -50,19 +56,6 @@ const ProblemStatement = () => {
     }
   }, [isTaskComplete, markTaskComplete]);
 
-  useEffect(() => {
-    Object.entries(problemStatementInfo).forEach(([key]) => {
-      const sectionId = parseInt(key.replace('part', ''), 10);
-      const span = spanRefs.current[sectionId];
-      if (span) {
-        setInputWidths((prev) => ({
-          ...prev,
-          [sectionId]: Math.max(span.offsetWidth + 10, 100),
-        }));
-      }
-    });
-  }, [problemStatementInfo]);
-
   const handleInputChange = async (sectionId: number, value: string) => {
     const key = `part${sectionId}` as keyof ProblemStatementInfo;
 
@@ -75,25 +68,23 @@ const ProblemStatement = () => {
     });
   };
 
-  const renderInput = (sectionId: number) => {
+  const renderInputBox = (sectionId: number) => {
     const key = `part${sectionId}` as keyof ProblemStatementInfo;
 
     return (
-      <input
-        type="text"
-        name={
-          ['person', 'reason', 'trickMethod', 'action', 'consequence'][
-            sectionId - 1
-          ]
-        }
-        value={problemStatementInfo[key] || ''}
-        onChange={(e) => handleInputChange(sectionId, e.target.value)}
-        style={{
-          width: `${inputWidths[sectionId] || 100}px`,
-          transition: 'width 0.3s ease',
-        }}
-        className="border-b-2 border-gray-300 focus:outline-none focus:border-blue-500 px-1 bg-transparent"
-      />
+      <div
+        key={sectionId}
+        className="flex items-center pl-3 p-1 border-2 border-define rounded-3xl bg-transparent"
+      >
+        <div className="w-[700px]">{questions[sectionId - 1]}</div>
+        <input
+          type="text"
+          value={problemStatementInfo[key] || ''}
+          onChange={(e) => handleInputChange(sectionId, e.target.value)}
+          placeholder="Type here ..."
+          className="w-full p-1 pl-2 bg-define rounded-[20px] text-empathize focus:outline-none resize-none placeholder-empathize placeholder-opacity-70"
+        />
+      </div>
     );
   };
 
@@ -103,32 +94,28 @@ const ProblemStatement = () => {
       phase="Define"
       phaseColor="text-define"
       activity={
-        <Box
-          header="Problem statement"
-          fillHeight={false}
-          content={
-            <div className="p-6">
-              <p>
-                {renderInput(1)} fell for a phishing scam because
-                {renderInput(2)}. The email used {renderInput(3)} to trick her
-                into {renderInput(4)}, which led to {renderInput(5)}.
+        <div className="space-y-4">
+          <div className="space-y-3">
+            {[1, 2, 3, 4, 5].map((sectionId) => renderInputBox(sectionId))}
+          </div>
+          <Box
+            header="Problem statement"
+            fillHeight={false}
+            content={
+              <p className="p-6">
+                <strong>{problemStatementInfo.part1 || '_ _ _ _ _'}</strong>{' '}
+                fell for a phishing scam because{' '}
+                <strong>{problemStatementInfo.part2 || '_ _ _ _ _'}</strong>.
+                The email used{' '}
+                <strong>{problemStatementInfo.part3 || '_ _ _ _ _'}</strong> to
+                trick them into{' '}
+                <strong>{problemStatementInfo.part4 || '_ _ _ _ _'}</strong>,
+                which led to{' '}
+                <strong>{problemStatementInfo.part5 || '_ _ _ _ _'}</strong>.
               </p>
-              {[1, 2, 3, 4, 5].map((sectionId) => (
-                <span
-                  key={sectionId}
-                  ref={(el) => (spanRefs.current[sectionId] = el)}
-                  style={{ visibility: 'hidden', whiteSpace: 'pre' }}
-                >
-                  {
-                    problemStatementInfo[
-                      `part${sectionId}` as keyof ProblemStatementInfo
-                    ]
-                  }
-                </span>
-              ))}
-            </div>
-          }
-        />
+            }
+          />
+        </div>
       }
     />
   );
