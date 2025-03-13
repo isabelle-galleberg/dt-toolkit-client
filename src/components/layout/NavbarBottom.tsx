@@ -85,35 +85,30 @@ function Navbar() {
       <div className="navbar-center hidden lg:flex">
         <ul className="menu menu-horizontal px-1 space-x-3">
           <button
-            className={getButtonClass('/empathize', 'empathize')}
-            onClick={() => navigate('/empathize')}
+            className={`${getButtonClass('/empathize', 'empathize')} cursor-auto`}
           >
             EMPATHIZE
           </button>
           <button
-            className={getButtonClass('/define', 'define')}
-            onClick={() => navigate('/define')}
+            className={`${getButtonClass('/define', 'define')} cursor-auto`}
             disabled={!isTaskComplete('/empathize/storyboard')} //TODO: fix the disabled styling?
           >
             DEFINE
           </button>
           <button
-            className={getButtonClass('/ideate', 'ideate')}
-            onClick={() => navigate('/ideate')}
+            className={`${getButtonClass('/ideate', 'ideate')} cursor-auto`}
             disabled={!isTaskComplete('/define/problem-statement')}
           >
             IDEATE
           </button>
           <button
-            className={getButtonClass('/prototype', 'prototype')}
-            onClick={() => navigate('/prototype')}
+            className={`${getButtonClass('/prototype', 'prototype')} cursor-auto`}
             disabled={!isTaskComplete('/ideate/question-card')}
           >
             PROTOTYPE
           </button>
           <button
-            className={getButtonClass('/test', 'test')}
-            onClick={() => navigate('/test')}
+            className={`${getButtonClass('/test', 'test')} cursor-auto`}
             disabled={!isTaskComplete('/prototype/gearsbot')}
           >
             TEST
