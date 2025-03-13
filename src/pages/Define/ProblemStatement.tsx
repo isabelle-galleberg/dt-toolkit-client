@@ -74,9 +74,9 @@ const ProblemStatement = () => {
     return (
       <div
         key={sectionId}
-        className="flex items-center pl-3 p-1 border-2 border-define rounded-3xl bg-transparent"
+        className="flex items-center pl-3 p-1 border-2 border-define rounded-3xl bg-transparent text-[15px] tracking-widest font-extralight"
       >
-        <div className="w-[700px]">{questions[sectionId - 1]}</div>
+        <p className="w-[700px]">{questions[sectionId - 1]}</p>
         <input
           type="text"
           value={problemStatementInfo[key] || ''}
@@ -95,9 +95,6 @@ const ProblemStatement = () => {
       phaseColor="text-define"
       activity={
         <div className="space-y-4">
-          <div className="space-y-3">
-            {[1, 2, 3, 4, 5].map((sectionId) => renderInputBox(sectionId))}
-          </div>
           <Box
             header="Problem statement"
             fillHeight={false}
@@ -115,6 +112,9 @@ const ProblemStatement = () => {
               </p>
             }
           />
+          <div className="space-y-3 pt-6">
+            {[1, 2, 3, 4, 5].map((sectionId) => renderInputBox(sectionId))}
+          </div>
         </div>
       }
     />
