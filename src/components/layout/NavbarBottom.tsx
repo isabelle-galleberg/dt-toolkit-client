@@ -22,6 +22,7 @@ const getNextPage = (pathname: string) => {
     '/prototype/gearsbot',
     '/test',
     '/test/feedback',
+    'conclusion',
   ].filter(Boolean);
 
   const nextRouteIndex = (routes.indexOf(pathname) + 1) % routes.length;

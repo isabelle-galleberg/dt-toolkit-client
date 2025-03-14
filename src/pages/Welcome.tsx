@@ -1,20 +1,87 @@
-import { Link } from 'react-router-dom';
+import { useState } from 'react';
+import InfoPage from '../components/layout/InfoPageLayout';
+import ActivityPageLayout from '../components/layout/ActivityPageLayout';
+import { Link, useNavigate } from 'react-router-dom';
 
 function Welcome() {
+  // State to track if "Start Now" was clicked
+  const [started, setStarted] = useState(false);
+  const navigate = useNavigate();
+
   return (
-    <div className="hero bg-base-200 min-h-screen">
-      <div className="hero-content text-center">
-        <div className="max-w-md">
-          <h1 className="text-5xl font-bold">Welcome</h1>
-          <p className="py-6">
-            Provident cupiditate voluptatem et in. Quaerat fugiat ut assumenda
-            excepturi exercitationem quasi. In deleniti eaque aut repudiandae et
-            a id nisi.
-          </p>
-          <Link to={'/empathize'}>
-            <button className="btn btn-primary">Get Started</button>
-          </Link>
-        </div>
+    <div>
+      {/* Conditionally Render InfoPage or ActivityPageLayout */}
+      {!started ? (
+        <InfoPage
+          header={'Think before you click!'}
+          text={'a design thinking workshop on phishing awareness'}
+          headerColor="text-ideate"
+        />
+      ) : (
+        <ActivityPageLayout
+          header="Hi there, welcome!"
+          phase="Introduction"
+          phaseColor="text-ideate"
+          text={
+            <>
+              The internet is a great place to learn, connect, and have fun -
+              but is it always safe? Not everything online is what it seems, and
+              scammers are always looking for ways to trick people.
+              <br />
+              <br />
+              By the end of this adventure, you'll be able to:
+              <br /> ✅ Spot phishing scams before they trick you.
+              <br /> ✅ Know what to do if you see a suspicious message.
+              <br /> ✅ Help others stay safe online!
+              <br />
+              <br />
+              🔎 What's phishing? Let's find out!
+            </>
+          }
+          activity={
+            <div className="flex flex-col items-center">
+              <button
+                onClick={() => navigate('/phishing-activity')}
+                className="btn btn-primary w-48"
+              >
+                START ACTIVITY
+              </button>
+              <Link
+                to="/design-thinking"
+                className="mt-4 text-ideate hover:underline"
+              >
+                Skip
+              </Link>
+            </div>
+          }
+        />
+      )}
+
+      {/* Bottom Navbar */}
+      <div className="absolute bottom-0 left-0 w-full flex items-center justify-between h-[88px] pb-4 px-4">
+        {/* Back Button - Left Aligned */}
+        {started && (
+          <button
+            onClick={() => setStarted(false)}
+            className="btn btn-primary btn-outline w-24"
+          >
+            Back
+          </button>
+        )}
+
+        {/* Start Button - Centered */}
+        {!started ? (
+          <div className="flex-1 flex justify-center">
+            <button
+              onClick={() => setStarted(true)}
+              className="btn btn-primary w-48"
+            >
+              START NOW
+            </button>
+          </div>
+        ) : (
+          <div className="flex-1" />
+        )}
       </div>
     </div>
   );
