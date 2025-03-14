@@ -64,7 +64,6 @@ function Welcome() {
           <button
             onClick={() => setStarted(false)}
             className="btn btn-primary btn-outline w-24"
-            // px-4 py-2 text-lg font-semibold text-white bg-gray-600 rounded-lg hover:bg-gray-500"
           >
             Back
           </button>
@@ -76,7 +75,6 @@ function Welcome() {
             <button
               onClick={() => setStarted(true)}
               className="btn btn-primary w-48"
-              // px-6 py-3 text-lg font-semibold text-[#0D1B2A] bg-[#A4D4FF] rounded-lg shadow-md hover:bg-[#82C1FF]"
             >
               START NOW
             </button>
