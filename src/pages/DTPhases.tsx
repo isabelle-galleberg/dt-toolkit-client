@@ -48,7 +48,7 @@ const phases = [
   },
 ];
 
-export default function DesignThinkingPhases() {
+function DesignThinkingPhases() {
   const navigate = useNavigate();
 
   return (
@@ -121,3 +121,5 @@ export default function DesignThinkingPhases() {
     </>
   );
 }
+
+export default DesignThinkingPhases;
