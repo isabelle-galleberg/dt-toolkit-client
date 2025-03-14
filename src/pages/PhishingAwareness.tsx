@@ -123,11 +123,11 @@ const sections = [
 
 export default function PhishingAwareness() {
   const [step, setStep] = useState(1);
-  const sectionRefs = useRef([]);
+  const sectionRefs = useRef<(HTMLDivElement | null)[]>([]);
 
   useEffect(() => {
     if (sectionRefs.current[step - 1]) {
-      sectionRefs.current[step - 1].scrollIntoView({ behavior: 'smooth' });
+      sectionRefs.current[step - 1]?.scrollIntoView({ behavior: 'smooth' });
     }
   }, [step]);
 
