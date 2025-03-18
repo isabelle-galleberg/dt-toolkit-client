@@ -86,7 +86,7 @@ const Checklist = () => {
       phase="Ideate"
       phaseColor="text-ideate"
       activity={
-        <div className="flex flex-row space-x-6">
+        <div className="flex flex-row space-x-6 max-w-4xl w-full">
           <div className="w-1/2 space-y-4">
             <div className="flex flex-row space-x-4 items-center">
               <input
@@ -98,7 +98,7 @@ const Checklist = () => {
               />
               <button
                 onClick={handleAddItem}
-                className="btn btn-primary btn-outline py-3 px-6 rounded-[12px] transition duration-300 ease-in-out transform hover:scale-105"
+                className="btn btn-primary py-3 px-6 rounded-[12px] transition duration-300 ease-in-out transform hover:scale-105"
               >
                 Add Item
               </button>
