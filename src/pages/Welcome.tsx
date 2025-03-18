@@ -1,12 +1,18 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import InfoPage from '../components/layout/InfoPageLayout';
 import ActivityPageLayout from '../components/layout/ActivityPageLayout';
 import { Link, useNavigate } from 'react-router-dom';
+import { useUserStore } from '../store/userStore';
 
 function Welcome() {
   // State to track if "Start Now" was clicked
   const [started, setStarted] = useState(false);
   const navigate = useNavigate();
+  const { user, fetchUser } = useUserStore();
+
+  useEffect(() => {
+    fetchUser();
+  }, []);
 
   return (
     <div>
@@ -71,10 +77,18 @@ function Welcome() {
 
         {/* Start Button - Centered */}
         {!started ? (
-          <div className="flex-1 flex justify-center">
+          <div className="flex flex-col items-center justify-center space-y-2 mx-auto mb-10">
+            {user?.page !== '/' && (
+              <button
+                onClick={() => navigate(user?.page || '/design-thinking')}
+                className="btn btn-primary w-56"
+              >
+                CONTINUE
+              </button>
+            )}
             <button
               onClick={() => setStarted(true)}
-              className="btn btn-primary w-48"
+              className="btn btn-primary w-56"
             >
               START NOW
             </button>

@@ -1,35 +1,44 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useTaskProgress } from '../../context/TaskProgressContext';
 import { useEffect, useState } from 'react';
+import { useUserStore } from '../../store/userStore';
+
+const routes = [
+  '/',
+  '/empathize',
+  '/empathize/select-persona',
+  '/empathize/persona-info',
+  '/empathize/persona',
+  '/empathize/storyboard-info',
+  '/empathize/storyboard',
+  '/define',
+  '/define/spot-scam',
+  '/define/problem-understanding',
+  '/define/problem-statement',
+  '/ideate',
+  '/ideate/question-card-info',
+  '/ideate/question-card',
+  '/prototype',
+  '/prototype/gearsbot',
+  '/test',
+  '/test/feedback',
+  '/conclusion',
+].filter(Boolean);
 
 const getNextPage = (pathname: string) => {
-  const routes = [
-    '/',
-    '/empathize',
-    '/empathize/select-persona',
-    '/empathize/persona-info',
-    '/empathize/persona',
-    '/empathize/storyboard-info',
-    '/empathize/storyboard',
-    '/define',
-    '/define/spot-scam',
-    '/define/problem-understanding',
-    '/define/problem-statement',
-    '/ideate',
-    '/ideate/question-card-info',
-    '/ideate/question-card',
-    '/prototype',
-    '/prototype/gearsbot',
-    '/test',
-    '/test/feedback',
-    'conclusion',
-  ].filter(Boolean);
+  const currentIndex = routes.indexOf(pathname);
+  const nextIndex = (currentIndex + 1) % routes.length;
+  return routes[nextIndex];
+};
 
-  const nextRouteIndex = (routes.indexOf(pathname) + 1) % routes.length;
-  return routes[nextRouteIndex];
+const getPreviousPage = (pathname: string) => {
+  const currentIndex = routes.indexOf(pathname);
+  const prevIndex = (currentIndex - 1 + routes.length) % routes.length;
+  return routes[prevIndex];
 };
 
 function Navbar() {
+  const { updatePage } = useUserStore();
   const navigate = useNavigate();
   const location = useLocation();
   const { isTaskComplete } = useTaskProgress();
@@ -44,10 +53,13 @@ function Navbar() {
   const goToNextPage = () => {
     const nextPage = getNextPage(location.pathname);
     navigate(nextPage);
+    updatePage(nextPage);
   };
 
   const goToPreviousPage = () => {
-    navigate(-1);
+    const prevPage = getPreviousPage(location.pathname);
+    navigate(prevPage);
+    updatePage(prevPage);
   };
 
   const getButtonClass = (path: string, buttonType: string) => {

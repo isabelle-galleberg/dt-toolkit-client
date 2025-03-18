@@ -13,7 +13,7 @@ export const register = async (
   password: string
 ): Promise<UserResponse> => {
   try {
-    const response = await axios.post<UserResponse>(`${API_URL}`, {
+    const response = await axios.post<UserResponse>(API_URL, {
       username,
       password,
     });
@@ -43,7 +43,7 @@ export const login = async (
 export const getMe = async (): Promise<User> => {
   try {
     const token = localStorage.getItem('token');
-    const response = await axios.get<User>(`${API_URL}/profile`, {
+    const response = await axios.get<User>(`${API_URL}/me`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -51,6 +51,25 @@ export const getMe = async (): Promise<User> => {
     return response.data;
   } catch (error) {
     console.error('Error fetching user profile:', error);
+    throw error;
+  }
+};
+
+export const updatePage = async (page: string): Promise<void> => {
+  try {
+    const token = localStorage.getItem('token');
+    await axios.put(
+      `${API_URL}/page`,
+      { page },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+      }
+    );
+  } catch (error) {
+    console.error('Error updating page:', error);
     throw error;
   }
 };
