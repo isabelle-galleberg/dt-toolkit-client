@@ -7,8 +7,6 @@ import SpotScam from './pages/Define/SpotScam';
 import ProblemUnderstanding from './pages/Define/ProblemUnderstanding';
 import ProblemStatement from './pages/Define/ProblemStatement';
 import Ideate from './pages/Ideate/Ideate';
-import QuestionCardInfo from './pages/Ideate/QuestionCardInfo';
-import AddQuestionCard from './pages/Ideate/AddQuestionCard';
 import Prototype from './pages/Prototype/Prototype';
 import GearsBot from './pages/Prototype/GearsBot';
 import Test from './pages/Test/Test';
@@ -27,6 +25,7 @@ import Conclusion from './pages/Conclusion';
 import { TaskProgressProvider } from './context/TaskProgressContext';
 import NavbarTop from './components/layout/NavbarTop';
 import NotFoundPage from './pages/NotFoundPage';
+import Checklist from './pages/Ideate/Checklist';
 
 function App() {
   const { token } = useUserStore();
@@ -86,14 +85,7 @@ function App() {
                 element={<ProblemStatement />}
               />
               <Route path="/ideate" element={<Ideate />} />
-              <Route
-                path="/ideate/question-card-info"
-                element={<QuestionCardInfo />}
-              />
-              <Route
-                path="/ideate/question-card"
-                element={<AddQuestionCard />}
-              />
+              <Route path="/ideate/checklist" element={<Checklist />} />
               <Route path="/prototype" element={<Prototype />} />
               <Route path="/prototype/gearsbot" element={<GearsBot />} />
               <Route path="/test" element={<Test />} />

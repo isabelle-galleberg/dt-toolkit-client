@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import { register, login, getMe } from '../services/userService';
+import { register, login, getMe, updatePage } from '../services/userService';
 import { User } from '../types/user';
 
 interface UserState {
@@ -10,6 +10,7 @@ interface UserState {
   loginUser: (username: string, password: string) => Promise<void>;
   fetchUser: () => Promise<void>;
   logoutUser: () => void;
+  updatePage: (page: string) => Promise<void>;
 }
 
 export const useUserStore = create<UserState>()(
@@ -44,6 +45,17 @@ export const useUserStore = create<UserState>()(
       logoutUser: () => {
         set({ user: null, token: null });
         localStorage.removeItem('token');
+      },
+
+      updatePage: async (page) => {
+        try {
+          await updatePage(page);
+          set((state) => ({
+            user: state.user ? { ...state.user, page } : null,
+          }));
+        } catch (error) {
+          console.error('Error updating user page:', error);
+        }
       },
     }),
     {
