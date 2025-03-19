@@ -152,17 +152,17 @@ const Checklist = () => {
                       </div>
                     </div>
                   )}
-                  {!feedback && checklist.length > 0 && (
+                  {!feedback && checklist.length > 0 && !loading && (
                     <button
                       onClick={handleFeedback}
-                      className="btn btn-primary py-3 px-6 rounded-[12px] transition duration-300 ease-in-out transform hover:scale-105"
+                      className="mt-2 btn btn-primary py-3 px-6 rounded-[12px] transition duration-300 ease-in-out transform hover:scale-105"
                     >
                       Generate Feedback
                     </button>
                   )}
                   {feedback && !loading && (
                     <>
-                      <ul className="space-y-1">
+                      <ul className="space-y-1 mt-2">
                         {feedback.strengths.split('\n').map((item, index) => (
                           <li
                             key={index}
