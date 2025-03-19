@@ -104,26 +104,20 @@ function Navbar() {
           </button>
           <button
             className={`${getButtonClass('/define', 'define')} cursor-auto`}
-            disabled={!isTaskComplete('/empathize/storyboard')} //TODO: fix the disabled styling?
           >
             DEFINE
           </button>
           <button
             className={`${getButtonClass('/ideate', 'ideate')} cursor-auto`}
-            disabled={!isTaskComplete('/define/problem-statement')}
           >
             IDEATE
           </button>
           <button
             className={`${getButtonClass('/prototype', 'prototype')} cursor-auto`}
-            disabled={!isTaskComplete('/ideate/question-card')}
           >
             PROTOTYPE
           </button>
-          <button
-            className={`${getButtonClass('/test', 'test')} cursor-auto`}
-            disabled={!isTaskComplete('/prototype/gearsbot')}
-          >
+          <button className={`${getButtonClass('/test', 'test')} cursor-auto`}>
             TEST
           </button>
         </ul>
