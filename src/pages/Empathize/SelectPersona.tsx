@@ -4,14 +4,11 @@ import { usePersonaStore } from '../../store/personaStore';
 import { useState, useEffect, useRef } from 'react';
 import { PersonaCard } from '../../types/persona';
 import { getPersonaCards } from '../../services/personaCardService';
-
 function SelectPersona() {
   const { persona, setPersona } = usePersonaStore();
   const [personaCards, setPersonaCards] = useState<PersonaCard[]>([]);
   const { markTaskComplete, isTaskComplete } = useTaskProgress();
   const cardContainerRef = useRef<HTMLDivElement | null>(null);
-  const [canScrollLeft, setCanScrollLeft] = useState(false);
-  const [canScrollRight, setCanScrollRight] = useState(true);
 
   useEffect(() => {
     if (persona && !isTaskComplete('/empathize/select-persona')) {
@@ -30,36 +27,12 @@ function SelectPersona() {
     })();
   }, []);
 
-  useEffect(() => {
-    const updateButtonState = () => {
-      if (cardContainerRef.current) {
-        const { scrollLeft, scrollWidth, clientWidth } =
-          cardContainerRef.current;
-        setCanScrollLeft(scrollLeft > 0);
-        setCanScrollRight(scrollLeft + clientWidth < scrollWidth);
-      }
-    };
-
-    if (cardContainerRef.current) {
-      cardContainerRef.current.addEventListener('scroll', updateButtonState);
-      updateButtonState();
-    }
-
-    return () => {
-      cardContainerRef.current?.removeEventListener(
-        'scroll',
-        updateButtonState
-      );
-    };
-  }, [personaCards]);
-
   const handlePersonaSelection = (selectedCard: PersonaCard) => {
     setPersona(selectedCard);
     if (!isTaskComplete('/empathize/select-persona')) {
       markTaskComplete('/empathize/select-persona');
     }
   };
-
   const handlePrevCard = () => {
     if (cardContainerRef.current) {
       cardContainerRef.current.scrollBy({
@@ -68,7 +41,6 @@ function SelectPersona() {
       });
     }
   };
-
   const handleNextCard = () => {
     if (cardContainerRef.current) {
       cardContainerRef.current.scrollBy({
@@ -77,7 +49,6 @@ function SelectPersona() {
       });
     }
   };
-
   return (
     <div className="flex flex-col items-center px-4">
       <ActivityPageLayout
@@ -95,9 +66,7 @@ function SelectPersona() {
           <div className="flex items-center gap-4 w-[780px]">
             <button
               onClick={handlePrevCard}
-              disabled={!canScrollLeft}
-              className={`p-2 rounded-full text-bold text-define transition duration-200 text-xl bg-empathize px-4
-                ${!canScrollLeft ? 'opacity-50 cursor-not-allowed' : ''}`}
+              className="p-2 rounded-full text-bold text-define transition duration-200 text-xl bg-empathize px-4"
             >
               &lt;
             </button>
@@ -121,9 +90,7 @@ function SelectPersona() {
             </div>
             <button
               onClick={handleNextCard}
-              disabled={!canScrollRight}
-              className={`p-2 rounded-full text-bold text-define transition duration-200 text-xl bg-empathize px-4
-                ${!canScrollRight ? 'opacity-50 cursor-not-allowed' : ''}`}
+              className="p-2 rounded-full text-bold text-define transition duration-200 text-xl bg-empathize px-4"
             >
               &gt;
             </button>
@@ -133,5 +100,4 @@ function SelectPersona() {
     </div>
   );
 }
-
 export default SelectPersona;
