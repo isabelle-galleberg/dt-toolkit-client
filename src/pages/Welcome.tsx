@@ -74,11 +74,16 @@ function Welcome() {
             Back
           </button>
         )}
-
-        {/* Start Button - Centered */}
         {!started ? (
-          <div className="flex flex-col items-center justify-center space-y-2 mx-auto mb-10">
-            {user?.page !== '/' && (
+          <div className="flex flex-col items-center justify-center mx-auto">
+            {user?.page === '/' ? (
+              <button
+                onClick={() => setStarted(true)}
+                className="btn btn-primary w-56"
+              >
+                START NOW
+              </button>
+            ) : (
               <button
                 onClick={() => navigate(user?.page || '/design-thinking')}
                 className="btn btn-primary w-56"
@@ -86,12 +91,6 @@ function Welcome() {
                 CONTINUE
               </button>
             )}
-            <button
-              onClick={() => setStarted(true)}
-              className="btn btn-primary w-56"
-            >
-              START NOW
-            </button>
           </div>
         ) : (
           <div className="flex-1" />
