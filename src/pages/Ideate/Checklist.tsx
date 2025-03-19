@@ -96,8 +96,8 @@ const Checklist = () => {
                 type="text"
                 value={newItemText}
                 onChange={(e) => setNewItemText(e.target.value)}
-                placeholder="Does the email ask for personal information?"
-                className="w-full p-3 rounded-[12px] bg-white placeholder-gray-700 text-black"
+                placeholder="Type here ..."
+                className="w-full p-3 rounded-[12px] bg-white placeholder-gray-500 text-base-100"
               />
               <button
                 onClick={handleAddItem}
@@ -111,31 +111,37 @@ const Checklist = () => {
             <div className="space-y-2 w-1/2">
               <p className="font-bold text-primary">SCAM SPOTTER CHECKLIST</p>
               <ul className="bg-primary p-4 rounded-[20px] min-h-64 h-full">
-                {checklist.map((item) => (
-                  <li key={item._id}>
-                    <div className="flex flex-row space-x-4 w-full items-center justify-between">
-                      <div className="flex space-x-4 flex-row items-center ">
-                        <input
-                          type="checkbox"
-                          id={`check-${item._id}`}
-                          className="form-checkbox h-5 w-5 checked:bg-ideate checked:border-transparent"
-                        />
-                        <label
-                          htmlFor={`check-${item._id}`}
-                          className=" text-black "
-                        >
-                          {item.text}
-                        </label>
-                      </div>
-                      <button
-                        onClick={() => handleDeleteItem(item._id)}
-                        className="text-primary transition duration-300 ease-in-out"
-                      >
-                        <TrashIcon className="w-5 h-5 text-ideate" />
-                      </button>
-                    </div>
+                {checklist.length === 0 ? (
+                  <li className="text-gray-500">
+                    No checklist items added yet.
                   </li>
-                ))}
+                ) : (
+                  checklist.map((item) => (
+                    <li key={item._id}>
+                      <div className="flex flex-row space-x-4 w-full items-center justify-between">
+                        <div className="flex space-x-4 flex-row items-center ">
+                          <input
+                            type="checkbox"
+                            id={`check-${item._id}`}
+                            className="form-checkbox h-5 w-5 checked:bg-ideate checked:border-transparent"
+                          />
+                          <label
+                            htmlFor={`check-${item._id}`}
+                            className=" text-black "
+                          >
+                            {item.text}
+                          </label>
+                        </div>
+                        <button
+                          onClick={() => handleDeleteItem(item._id)}
+                          className="text-primary transition duration-300 ease-in-out"
+                        >
+                          <TrashIcon className="w-5 h-5 text-ideate" />
+                        </button>
+                      </div>
+                    </li>
+                  ))
+                )}
               </ul>
             </div>
             <div className="w-1/2">

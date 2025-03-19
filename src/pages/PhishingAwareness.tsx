@@ -107,6 +107,20 @@ const sections = [
     image: phoneCall,
   },
   {
+    title: 'What about you?',
+    color: 'text-primary',
+    textColor: 'text-primary',
+    bgColor: 'bg-base-100',
+    content: (
+      <>
+        Now that you know more about this, take <strong>ten minutes</strong> to
+        chat with your group! Have you ever come across a tricky message, email,
+        or website that tried to mislead you? Share your stories and get ready
+        to tell the class about them!
+      </>
+    ),
+  },
+  {
     title: 'Well done!',
     color: 'text-primary',
     textColor: 'text-primary',

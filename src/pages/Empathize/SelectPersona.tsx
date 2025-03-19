@@ -4,7 +4,6 @@ import { usePersonaStore } from '../../store/personaStore';
 import { useState, useEffect, useRef } from 'react';
 import { PersonaCard } from '../../types/persona';
 import { getPersonaCards } from '../../services/personaCardService';
-
 function SelectPersona() {
   const { persona, setPersona } = usePersonaStore();
   const [personaCards, setPersonaCards] = useState<PersonaCard[]>([]);
@@ -34,7 +33,6 @@ function SelectPersona() {
       markTaskComplete('/empathize/select-persona');
     }
   };
-
   const handlePrevCard = () => {
     if (cardContainerRef.current) {
       cardContainerRef.current.scrollBy({
@@ -43,7 +41,6 @@ function SelectPersona() {
       });
     }
   };
-
   const handleNextCard = () => {
     if (cardContainerRef.current) {
       cardContainerRef.current.scrollBy({
@@ -52,7 +49,6 @@ function SelectPersona() {
       });
     }
   };
-
   return (
     <div className="flex flex-col items-center px-4">
       <ActivityPageLayout
@@ -104,5 +100,4 @@ function SelectPersona() {
     </div>
   );
 }
-
 export default SelectPersona;
