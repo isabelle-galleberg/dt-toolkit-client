@@ -1,4 +1,5 @@
 import { useUserStore } from '../../store/userStore';
+import lightBulb from '../../assets/light-bulb.png';
 
 function NavbarTop() {
   const { user, logoutUser } = useUserStore();
@@ -11,9 +12,15 @@ function NavbarTop() {
   }
 
   return (
-    <div className="navbar fixed p-4 z-50">
-      <div className="navbar-start"></div>
-      <div className="navbar-center hidden lg:flex"></div>
+    <div className="navbar fixed p-4 z-50 w-full flex justify-between items-center">
+      {/* Left: Clickable Image */}
+      <div className="navbar-start">
+        <a href="/">
+          <img src={lightBulb} alt="Logo" className="h-10 w-auto" />
+        </a>
+      </div>
+
+      {/* Right: Avatar and Menu */}
       <div className="navbar-end">
         <div className="dropdown dropdown-end">
           <div
@@ -22,7 +29,7 @@ function NavbarTop() {
             className="btn btn-ghost btn-circle avatar"
           >
             <div className="avatar placeholder z-[1] bg-base-100">
-              <div className="bg-neutral text-neutral-content w-11 rounded-full border-2  border-white">
+              <div className="bg-neutral text-neutral-content w-11 rounded-full border-2 border-white">
                 <span>{user && getInitials(user?.username)}</span>
               </div>
             </div>

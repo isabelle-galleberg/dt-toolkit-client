@@ -137,7 +137,7 @@ function ProblemUnderstanding() {
 
   return (
     <ActivityPageLayout
-      header="Why did grandma fall for the scam?"
+      header={`Why did ${persona?.alias} fall for the scam?`}
       phase="Define"
       phaseColor="text-define"
       activity={

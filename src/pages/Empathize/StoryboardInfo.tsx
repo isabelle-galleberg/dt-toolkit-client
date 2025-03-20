@@ -1,10 +1,15 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import ActivityPageLayout from '../../components/layout/ActivityPageLayout';
 import { useTaskProgress } from '../../context/TaskProgressContext';
+import { usePersonaStore } from '../../store/personaStore';
+import { Story } from '../../types/story';
+import { getStory } from '../../services/storyService';
 
 // TODO: create unique text for each persona!
 function StoryboardInfo() {
   const { markTaskComplete, isTaskComplete } = useTaskProgress();
+  const { persona } = usePersonaStore();
+  const [story, setStory] = useState<Story | null>(null);
 
   useEffect(() => {
     if (!isTaskComplete('/empathize/storyboard-info')) {
@@ -12,17 +17,30 @@ function StoryboardInfo() {
     }
   }, [isTaskComplete, markTaskComplete]);
 
+  const fetchStory = async () => {
+    try {
+      const story = await getStory(persona?._id || '');
+      setStory(story);
+    } catch (error) {
+      console.error('Error fetching story:', error);
+    }
+  };
+
+  useEffect(() => {
+    fetchStory();
+  }, [persona]);
+
+  console.log(story);
+
   return (
     <>
       <ActivityPageLayout
         header="Ohh no ..!"
         text={
           <>
-            Grandma received a scary email!
+            {story?.introduction[0]}
             <br />
-            She typed in her username and password… but WAIT! The next day, she
-            checks her bank app and sees that all her money is gone! Someone
-            stole it!
+            {story?.introduction[1]}
             <br />
             <br />
             🔍 What went wrong? Let's figure it out!

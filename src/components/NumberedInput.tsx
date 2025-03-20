@@ -29,6 +29,12 @@ const NumberedInput = forwardRef<HTMLInputElement, NumberedInputProps>(
             onChange(e.target.value);
           }}
           onBlur={onBlur}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter') {
+              e.preventDefault();
+              (e.target as HTMLInputElement).blur();
+            }
+          }}
         />
 
         {/* Delete button */}

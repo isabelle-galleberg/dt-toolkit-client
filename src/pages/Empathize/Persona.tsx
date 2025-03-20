@@ -124,7 +124,7 @@ function Persona() {
       phase="Empathize"
       phaseColor="text-empathize"
       activity={
-        <div className="grid grid-cols-[1.5fr_1fr] gap-6">
+        <div className="grid grid-cols-[1.5fr_1fr] gap-6 text-primary">
           <div className="space-y-4">
             <div className="flex space-x-6 tracking-widest">
               <div className="relative">
@@ -191,7 +191,7 @@ function Persona() {
               </div>
             </div>
             <Box
-              header="GRANDMA"
+              header={persona?.alias || ''}
               content={
                 <div className="p-6 space-y-4 text-[12px] tracking-widest">
                   <div className="flex gap-4">
