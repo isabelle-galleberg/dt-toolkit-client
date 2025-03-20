@@ -67,15 +67,15 @@ function Navbar() {
 
     switch (buttonType) {
       case 'empathize':
-        return `${baseClasses} ${isActive ? 'bg-empathize text-define' : 'text-empathize'} hover:bg-empathize hover:text-define hover:border-define `;
+        return `${baseClasses} ${isActive ? 'bg-empathize text-define' : 'text-empathize'} hover:text-empathize hover:bg-base-100 hover:border-empathize`;
       case 'define':
-        return `${baseClasses} ${isActive ? 'bg-define text-empathize' : 'text-define'} hover:bg-define hover:text-empathize hover:border-empathize`;
+        return `${baseClasses} ${isActive ? 'bg-define text-empathize' : 'text-define'} hover:text-define hover:bg-base-100 hover:border-define`;
       case 'ideate':
-        return `${baseClasses} ${isActive ? 'bg-ideate text-primary' : 'text-ideate'} hover:bg-ideate hover:text-primary hover:border-priamry `;
+        return `${baseClasses} ${isActive ? 'bg-ideate text-primary' : 'text-ideate'} hover:text-ideate hover:bg-base-100 hover:border-ideate `;
       case 'prototype':
-        return `${baseClasses} ${isActive ? 'bg-prototype text-test' : 'text-prototype'} hover:bg-prototype hover:text-test hover:border-test `;
+        return `${baseClasses} ${isActive ? 'bg-prototype text-test' : 'text-prototype'} hover:text-prototype hover:bg-base-100 hover:border-prototype `;
       case 'test':
-        return `${baseClasses} ${isActive ? 'bg-test text-prototype' : 'text-test'} hover:bg-test hover:text-prototype hover:border-prototype `;
+        return `${baseClasses} ${isActive ? 'bg-test text-prototype' : 'text-test'} hover:text-test hover:bg-base-100 hover:border-test `;
       default:
         return baseClasses;
     }
