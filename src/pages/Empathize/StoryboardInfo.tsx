@@ -30,8 +30,6 @@ function StoryboardInfo() {
     fetchStory();
   }, [persona]);
 
-  console.log(story);
-
   return (
     <>
       <ActivityPageLayout
