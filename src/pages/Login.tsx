@@ -12,11 +12,14 @@ const LoginForm = () => {
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
 
   const handleLogin = async (e: React.FormEvent) => {
+    setLoading(true);
     e.preventDefault();
     try {
       await loginUser(username, password);
+      setLoading(false);
       navigate('/');
     } catch (err: any) {
       const errorMessage =
@@ -50,7 +53,11 @@ const LoginForm = () => {
               </label>
               <PasswordInput value={password} onChange={setPassword} />
               <button type="submit" className="btn btn-primary w-full">
-                Login
+                {loading ? (
+                  <span className="loading loading-dots loading-sm"></span>
+                ) : (
+                  <div>Login</div>
+                )}
               </button>
             </form>
             <p className="mt-4 text-center">
