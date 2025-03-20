@@ -68,6 +68,10 @@ const Checklist = () => {
   };
 
   const handleFeedback = async () => {
+    if (checklist.length < 2) {
+      setFeedback(null);
+      return;
+    }
     setLoading(true);
     try {
       const checklistText = checklist.map((item) => item.text);
@@ -111,44 +115,47 @@ const Checklist = () => {
             <div className="space-y-2 w-1/2">
               <p className="font-bold text-primary">SCAM SPOTTER CHECKLIST</p>
               <ul className="bg-primary p-4 rounded-[20px] min-h-64 h-full">
-                {checklist.length === 0 ? (
-                  <li className="text-gray-500">
-                    No checklist items added yet.
-                  </li>
-                ) : (
-                  checklist.map((item) => (
-                    <li key={item._id}>
-                      <div className="flex flex-row space-x-4 w-full items-center justify-between">
-                        <div className="flex space-x-4 flex-row items-center ">
-                          <input
-                            type="checkbox"
-                            id={`check-${item._id}`}
-                            className="form-checkbox h-5 w-5 checked:bg-ideate checked:border-transparent"
-                          />
-                          <label
-                            htmlFor={`check-${item._id}`}
-                            className=" text-black "
-                          >
-                            {item.text}
-                          </label>
-                        </div>
-                        <button
-                          onClick={() => handleDeleteItem(item._id)}
-                          className="text-primary transition duration-300 ease-in-out"
+                <div className="text-black flex flex-row space-x-4 items-center ">
+                  <input type="checkbox" className="form-checkbox h-5 w-5" />
+                  <div>Does the email ask for personal information?</div>
+                </div>
+                {checklist.map((item) => (
+                  <li key={item._id}>
+                    <div className="flex flex-row space-x-4 w-full items-center justify-between">
+                      <div className="flex space-x-4 flex-row items-center ">
+                        <input
+                          type="checkbox"
+                          id={`check-${item._id}`}
+                          className="form-checkbox h-5 w-5"
+                        />
+                        <label
+                          htmlFor={`check-${item._id}`}
+                          className=" text-black "
                         >
-                          <TrashIcon className="w-5 h-5 text-ideate" />
-                        </button>
+                          {item.text}
+                        </label>
                       </div>
-                    </li>
-                  ))
-                )}
+                      <button
+                        onClick={() => handleDeleteItem(item._id)}
+                        className="text-primary transition duration-300 ease-in-out"
+                      >
+                        <TrashIcon className="w-5 h-5 text-ideate" />
+                      </button>
+                    </div>
+                  </li>
+                ))}
               </ul>
             </div>
             <div className="w-1/2">
               <div>
                 <p className="font-bold text-primary">FEEDBACK</p>
                 <div>
-                  {loading && (
+                  {checklist.length <= 2 && (
+                    <div className="text-gray-500 mt-6">
+                      Add more items to the checklist to receive feedback.
+                    </div>
+                  )}
+                  {loading && checklist.length > 2 && (
                     <div className="mt-4 text-primary">
                       <p className="font-medium">Generating feedback</p>
                       <div className="inline-block animate-pulse">
@@ -158,15 +165,7 @@ const Checklist = () => {
                       </div>
                     </div>
                   )}
-                  {!feedback && checklist.length > 0 && !loading && (
-                    <button
-                      onClick={handleFeedback}
-                      className="mt-2 btn btn-primary py-3 px-6 rounded-[12px] transition duration-300 ease-in-out transform hover:scale-105"
-                    >
-                      Generate Feedback
-                    </button>
-                  )}
-                  {feedback && !loading && (
+                  {feedback && !loading && checklist.length > 2 && (
                     <>
                       <ul className="space-y-1 mt-2">
                         {feedback.strengths.split('\n').map((item, index) => (
@@ -199,6 +198,14 @@ const Checklist = () => {
                         </ul>
                       </div>
                     </>
+                  )}
+                  {!feedback && !loading && checklist.length > 2 && (
+                    <button
+                      onClick={handleFeedback}
+                      className="mt-2 btn btn-primary py-3 px-6 rounded-[12px] transition duration-300 ease-in-out transform hover:scale-105"
+                    >
+                      Generate Feedback
+                    </button>
                   )}
                 </div>
               </div>
