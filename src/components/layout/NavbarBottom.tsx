@@ -24,6 +24,21 @@ const routes = [
   '/conclusion',
 ].filter(Boolean);
 
+const getNextTooltip = (pathname: string) => {
+  const tooltips: Record<string, string> = {
+    '/empathize/select-persona': 'Choose a persona to proceed',
+    '/empathize/persona': 'Fill out the persona details to proceed',
+    '/empathize/storyboard': 'Select emotions for the storyboard to proceed',
+    '/define/spot-scam': 'Add at least 3 signs of scam to proceed',
+    '/define/problem-understanding':
+      'Add at least 3 problems, explanations, and consequences to proceed',
+    '/define/problem-statement': 'Fill out the problem statement to proceed',
+    '/ideate/checklist': 'Add at least 5 items to the checklist to proceed',
+  };
+
+  return tooltips[pathname] || 'Go to the next step';
+};
+
 const getNextPage = (pathname: string) => {
   const currentIndex = routes.indexOf(pathname);
   const nextIndex = (currentIndex + 1) % routes.length;
@@ -123,8 +138,7 @@ function Navbar() {
       </div>
 
       <div className="navbar-end">
-        {/* Hide next button if on '/' page */}
-        {location.pathname !== '/' && (
+        <div className="relative group">
           <button
             className="btn btn-primary btn-outline w-24"
             onClick={goToNextPage}
@@ -132,7 +146,29 @@ function Navbar() {
           >
             {location.pathname === '/test/feedback' ? 'Finish' : 'Next'}
           </button>
-        )}
+
+          {isNextDisabled && (
+            <span
+              className="absolute bottom-full mb-2 bg-primary text-black text-xs px-3 py-1 rounded opacity-0 
+             group-hover:opacity-100 transition-opacity whitespace-normal break-words z-50"
+              style={{
+                whiteSpace: 'normal',
+                overflowWrap: 'break-word',
+                wordBreak: 'break-word',
+                width: 'fit-content',
+                minWidth: '200px',
+                maxWidth: '40vw', // Adjust width to avoid overflowing
+                display: 'block',
+                textAlign: 'left',
+                right: '0', // Align to the right edge of the parent
+                left: 'auto', // Ensure it grows leftward
+                transformOrigin: 'right bottom', // Growth starts from the right
+              }}
+            >
+              {getNextTooltip(location.pathname)}
+            </span>
+          )}
+        </div>
       </div>
     </div>
   );
