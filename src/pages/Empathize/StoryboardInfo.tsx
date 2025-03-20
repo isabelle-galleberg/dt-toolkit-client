@@ -5,7 +5,6 @@ import { usePersonaStore } from '../../store/personaStore';
 import { Story } from '../../types/story';
 import { getStory } from '../../services/storyService';
 
-// TODO: create unique text for each persona!
 function StoryboardInfo() {
   const { markTaskComplete, isTaskComplete } = useTaskProgress();
   const { persona } = usePersonaStore();
