@@ -122,12 +122,14 @@ const Checklist = () => {
                 {checklist.map((item) => (
                   <li key={item._id}>
                     <div className="flex flex-row space-x-4 w-full items-center justify-between">
-                      <div className="flex space-x-4 flex-row items-center ">
-                        <input
-                          type="checkbox"
-                          id={`check-${item._id}`}
-                          className="form-checkbox h-5 w-5"
-                        />
+                      <div className="flex space-x-4 flex-row items-center my-1">
+                        <div className="w-5 h-5">
+                          <input
+                            type="checkbox"
+                            id={`check-${item._id}`}
+                            className="form-checkbox h-5 w-5"
+                          />
+                        </div>
                         <label
                           htmlFor={`check-${item._id}`}
                           className=" text-black "
