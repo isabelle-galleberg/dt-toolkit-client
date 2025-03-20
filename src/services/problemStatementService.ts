@@ -1,18 +1,13 @@
-import axios from 'axios';
+import api from './api';
 import { ProblemStatement } from '../types/problemstatement';
 
-const API_URL = `${import.meta.env.VITE_API_URL}/problem-statement`;
+const API_URL = '/problem-statement';
 
 export const getProblemStatement = async (
   cardId: string
 ): Promise<ProblemStatement> => {
   try {
-    const token = localStorage.getItem('token');
-    const response = await axios.get<ProblemStatement>(`${API_URL}/${cardId}`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    const response = await api.get(`${API_URL}/${cardId}`);
     return response.data;
   } catch (error) {
     console.error('Error fetching problem statement:', error);
@@ -24,16 +19,7 @@ export const upsertProblemStatement = async (
   problemStatementData: Partial<ProblemStatement>
 ): Promise<ProblemStatement> => {
   try {
-    const token = localStorage.getItem('token');
-    const response = await axios.post<ProblemStatement>(
-      API_URL,
-      problemStatementData,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
+    const response = await api.post(API_URL, problemStatementData);
     return response.data;
   } catch (error) {
     console.error('Error creating/updating problem statement:', error);
