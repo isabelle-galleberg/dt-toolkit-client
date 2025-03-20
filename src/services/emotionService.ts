@@ -1,13 +1,11 @@
-import axios from 'axios';
+import api from './api';
 import { Emotions } from '../types/emotions';
-const API_URL = `${import.meta.env.VITE_API_URL}/emotions`;
+
+const API_URL = '/emotions';
 
 export const getEmotions = async (personaId: string): Promise<string[]> => {
   try {
-    const token = localStorage.getItem('token');
-    const response = await axios.get(`${API_URL}/${personaId}`, {
-      headers: { Authorization: `Bearer ${token}` },
-    });
+    const response = await api.get(`${API_URL}/${personaId}`);
     return Object.values(response.data) as string[];
   } catch (error) {
     console.error('Error fetching emotions:', error);
@@ -21,14 +19,10 @@ export const updateEmotions = async (
   emotion: string
 ): Promise<Emotions> => {
   try {
-    const token = localStorage.getItem('token');
-    const response = await axios.post(
-      `${API_URL}/${personaId}`,
-      { index, emotion },
-      {
-        headers: { Authorization: `Bearer ${token}` },
-      }
-    );
+    const response = await api.post(`${API_URL}/${personaId}`, {
+      index,
+      emotion,
+    });
     return response.data as Emotions;
   } catch (error) {
     console.error('Error updating emotion:', error);

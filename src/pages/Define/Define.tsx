@@ -5,7 +5,6 @@ import { useEffect } from 'react';
 function DefinePage() {
   const { markTaskComplete, isTaskComplete } = useTaskProgress();
 
-  // enable next button
   useEffect(() => {
     if (!isTaskComplete('/define')) {
       markTaskComplete('/define');

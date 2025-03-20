@@ -62,10 +62,7 @@ function Welcome() {
           }
         />
       )}
-
-      {/* Bottom Navbar */}
       <div className="absolute bottom-0 left-0 w-full flex items-center justify-between h-[88px] pb-4 px-4">
-        {/* Back Button - Left Aligned */}
         {started && (
           <button
             onClick={() => setStarted(false)}

@@ -1,15 +1,11 @@
-import axios, { AxiosResponse } from 'axios';
+import api from './api';
 import { ChecklistFeedback, ChecklistItem } from '../types/checklist';
 
-const API_URL = `${import.meta.env.VITE_API_URL}/checklist`;
+const API_URL = '/checklist';
 
 export const getChecklist = async (): Promise<ChecklistItem[]> => {
   try {
-    const response: AxiosResponse<ChecklistItem[]> = await axios.get(API_URL, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem('token')}`,
-      },
-    });
+    const response = await api.get<ChecklistItem[]>(API_URL);
     return response.data;
   } catch (error) {
     console.error('Error fetching checklist:', error);
@@ -21,15 +17,7 @@ export const addChecklistItem = async (
   text: string
 ): Promise<ChecklistItem> => {
   try {
-    const response: AxiosResponse<ChecklistItem> = await axios.post(
-      API_URL,
-      { text },
-      {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
-        },
-      }
-    );
+    const response = await api.post<ChecklistItem>(API_URL, { text });
     return response.data;
   } catch (error) {
     console.error('Error adding checklist item:', error);
@@ -41,14 +29,7 @@ export const deleteChecklistItem = async (
   id: string
 ): Promise<{ message: string }> => {
   try {
-    const response: AxiosResponse<{ message: string }> = await axios.delete(
-      `${API_URL}/${id}`,
-      {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
-        },
-      }
-    );
+    const response = await api.delete<{ message: string }>(`${API_URL}/${id}`);
     return response.data;
   } catch (error) {
     console.error('Error deleting checklist item:', error);
@@ -60,15 +41,9 @@ export const handleChecklistFeedback = async (
   checklist: string[]
 ): Promise<ChecklistFeedback> => {
   try {
-    const response: AxiosResponse<ChecklistFeedback> = await axios.post(
-      `${API_URL}/feedback`,
-      { checklist },
-      {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
-        },
-      }
-    );
+    const response = await api.post<ChecklistFeedback>(`${API_URL}/feedback`, {
+      checklist,
+    });
     return response.data;
   } catch (error) {
     console.error('Error generating feedback:', error);

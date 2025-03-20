@@ -1,19 +1,14 @@
-import axios from 'axios';
-import { User } from '../types/user';
+import api from './api';
+import { User, UserResponse } from '../types/user';
 
-interface UserResponse {
-  token: string;
-  user: User;
-}
-
-const API_URL = `${import.meta.env.VITE_API_URL}/users`;
+const API_URL = '/users';
 
 export const register = async (
   username: string,
   password: string
 ): Promise<UserResponse> => {
   try {
-    const response = await axios.post<UserResponse>(API_URL, {
+    const response = await api.post<UserResponse>(API_URL, {
       username,
       password,
     });
@@ -28,22 +23,17 @@ export const login = async (
   username: string,
   password: string
 ): Promise<UserResponse> => {
-  try {
-    const response = await axios.post<UserResponse>(`${API_URL}/login`, {
-      username,
-      password,
-    });
-    return response.data;
-  } catch (error) {
-    console.error('Error logging in:', error);
-    throw error;
-  }
+  const response = await api.post<UserResponse>(`${API_URL}/login`, {
+    username,
+    password,
+  });
+  return response.data;
 };
 
 export const getMe = async (): Promise<User> => {
   try {
     const token = localStorage.getItem('token');
-    const response = await axios.get<User>(`${API_URL}/me`, {
+    const response = await api.get<User>(`${API_URL}/me`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -58,7 +48,7 @@ export const getMe = async (): Promise<User> => {
 export const updatePage = async (page: string): Promise<void> => {
   try {
     const token = localStorage.getItem('token');
-    await axios.put(
+    await api.put(
       `${API_URL}/page`,
       { page },
       {
