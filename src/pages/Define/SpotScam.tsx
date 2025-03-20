@@ -25,7 +25,8 @@ function SpotScam() {
   const [spottedScams, setSpottedScams] = useState<SpottedScam[]>([]);
   const [pins, setPins] = useState<Pin[]>([]);
   const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
-  const { markTaskComplete, isTaskComplete } = useTaskProgress();
+  const { markTaskComplete, markTaskUndone, isTaskComplete } =
+    useTaskProgress();
   const cardId = persona?._id;
   const userId = user?._id;
 
@@ -51,13 +52,17 @@ function SpotScam() {
     fetchSpottedScams();
   }, [cardId]);
 
-  // TODO: require that at least three signs of scam must be identified enable next button
-  // Mark task as complete if not already
   useEffect(() => {
-    if (!isTaskComplete('/define/spot-scam')) {
-      markTaskComplete('/define/spot-scam');
+    if (spottedScams.length >= 3) {
+      if (!isTaskComplete('/define/spot-scam')) {
+        markTaskComplete('/define/spot-scam');
+      }
+    } else {
+      if (isTaskComplete('/define/spot-scam')) {
+        markTaskUndone('/define/spot-scam');
+      }
     }
-  }, [isTaskComplete, markTaskComplete]);
+  }, [spottedScams]);
 
   // Handle click on the email image to add a pin
   const handleEmailClick = useCallback(
