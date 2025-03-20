@@ -149,21 +149,9 @@ function Navbar() {
 
           {isNextDisabled && (
             <span
-              className="absolute bottom-full mb-2 bg-primary text-black text-xs px-3 py-1 rounded opacity-0 
-             group-hover:opacity-100 transition-opacity whitespace-normal break-words z-50"
-              style={{
-                whiteSpace: 'normal',
-                overflowWrap: 'break-word',
-                wordBreak: 'break-word',
-                width: 'fit-content',
-                minWidth: '200px',
-                maxWidth: '40vw', // Adjust width to avoid overflowing
-                display: 'block',
-                textAlign: 'left',
-                right: '0', // Align to the right edge of the parent
-                left: 'auto', // Ensure it grows leftward
-                transformOrigin: 'right bottom', // Growth starts from the right
-              }}
+              className="absolute bottom-full mb-2 bg-primary text-black text-xs px-3 py-1 rounded opacity-0
+             group-hover:opacity-100 transition-opacity whitespace-normal break-words z-50
+             right-0 left-auto max-w-[40vw] min-w-[200px] text-left block transform origin-right-bottom"
             >
               {getNextTooltip(location.pathname)}
             </span>
