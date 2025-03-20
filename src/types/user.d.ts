@@ -4,3 +4,8 @@ export interface User {
   password: string;
   page: string;
 }
+
+export interface UserResponse {
+  token: string;
+  user: User;
+}
