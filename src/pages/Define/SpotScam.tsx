@@ -11,6 +11,7 @@ import {
 import { SpottedScam } from '../../types/define';
 import { usePersonaStore } from '../../store/personaStore';
 import { useUserStore } from '../../store/userStore';
+import LoadingSpinner from '../../components/LoadingSpinner';
 
 interface Pin {
   id: number;
@@ -25,11 +26,14 @@ function SpotScam() {
   const [spottedScams, setSpottedScams] = useState<SpottedScam[]>([]);
   const [pins, setPins] = useState<Pin[]>([]);
   const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
-  const { markTaskComplete, isTaskComplete } = useTaskProgress();
+  const { markTaskComplete, markTaskUndone, isTaskComplete } =
+    useTaskProgress();
   const cardId = persona?._id;
   const userId = user?._id;
+  const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
+    setLoading(true);
     if (!cardId) return;
     const fetchSpottedScams = async () => {
       try {
@@ -44,6 +48,7 @@ function SpotScam() {
             inputText: scam.inputText,
           }))
         );
+        setLoading(false);
       } catch (error) {
         console.error('Error fetching spotted scams', error);
       }
@@ -51,15 +56,18 @@ function SpotScam() {
     fetchSpottedScams();
   }, [cardId]);
 
-  // TODO: require that at least three signs of scam must be identified enable next button
-  // Mark task as complete if not already
   useEffect(() => {
-    if (!isTaskComplete('/define/spot-scam')) {
-      markTaskComplete('/define/spot-scam');
+    if (spottedScams.length >= 3) {
+      if (!isTaskComplete('/define/spot-scam')) {
+        markTaskComplete('/define/spot-scam');
+      }
+    } else {
+      if (isTaskComplete('/define/spot-scam')) {
+        markTaskUndone('/define/spot-scam');
+      }
     }
-  }, [isTaskComplete, markTaskComplete]);
+  }, [spottedScams]);
 
-  // Handle click on the email image to add a pin
   const handleEmailClick = useCallback(
     (e: React.MouseEvent<HTMLImageElement>) => {
       const rect = e.currentTarget.getBoundingClientRect();
@@ -72,7 +80,6 @@ function SpotScam() {
           { id: prevPins.length + 1, x, y, inputText: '' },
         ];
 
-        // Focus new input after state updates
         setTimeout(() => {
           const newPinIndex = newPins.length - 1;
           inputRefs.current[newPinIndex]?.focus();
@@ -84,7 +91,6 @@ function SpotScam() {
     []
   );
 
-  // Handle text input changes for a specific pin
   const handleInputChange = useCallback((index: number, text: string) => {
     setPins((prevPins) =>
       prevPins.map((pin, i) =>
@@ -93,7 +99,6 @@ function SpotScam() {
     );
   }, []);
 
-  // Handle deleting a pin
   const handleDeletePin = useCallback(
     async (indexToDelete: number) => {
       setPins((prevPins) =>
@@ -145,69 +150,72 @@ function SpotScam() {
   );
 
   return (
-    <ActivityPageLayout
-      header="Spot the scam!"
-      phase="Define"
-      phaseColor="text-define"
-      activity={
-        <div className="flex pb-8 gap-8">
-          {/* Left side: Input fields */}
-          <div className="w-3/4">
-            <Box
-              icon="✎"
-              header="Click on each suspicious part of the email and explain why it could indicate a scam."
-              fillHeight={true}
-              content={
-                <div className="p-6 space-y-4">
-                  {pins.length > 0 ? (
-                    pins.map((pin, index) => (
-                      <NumberedInput
-                        key={pin.id}
-                        number={index + 1}
-                        onDelete={() => handleDeletePin(index)}
-                        ref={(el) => (inputRefs.current[index] = el)}
-                        onChange={(text) => handleInputChange(index, text)}
-                        onBlur={() => handleSaveScam(index)}
-                        defaultValue={pin.inputText}
-                      />
-                    ))
-                  ) : (
-                    <p>
-                      No spotted scams yet. Click on the email to start adding
-                      pins.
-                    </p>
-                  )}
-                </div>
-              }
-            />
-          </div>
-
-          {/* Right Side: Email image with clickable functionality */}
-          <div className="w-1/4 relative">
-            <img
-              src={persona?.phoneImageUrl}
-              alt="Email"
-              className="h-full cursor-pointer"
-              onClick={handleEmailClick}
-            />
-
-            {pins.map((pin, index) => (
-              <div
-                key={pin.id}
-                className="absolute w-6 h-6 flex items-center justify-center text-[12px] rounded-full bg-define text-base-100"
-                style={{
-                  top: `${pin.y}%`,
-                  left: `${pin.x}%`,
-                  transform: 'translate(-50%, -50%)',
-                }}
-              >
-                {index + 1}
+    <>
+      {loading ? (
+        <LoadingSpinner />
+      ) : (
+        <ActivityPageLayout
+          header="Spot the scam!"
+          phase="Define"
+          phaseColor="text-define"
+          activity={
+            <div className="flex pb-8 gap-8">
+              <div className="w-3/4">
+                <Box
+                  icon="✎"
+                  header="Click on each suspicious part of the email and explain why it could indicate a scam."
+                  fillHeight={true}
+                  content={
+                    <div className="p-6 space-y-4">
+                      {pins.length > 0 ? (
+                        pins.map((pin, index) => (
+                          <NumberedInput
+                            key={pin.id}
+                            number={index + 1}
+                            onDelete={() => handleDeletePin(index)}
+                            ref={(el) => (inputRefs.current[index] = el)}
+                            onChange={(text) => handleInputChange(index, text)}
+                            onBlur={() => handleSaveScam(index)}
+                            defaultValue={pin.inputText}
+                          />
+                        ))
+                      ) : (
+                        <p>
+                          No spotted scams yet. Click on the email to start
+                          adding pins.
+                        </p>
+                      )}
+                    </div>
+                  }
+                />
               </div>
-            ))}
-          </div>
-        </div>
-      }
-    />
+              <div className="w-1/4 relative">
+                <img
+                  src={persona?.phoneImageUrl}
+                  alt="Email"
+                  className="h-full cursor-pointer"
+                  onClick={handleEmailClick}
+                />
+
+                {pins.map((pin, index) => (
+                  <div
+                    key={pin.id}
+                    className="absolute w-6 h-6 flex items-center justify-center text-[12px] rounded-full bg-define text-base-100"
+                    style={{
+                      top: `${pin.y}%`,
+                      left: `${pin.x}%`,
+                      transform: 'translate(-50%, -50%)',
+                    }}
+                  >
+                    {index + 1}
+                  </div>
+                ))}
+              </div>
+            </div>
+          }
+        />
+      )}
+    </>
   );
 }
 

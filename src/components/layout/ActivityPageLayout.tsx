@@ -34,24 +34,24 @@ function ActivityPageLayout({
         )}
 
         {phase && (
-          <p
+          <div
             className={`text-md font-regular ${phaseColor}`}
             style={{ fontFamily: 'Roboto Slab' }}
           >
             {phase}
-          </p>
+          </div>
         )}
 
         {text && (
-          <p
-            className="mt-8 text-md text-primary font-light"
+          <div
+            className="mt-6 text-md text-primary font-light"
             style={{ fontFamily: 'Roboto Slab' }}
           >
             {text}
-          </p>
+          </div>
         )}
 
-        <div className="flex flex-wrap justify-center space-x-4 mt-8">
+        <div className="flex flex-wrap justify-center space-x-4 mt-6">
           {activity}
         </div>
       </div>
