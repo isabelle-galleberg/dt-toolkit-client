@@ -28,19 +28,11 @@ function Persona() {
   const [newTrait, setNewTrait] = useState('');
 
   useEffect(() => {
-    if (cardId) {
-      const fetchPersona = async () => {
-        try {
-          const fetchedPersona = await getPersona(cardId);
-          if (fetchedPersona) {
-            setPersonaInfo(fetchedPersona);
-          }
-        } catch (error) {
-          console.error('Error fetching persona data:', error);
-        }
-      };
-      fetchPersona();
-    }
+    if (!cardId) return;
+
+    getPersona(cardId)
+      .then(setPersonaInfo)
+      .catch((error) => console.error('Error fetching persona data:', error));
   }, [cardId]);
 
   const handleInputChange =
@@ -62,14 +54,11 @@ function Persona() {
 
   const autoSave = (updatedPersona: PersonaInfo) => {
     if (debounceTimer) clearTimeout(debounceTimer);
-    debounceTimer = setTimeout(async () => {
-      try {
-        if (cardId) {
-          await upsertPersona({ ...updatedPersona, cardId: cardId });
-          console.log('Auto-save complete');
-        }
-      } catch (error) {
-        console.error('Error during auto-save:', error);
+    debounceTimer = setTimeout(() => {
+      if (cardId) {
+        upsertPersona({ ...updatedPersona, cardId })
+          .then(() => console.log('Auto-save complete'))
+          .catch((error) => console.error('Error during auto-save:', error));
       }
     }, 1000);
   };
