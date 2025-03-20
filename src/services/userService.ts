@@ -1,11 +1,5 @@
 import api from './api';
-import { User } from '../types/user';
-import axios from 'axios';
-
-interface UserResponse {
-  token: string;
-  user: User;
-}
+import { User, UserResponse } from '../types/user';
 
 const API_URL = '/users';
 
@@ -14,7 +8,7 @@ export const register = async (
   password: string
 ): Promise<UserResponse> => {
   try {
-    const response = await axios.post<UserResponse>(API_URL, {
+    const response = await api.post<UserResponse>(API_URL, {
       username,
       password,
     });
@@ -39,7 +33,7 @@ export const login = async (
 export const getMe = async (): Promise<User> => {
   try {
     const token = localStorage.getItem('token');
-    const response = await axios.get<User>(`${API_URL}/me`, {
+    const response = await api.get<User>(`${API_URL}/me`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -54,7 +48,7 @@ export const getMe = async (): Promise<User> => {
 export const updatePage = async (page: string): Promise<void> => {
   try {
     const token = localStorage.getItem('token');
-    await axios.put(
+    await api.put(
       `${API_URL}/page`,
       { page },
       {
