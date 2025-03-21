@@ -10,6 +10,7 @@ import Ideate from './pages/Ideate/Ideate';
 import Prototype from './pages/Prototype/Prototype';
 import GearsBot from './pages/Prototype/GearsBot';
 import Test from './pages/Test/Test';
+import TestChecklist from './pages/Test/TestChecklist';
 import NavbarBottom from './components/layout/NavbarBottom';
 import Persona from './pages/Empathize/Persona';
 import Empathize from './pages/Empathize/Empathize';
@@ -88,6 +89,8 @@ function App() {
               <Route path="/prototype" element={<Prototype />} />
               <Route path="/prototype/gearsbot" element={<GearsBot />} />
               <Route path="/test" element={<Test />} />
+              {/* TODO: update url */}
+              <Route path="/test/checklist" element={<TestChecklist />} />
               <Route path="/conclusion" element={<Conclusion />} />
             </Routes>
           </>
