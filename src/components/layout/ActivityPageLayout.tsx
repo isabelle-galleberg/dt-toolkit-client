@@ -21,7 +21,7 @@ function ActivityPageLayout({
         className={`max-w-4xl w-full py-8 ${
           centerContent
             ? 'absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2'
-            : 'mt-16'
+            : 'm-2'
         }`}
       >
         {header && (
@@ -44,14 +44,14 @@ function ActivityPageLayout({
 
         {text && (
           <p
-            className="mt-8 text-md text-primary font-light"
+            className="mt-4 text-md text-primary font-light"
             style={{ fontFamily: 'Roboto Slab' }}
           >
             {text}
           </p>
         )}
 
-        <div className="flex flex-wrap justify-center space-x-4 mt-8">
+        <div className="flex flex-wrap justify-center space-x-4 mt-4">
           {activity}
         </div>
       </div>

@@ -20,7 +20,7 @@ const routes = [
   '/prototype',
   '/prototype/gearsbot',
   '/test',
-  '/test/feedback',
+  '/test/checklist',
   '/conclusion',
 ].filter(Boolean);
 
@@ -130,7 +130,7 @@ function Navbar() {
             onClick={goToNextPage}
             disabled={isNextDisabled}
           >
-            {location.pathname === '/test/feedback' ? 'Finish' : 'Next'}
+            {location.pathname === '/test/checklist' ? 'Finish' : 'Next'}
           </button>
         )}
       </div>
