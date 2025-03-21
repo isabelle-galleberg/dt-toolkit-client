@@ -22,11 +22,10 @@ function Persona() {
     age: null,
     occupationAndHobbies: '',
     technologyUsage: '',
-    sliders: [0, 0, 0, 0, 0, 0],
+    sliders: [50, 50, 50, 50, 50, 50],
   };
 
   const [personaInfo, setPersonaInfo] = useState<PersonaInfo>(initialPersona);
-  const [addTrait, setAddTrait] = useState(false);
   const [newTrait, setNewTrait] = useState('');
 
   useEffect(() => {
@@ -102,7 +101,6 @@ function Persona() {
         traits: [...personaInfo.traits, newTrait],
       });
       setNewTrait('');
-      setAddTrait(false);
     }
   };
 
@@ -265,10 +263,10 @@ function Persona() {
                           min="0"
                           max="100"
                           value={personaInfo.sliders[index] ?? ''}
-                          className="range range-success"
                           onChange={(e) =>
                             handleSlider(index, parseInt(e.target.value, 10))
                           }
+                          className="range-input w-full h-2 bg-empathize rounded-full appearance-none cursor-pointer accent-define"
                         />
                       </div>
                     ))}
