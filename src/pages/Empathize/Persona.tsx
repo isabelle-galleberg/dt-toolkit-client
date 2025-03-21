@@ -112,6 +112,13 @@ function Persona() {
     });
   };
 
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      handleAddTrait();
+    }
+  };
+
   if (loading) {
     return <LoadingSpinner />;
   }
@@ -167,13 +174,14 @@ function Persona() {
                         type="text"
                         value={newTrait}
                         onChange={(e) => setNewTrait(e.target.value)}
+                        onKeyDown={handleKeyDown}
                         placeholder="Personal trait"
                         maxLength={20}
                         className="p-1.5 rounded-lg text-define text-[10px] font-regular border border-empathize bg-transparent"
                       />
                       <button
                         onClick={handleAddTrait}
-                        className="badge p-1.5 rounded-lg text-empathize bg-define border-empathize text-[10px] font-regular h-[27px]"
+                        className="badge p-1.5 font-bold rounded-lg text-empathize bg-define border-empathize text-[10px] font-regular h-[27px]"
                       >
                         Add
                       </button>
