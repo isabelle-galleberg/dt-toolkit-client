@@ -13,13 +13,19 @@ import {
 import ActivityPageLayout from '../../components/layout/ActivityPageLayout';
 import { ChecklistFeedback, ChecklistItem } from '../../types/checklist';
 import { useTaskProgress } from '../../context/TaskProgressContext';
+import { usePersonaStore } from '../../store/personaStore';
+import { getFeedback } from '../../services/feedbackService';
 
 const Checklist = () => {
   const [checklist, setChecklist] = useState<ChecklistItem[]>([]);
   const [newItemText, setNewItemText] = useState<string>('');
-  const [feedback, setFeedback] = useState<ChecklistFeedback | null>(null);
+  const [generatedFeedback, setGeneratedFeedback] =
+    useState<ChecklistFeedback | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const { markTaskComplete, isTaskComplete } = useTaskProgress();
+  const { persona } = usePersonaStore();
+  const cardId = persona?._id || '';
+  const [feedback, setFeedback] = useState<string[]>([]);
 
   useEffect(() => {
     if (checklist.length >= 5 && !isTaskComplete('/ideate/checklist')) {
@@ -46,7 +52,7 @@ const Checklist = () => {
         const newItem = await addChecklistItem(newItemText);
         setChecklist((prev) => [...prev, newItem]);
         setNewItemText('');
-        handleFeedback(); // Generate feedback after adding an item
+        handleGeneratedFeedback(); // Generate feedback after adding an item
       } catch (error) {
         console.error('Error adding item', error);
       }
@@ -58,25 +64,25 @@ const Checklist = () => {
       await deleteChecklistItem(id);
       setChecklist((prev) => prev.filter((item) => item._id !== id));
       if (checklist.length === 1) {
-        setFeedback(null);
+        setGeneratedFeedback(null);
         return;
       }
-      handleFeedback();
+      handleGeneratedFeedback();
     } catch (error) {
       console.error('Error deleting item', error);
     }
   };
 
-  const handleFeedback = async () => {
+  const handleGeneratedFeedback = async () => {
     if (checklist.length < 2) {
-      setFeedback(null);
+      setGeneratedFeedback(null);
       return;
     }
     setLoading(true);
     try {
       const checklistText = checklist.map((item) => item.text);
       const feedbackData = await handleChecklistFeedback(checklistText);
-      setFeedback(feedbackData);
+      setGeneratedFeedback(feedbackData);
     } catch (error) {
       console.error('Error generating feedback:', error);
     } finally {
@@ -84,13 +90,27 @@ const Checklist = () => {
     }
   };
 
+  // Fetch feedback
+  useEffect(() => {
+    if (!cardId) return;
+    const fetchFeedback = async () => {
+      try {
+        const data = await getFeedback(cardId);
+        setFeedback(data.feedback);
+      } catch (error) {
+        console.error('Failed to fetch feedback:', error);
+      }
+    };
+    fetchFeedback();
+  }, [cardId]);
+
   return (
     <ActivityPageLayout
       header="Create a Scam Spotter Checklist!"
       phase="Ideate"
       phaseColor="text-ideate"
       activity={
-        <div className="flex flex-col max-w-4xl w-full space-y-4">
+        <div className="flex flex-col max-w-4xl w-full space-y-4 mb-36">
           <div className="flex flex-col space-y-2 items-center border-2 border-primary p-4 rounded-[20px]">
             <p className="text-left text-primary w-full">
               ENTER QUESTIONS TO HELP SPOT PHISHING IN EMAILS
@@ -150,7 +170,21 @@ const Checklist = () => {
             </div>
             <div className="w-1/2">
               <div>
-                <p className="font-bold text-primary">FEEDBACK</p>
+                {feedback.length > 0 && (
+                  <div className="mb-4">
+                    <p className="font-bold text-primary">RECEIVED FEEDBACK</p>
+                    <div className="w-full bg-test px-4 py-2 rounded-[12px] text-prototype">
+                      <ul className="space-y-1">
+                        {feedback.map((item, index) => (
+                          <li key={index} className="text-left">
+                            {item}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
+                )}
+                <p className="font-bold text-primary">GENERATED FEEDBACK</p>
                 <div>
                   {checklist.length <= 2 && (
                     <div className="text-gray-500 mt-6">
@@ -163,24 +197,26 @@ const Checklist = () => {
                       <span className="loading loading-dots loading-sm"></span>
                     </div>
                   )}
-                  {feedback && !loading && checklist.length > 2 && (
+                  {generatedFeedback && !loading && checklist.length > 2 && (
                     <>
                       <ul className="space-y-1 mt-2">
-                        {feedback.strengths.split('\n').map((item, index) => (
-                          <li
-                            key={index}
-                            className="bg-[#214A6B] p-2 rounded-[12px] text-primary flex flex-row space-x-3 items-center"
-                          >
-                            <div className="w-5 h-5">
-                              <PlusCircleIcon className="w-5 h-5 text-green-600 font-bold" />
-                            </div>
-                            <div> {item.replace(/^-\s*/, '')}</div>
-                          </li>
-                        ))}
+                        {generatedFeedback.strengths
+                          .split('\n')
+                          .map((item, index) => (
+                            <li
+                              key={index}
+                              className="bg-[#214A6B] p-2 rounded-[12px] text-primary flex flex-row space-x-3 items-center"
+                            >
+                              <div className="w-5 h-5">
+                                <PlusCircleIcon className="w-5 h-5 text-green-600 font-bold" />
+                              </div>
+                              <div> {item.replace(/^-\s*/, '')}</div>
+                            </li>
+                          ))}
                       </ul>
                       <div className="mt-1">
                         <ul className="space-y-1">
-                          {feedback.improvements
+                          {generatedFeedback.improvements
                             .split('\n')
                             .map((item, index) => (
                               <li
@@ -197,9 +233,9 @@ const Checklist = () => {
                       </div>
                     </>
                   )}
-                  {!feedback && !loading && checklist.length > 2 && (
+                  {!generatedFeedback && !loading && checklist.length > 2 && (
                     <button
-                      onClick={handleFeedback}
+                      onClick={handleGeneratedFeedback}
                       className="mt-2 btn btn-primary py-3 px-6 rounded-[12px] transition duration-300 ease-in-out transform hover:scale-105"
                     >
                       Generate Feedback
