@@ -26,6 +26,9 @@ function SelectPersona() {
   const { user } = useUserStore();
   const userId = user?._id || '';
 
+  const [isAtStart, setIsAtStart] = useState(true);
+  const [isAtEnd, setIsAtEnd] = useState(false);
+
   useEffect(() => {
     if (persona && !isTaskComplete('/empathize/select-persona')) {
       markTaskComplete('/empathize/select-persona');
@@ -37,7 +40,7 @@ function SelectPersona() {
     (async () => {
       try {
         const cards = await getPersonaCards();
-        const shuffledCards = seededShuffle(cards, userId); // shuffle personas cards based on user ID
+        const shuffledCards = seededShuffle(cards, userId); // shuffle persona cards based on user ID
         setPersonaCards(shuffledCards);
         setLoading(false);
       } catch (error) {
@@ -45,6 +48,29 @@ function SelectPersona() {
       }
     })();
   }, [userId]);
+
+  useEffect(() => {
+    const updateScrollState = () => {
+      if (cardContainerRef.current) {
+        const { scrollLeft, scrollWidth, clientWidth } =
+          cardContainerRef.current;
+        setIsAtStart(scrollLeft === 0);
+        setIsAtEnd(scrollLeft + clientWidth >= scrollWidth - 1);
+      }
+    };
+
+    const container = cardContainerRef.current;
+    if (container) {
+      container.addEventListener('scroll', updateScrollState);
+      updateScrollState();
+    }
+
+    return () => {
+      if (container) {
+        container.removeEventListener('scroll', updateScrollState);
+      }
+    };
+  }, [personaCards]);
 
   const handlePersonaSelection = (selectedCard: PersonaCard) => {
     setPersona(selectedCard);
@@ -86,7 +112,10 @@ function SelectPersona() {
               <div className="h-[300px] flex items-center">
                 <button
                   onClick={handlePrevCard}
-                  className="p-2 rounded-full text-bold text-define transition duration-200 text-xl bg-empathize px-4"
+                  disabled={isAtStart}
+                  className={`p-2 rounded-full text-bold text-define transition duration-200 text-xl bg-empathize px-4 ${
+                    isAtStart ? 'opacity-50 cursor-not-allowed' : ''
+                  }`}
                 >
                   &lt;
                 </button>
@@ -109,7 +138,10 @@ function SelectPersona() {
               <div className="h-[300px] flex items-center">
                 <button
                   onClick={handleNextCard}
-                  className="p-2 rounded-full text-bold text-define transition duration-200 text-xl bg-empathize px-4"
+                  disabled={isAtEnd}
+                  className={`p-2 rounded-full text-bold text-define transition duration-200 text-xl bg-empathize px-4 ${
+                    isAtEnd ? 'opacity-50 cursor-not-allowed' : ''
+                  }`}
                 >
                   &gt;
                 </button>
