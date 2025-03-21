@@ -189,7 +189,7 @@ function SpotScam() {
                   }
                 />
               </div>
-              <div className="w-1/4 relative">
+              <div className="w-1/4 relative h-[400px]">
                 <img
                   src={persona?.phoneImageUrl}
                   alt="Email"
