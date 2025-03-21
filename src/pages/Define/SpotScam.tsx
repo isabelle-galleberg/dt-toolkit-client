@@ -149,73 +149,71 @@ function SpotScam() {
     [userId, cardId, pins]
   );
 
-  return (
-    <>
-      {loading ? (
-        <LoadingSpinner />
-      ) : (
-        <ActivityPageLayout
-          header="Spot the scam!"
-          phase="Define"
-          phaseColor="text-define"
-          activity={
-            <div className="flex pb-8 gap-8">
-              <div className="w-3/4">
-                <Box
-                  icon="✎"
-                  header="Click on each suspicious part of the email and explain why it could indicate a scam."
-                  fillHeight={true}
-                  content={
-                    <div className="p-6 space-y-4">
-                      {pins.length > 0 ? (
-                        pins.map((pin, index) => (
-                          <NumberedInput
-                            key={pin.id}
-                            number={index + 1}
-                            onDelete={() => handleDeletePin(index)}
-                            ref={(el) => (inputRefs.current[index] = el)}
-                            onChange={(text) => handleInputChange(index, text)}
-                            onBlur={() => handleSaveScam(index)}
-                            defaultValue={pin.inputText}
-                          />
-                        ))
-                      ) : (
-                        <p>
-                          No spotted scams yet. Click on the email to start
-                          adding pins.
-                        </p>
-                      )}
-                    </div>
-                  }
-                />
-              </div>
-              <div className="w-1/4 relative h-[400px]">
-                <img
-                  src={persona?.phoneImageUrl}
-                  alt="Email"
-                  className="h-full cursor-pointer"
-                  onClick={handleEmailClick}
-                />
+  if (loading) {
+    return <LoadingSpinner />;
+  }
 
-                {pins.map((pin, index) => (
-                  <div
-                    key={pin.id}
-                    className="absolute w-6 h-6 flex items-center justify-center text-[12px] rounded-full bg-define text-base-100"
-                    style={{
-                      top: `${pin.y}%`,
-                      left: `${pin.x}%`,
-                      transform: 'translate(-50%, -50%)',
-                    }}
-                  >
-                    {index + 1}
-                  </div>
-                ))}
+  return (
+    <ActivityPageLayout
+      header="Spot the scam!"
+      phase="Define"
+      phaseColor="text-define"
+      activity={
+        <div className="flex pb-8 gap-8">
+          <div className="w-3/4">
+            <Box
+              icon="✎"
+              header="Click on each suspicious part of the email and explain why it could indicate a scam."
+              fillHeight={true}
+              content={
+                <div className="p-6 space-y-4">
+                  {pins.length > 0 ? (
+                    pins.map((pin, index) => (
+                      <NumberedInput
+                        key={pin.id}
+                        number={index + 1}
+                        onDelete={() => handleDeletePin(index)}
+                        ref={(el) => (inputRefs.current[index] = el)}
+                        onChange={(text) => handleInputChange(index, text)}
+                        onBlur={() => handleSaveScam(index)}
+                        defaultValue={pin.inputText}
+                      />
+                    ))
+                  ) : (
+                    <p>
+                      No spotted scams yet. Click on the email to start adding
+                      pins.
+                    </p>
+                  )}
+                </div>
+              }
+            />
+          </div>
+          <div className="w-1/4 relative h-[400px]">
+            <img
+              src={persona?.phoneImageUrl}
+              alt="Email"
+              className="h-full cursor-pointer"
+              onClick={handleEmailClick}
+            />
+
+            {pins.map((pin, index) => (
+              <div
+                key={pin.id}
+                className="absolute w-6 h-6 flex items-center justify-center text-[12px] rounded-full bg-define text-base-100"
+                style={{
+                  top: `${pin.y}%`,
+                  left: `${pin.x}%`,
+                  transform: 'translate(-50%, -50%)',
+                }}
+              >
+                {index + 1}
               </div>
-            </div>
-          }
-        />
-      )}
-    </>
+            ))}
+          </div>
+        </div>
+      }
+    />
   );
 }
 
