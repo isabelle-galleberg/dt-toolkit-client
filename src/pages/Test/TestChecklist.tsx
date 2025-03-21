@@ -300,8 +300,12 @@ function TestChecklist() {
   const [score, setScore] = useState(0);
   const [totalAttempts, setTotalAttempts] = useState(0);
   const [feedback, setFeedback] = useState<string[]>([]);
+  const progress =
+    totalAttempts >= 0
+      ? ((totalAttempts / emails.length) * 100).toFixed(1)
+      : '0.0';
 
-  const isAllEmailsDone = remainingEmails.length === 0;
+  const isAllEmailsDone = totalAttempts === 6;
   const isCorrect = selectedEmail
     ? finalDecision === selectedEmail.correctAnswer
     : null;
@@ -359,9 +363,14 @@ function TestChecklist() {
     setRemainingEmails(newEmails);
   };
 
+  const handleNext = () => {
+    setTotalAttempts((prev) => prev + 1);
+    handleSelectEmail();
+  };
+
   const handleFinalDecision = (decision: 'Scam' | 'Legit') => {
     setFinalDecision(decision);
-    setTotalAttempts((prev) => prev + 1);
+
     if (isCorrect) setScore((prev) => prev + 1);
     scrollToBottom();
   };
@@ -417,16 +426,15 @@ function TestChecklist() {
               <div>
                 <p className="font-bold text-primary">FEEDBACK</p>
                 {feedback.length > 0 ? (
-                  <ul className="space-y-1 mt-2">
-                    {feedback.map((item, index) => (
-                      <li
-                        key={index}
-                        className="w-full min-w-[400px] bg-test px-4 py-2 rounded-[12px] text-prototype flex flex-row space-x-3 items-center"
-                      >
-                        {item.replace(/^•\s*/, '')}
-                      </li>
-                    ))}
-                  </ul>
+                  <div className="w-full bg-test px-4 py-2 rounded-[12px] text-prototype">
+                    <ul className="space-y-1">
+                      {feedback.map((item, index) => (
+                        <li key={index} className="text-left">
+                          {item}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
                 ) : (
                   <p className="text-gray-500 text-[12px] mt-2">
                     No feedback provided.
@@ -455,7 +463,7 @@ function TestChecklist() {
 
                 {/* Score Tracking */}
                 <div className="mt-6 text-center">
-                  <h2 className="font-bold">YOUR SCORE</h2>
+                  <h2 className="font-bold">🏆 YOUR SCORE</h2>
                   <p className="text-[12px]">
                     Correct Answers: {score} / {totalAttempts}
                   </p>
@@ -532,7 +540,7 @@ function TestChecklist() {
 
               <div className="mt-4 flex justify-end" ref={scrollRef}>
                 <button
-                  onClick={handleSelectEmail}
+                  onClick={handleNext}
                   className="text-[15px] px-4 py-2 rounded-md bg-base-100 text-primary border border-primary hover:bg-primary hover:text-base-100 transition"
                 >
                   Test on another email
@@ -540,6 +548,16 @@ function TestChecklist() {
               </div>
             </div>
           )}
+          {/* Progress */}
+          <div className="w-full bg-base-100 border border-primary rounded-full h-1.9 mt-8">
+            <div
+              className="bg-primary  border border-primary rounded-full  h-2 "
+              style={{ width: `${progress}%` }}
+            ></div>
+          </div>
+          <p className="text-center text-[12px] mt-2">
+            Progress: {totalAttempts} / {emails.length} ({progress}%)
+          </p>
         </div>
       }
     />

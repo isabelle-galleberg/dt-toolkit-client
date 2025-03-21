@@ -173,16 +173,15 @@ const Checklist = () => {
                 {feedback.length > 0 && (
                   <div className="mb-4">
                     <p className="font-bold text-primary">RECEIVED FEEDBACK</p>
-                    <ul className="space-y-1 mt-2">
-                      {feedback.map((item, index) => (
-                        <li
-                          key={index}
-                          className="w-full min-w-[400px] bg-test px-4 py-2 rounded-[12px] text-prototype flex flex-row space-x-3 items-center"
-                        >
-                          {item.replace(/^•\s*/, '')}
-                        </li>
-                      ))}
-                    </ul>
+                    <div className="w-full bg-test px-4 py-2 rounded-[12px] text-prototype">
+                      <ul className="space-y-1">
+                        {feedback.map((item, index) => (
+                          <li key={index} className="text-left">
+                            {item}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
                   </div>
                 )}
                 <p className="font-bold text-primary">GENERATED FEEDBACK</p>
