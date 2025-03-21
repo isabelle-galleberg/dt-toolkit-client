@@ -17,7 +17,10 @@ function Ideate() {
   return (
     <InfoPageLayout
       header={'IDEATE'}
-      text={`Now that we've defined the problem, we'll move to the ideate phase, where you will brainstorm solutions to help ${alias} avoid phishing scams in the future! For this scope, we need to create a quiz to train ${alias}.`}
+      text={`
+        Now that we've defined the problem, it’s time to get creative!
+        Let’s make a checklist to help ${alias} spot phishing emails, so he never falls for a scam again!
+        `}
       headerColor={'text-ideate'}
     />
   );

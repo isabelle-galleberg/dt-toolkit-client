@@ -16,14 +16,14 @@ function PersonaInfo() {
   return (
     <>
       <ActivityPageLayout
+        header="Meet Your Persona"
         text={
           <>
-            This character introduces someone who uses the internet. Imagine
-            their life and think about the kinds of challenges they might face
-            online.
+            This character is just like you — someone who explores the internet
+            every day! <br />
+            What kind of online adventures and challenges do they face? 🤔
             <br />
-            <br />
-            Let's find out more about this {persona?.alias}!
+            Time to step into the shoes of {persona?.alias} and find out! 🚀
           </>
         }
         activity={

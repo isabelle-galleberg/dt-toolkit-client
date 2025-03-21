@@ -19,7 +19,8 @@ const questions = [
 
 const ProblemStatement = () => {
   const { persona } = usePersonaStore();
-  const { markTaskComplete, isTaskComplete } = useTaskProgress();
+  const { markTaskComplete, markTaskUndone, isTaskComplete } =
+    useTaskProgress();
   const cardId = persona?._id || '';
 
   const initialState: ProblemStatementInfo = {
@@ -51,10 +52,19 @@ const ProblemStatement = () => {
   }, [fetchProblemStatement]);
 
   useEffect(() => {
-    if (!isTaskComplete('/define/problem-statement')) {
-      markTaskComplete('/define/problem-statement');
+    const allPartsFilled = Object.values(problemStatementInfo).every(
+      (part) => part !== ''
+    );
+    if (allPartsFilled) {
+      if (!isTaskComplete('/define/problem-statement')) {
+        markTaskComplete('/define/problem-statement');
+      }
+    } else {
+      if (isTaskComplete('/define/problem-statement')) {
+        markTaskUndone('/define/problem-statement');
+      }
     }
-  }, [isTaskComplete, markTaskComplete]);
+  }, [problemStatementInfo]);
 
   const handleInputChange = async (sectionId: number, value: string) => {
     const key = `part${sectionId}` as keyof ProblemStatementInfo;
@@ -76,9 +86,10 @@ const ProblemStatement = () => {
         key={sectionId}
         className="flex items-center pl-3 p-1 border-2 border-define rounded-3xl bg-transparent text-[15px] tracking-widest font-extralight"
       >
-        <p className="w-[700px]">{questions[sectionId - 1]}</p>
+        <p className="w-full">{questions[sectionId - 1]}</p>
         <input
           type="text"
+          maxLength={50}
           value={problemStatementInfo[key] || ''}
           onChange={(e) => handleInputChange(sectionId, e.target.value)}
           placeholder="Type here ..."
@@ -94,7 +105,7 @@ const ProblemStatement = () => {
       phase="Define"
       phaseColor="text-define"
       activity={
-        <div className="space-y-4">
+        <div className="space-y-4 w-full">
           <Box
             header="Problem statement"
             fillHeight={false}

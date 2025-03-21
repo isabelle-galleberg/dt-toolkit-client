@@ -22,14 +22,21 @@ const Checklist = () => {
   const [generatedFeedback, setGeneratedFeedback] =
     useState<ChecklistFeedback | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
-  const { markTaskComplete, isTaskComplete } = useTaskProgress();
+  const { markTaskComplete, markTaskUndone, isTaskComplete } =
+    useTaskProgress();
   const { persona } = usePersonaStore();
   const cardId = persona?._id || '';
   const [feedback, setFeedback] = useState<string[]>([]);
 
   useEffect(() => {
-    if (checklist.length >= 5 && !isTaskComplete('/ideate/checklist')) {
-      markTaskComplete('/ideate/checklist');
+    if (checklist.length >= 5) {
+      if (!isTaskComplete('/ideate/checklist')) {
+        markTaskComplete('/ideate/checklist');
+      }
+    } else {
+      if (isTaskComplete('/ideate/checklist')) {
+        markTaskUndone('/ideate/checklist');
+      }
     }
   }, [checklist]);
 
@@ -52,7 +59,7 @@ const Checklist = () => {
         const newItem = await addChecklistItem(newItemText);
         setChecklist((prev) => [...prev, newItem]);
         setNewItemText('');
-        handleGeneratedFeedback(); // Generate feedback after adding an item
+        handleGeneratedFeedback(); // generate feedback after adding an item
       } catch (error) {
         console.error('Error adding item', error);
       }
@@ -74,7 +81,7 @@ const Checklist = () => {
   };
 
   const handleGeneratedFeedback = async () => {
-    if (checklist.length < 2) {
+    if (checklist.length < 1) {
       setGeneratedFeedback(null);
       return;
     }
@@ -90,7 +97,6 @@ const Checklist = () => {
     }
   };
 
-  // Fetch feedback
   useEffect(() => {
     if (!cardId) return;
     const fetchFeedback = async () => {
@@ -120,6 +126,11 @@ const Checklist = () => {
                 type="text"
                 value={newItemText}
                 onChange={(e) => setNewItemText(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') {
+                    handleAddItem();
+                  }
+                }}
                 placeholder="Type here ..."
                 className="w-full p-3 rounded-[12px] bg-white placeholder-gray-500 text-base-100"
               />
@@ -186,18 +197,18 @@ const Checklist = () => {
                 )}
                 <p className="font-bold text-primary">GENERATED FEEDBACK</p>
                 <div>
-                  {checklist.length <= 2 && (
+                  {checklist.length < 2 && (
                     <div className="text-gray-500 mt-6">
                       Add more items to the checklist to receive feedback.
                     </div>
                   )}
-                  {loading && checklist.length > 2 && (
+                  {loading && checklist.length >= 2 && (
                     <div className="mt-4 text-primary">
                       <p className="font-medium">Generating feedback</p>
                       <span className="loading loading-dots loading-sm"></span>
                     </div>
                   )}
-                  {generatedFeedback && !loading && checklist.length > 2 && (
+                  {generatedFeedback && !loading && checklist.length >= 2 && (
                     <>
                       <ul className="space-y-1 mt-2">
                         {generatedFeedback.strengths
@@ -233,7 +244,7 @@ const Checklist = () => {
                       </div>
                     </>
                   )}
-                  {!generatedFeedback && !loading && checklist.length > 2 && (
+                  {!generatedFeedback && !loading && checklist.length >= 2 && (
                     <button
                       onClick={handleGeneratedFeedback}
                       className="mt-2 btn btn-primary py-3 px-6 rounded-[12px] transition duration-300 ease-in-out transform hover:scale-105"

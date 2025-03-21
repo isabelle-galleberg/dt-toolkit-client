@@ -24,6 +24,24 @@ const routes = [
   '/conclusion',
 ].filter(Boolean);
 
+const getNextTooltip = (pathname: string) => {
+  const tooltips: Record<string, string> = {
+    '/empathize/select-persona': 'Choose a persona to proceed',
+    '/empathize/persona':
+      'Fill out all persona details and add some personal traits to proceed',
+    '/empathize/storyboard': 'Choose an emotion for each story to proceed',
+    '/define/spot-scam': 'Identify at least three signs of a scam to proceed',
+    '/define/problem-understanding':
+      'Identify at least 3 incidents, causes, and consequences to proceed',
+    '/define/problem-statement':
+      'Fill out all parts of the problem statement to proceed',
+    '/ideate/checklist': 'Add at least 5 items to the checklist to proceed',
+    '/test/checklist': 'Test the checklist on all emails to finish',
+  };
+
+  return tooltips[pathname] || 'Go to the next step';
+};
+
 const getNextPage = (pathname: string) => {
   const currentIndex = routes.indexOf(pathname);
   const nextIndex = (currentIndex + 1) % routes.length;
@@ -123,8 +141,7 @@ function Navbar() {
       </div>
 
       <div className="navbar-end">
-        {/* Hide next button if on '/' page */}
-        {location.pathname !== '/' && (
+        <div className="relative group">
           <button
             className="btn btn-primary btn-outline w-24"
             onClick={goToNextPage}
@@ -132,7 +149,17 @@ function Navbar() {
           >
             {location.pathname === '/test/checklist' ? 'Finish' : 'Next'}
           </button>
-        )}
+
+          {isNextDisabled && (
+            <span
+              className="absolute bottom-full mb-2 bg-primary text-black text-xs px-3 py-1 rounded opacity-0
+             group-hover:opacity-100 transition-opacity whitespace-normal break-words z-50
+             right-0 left-auto max-w-[40vw] min-w-[200px] text-left block transform origin-right-bottom"
+            >
+              {getNextTooltip(location.pathname)}
+            </span>
+          )}
+        </div>
       </div>
     </div>
   );
