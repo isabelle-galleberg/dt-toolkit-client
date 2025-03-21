@@ -82,7 +82,11 @@ function Persona() {
   };
 
   useEffect(() => {
-    if (validatePersonaInfo()) {
+    if (
+      validatePersonaInfo() &&
+      personaInfo.traits.length > 1 &&
+      personaInfo.sliders.every((val) => val > 0)
+    ) {
       if (!isTaskComplete('/empathize/persona'))
         markTaskComplete('/empathize/persona');
     } else {
