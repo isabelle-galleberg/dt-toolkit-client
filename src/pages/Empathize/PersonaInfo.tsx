@@ -16,6 +16,7 @@ function PersonaInfo() {
   return (
     <>
       <ActivityPageLayout
+        header="Meet Your Persona"
         text={
           <>
             This character is just like you — someone who explores the internet
