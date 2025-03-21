@@ -1,10 +1,21 @@
+import { useState, useEffect, useRef } from 'react';
+import seedrandom from 'seedrandom';
 import ActivityPageLayout from '../../components/layout/ActivityPageLayout';
 import { useTaskProgress } from '../../context/TaskProgressContext';
 import { usePersonaStore } from '../../store/personaStore';
-import { useState, useEffect, useRef } from 'react';
 import { PersonaCard } from '../../types/persona';
 import { getPersonaCards } from '../../services/personaCardService';
 import LoadingSpinner from '../../components/LoadingSpinner';
+import { useUserStore } from '../../store/userStore';
+
+// shuffle array based on a seed
+const seededShuffle = (array: PersonaCard[], seed: string) => {
+  const rng = seedrandom(seed);
+  return array
+    .map((item) => ({ item, sort: rng() }))
+    .sort((a, b) => a.sort - b.sort)
+    .map(({ item }) => item);
+};
 
 function SelectPersona() {
   const { persona, setPersona } = usePersonaStore();
@@ -12,25 +23,28 @@ function SelectPersona() {
   const { markTaskComplete, isTaskComplete } = useTaskProgress();
   const cardContainerRef = useRef<HTMLDivElement | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
+  const { user } = useUserStore();
+  const userId = user?._id || '';
 
   useEffect(() => {
     if (persona && !isTaskComplete('/empathize/select-persona')) {
       markTaskComplete('/empathize/select-persona');
     }
-  }, []);
+  }, [persona]);
 
   useEffect(() => {
     setLoading(true);
     (async () => {
       try {
         const cards = await getPersonaCards();
-        setPersonaCards(cards);
+        const shuffledCards = seededShuffle(cards, userId); // shuffle personas cards based on user ID
+        setPersonaCards(shuffledCards);
         setLoading(false);
       } catch (error) {
         console.error('Error fetching persona cards:', error);
       }
     })();
-  }, []);
+  }, [userId]);
 
   const handlePersonaSelection = (selectedCard: PersonaCard) => {
     setPersona(selectedCard);
@@ -41,19 +55,13 @@ function SelectPersona() {
 
   const handlePrevCard = () => {
     if (cardContainerRef.current) {
-      cardContainerRef.current.scrollBy({
-        left: -225,
-        behavior: 'smooth',
-      });
+      cardContainerRef.current.scrollBy({ left: -225, behavior: 'smooth' });
     }
   };
 
   const handleNextCard = () => {
     if (cardContainerRef.current) {
-      cardContainerRef.current.scrollBy({
-        left: 225,
-        behavior: 'smooth',
-      });
+      cardContainerRef.current.scrollBy({ left: 225, behavior: 'smooth' });
     }
   };
 
@@ -86,9 +94,6 @@ function SelectPersona() {
               <div
                 ref={cardContainerRef}
                 className="flex gap-4 overflow-x-auto scroll-smooth w-full"
-                style={{
-                  scrollBehavior: 'smooth',
-                }}
               >
                 {personaCards.map((card) => (
                   <img
