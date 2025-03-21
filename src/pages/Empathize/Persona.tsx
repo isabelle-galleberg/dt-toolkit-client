@@ -181,7 +181,7 @@ function Persona() {
                       />
                       <button
                         onClick={handleAddTrait}
-                        className="badge p-1.5 font-bold rounded-lg text-empathize bg-define border-empathize text-[10px] font-regular h-[27px]"
+                        className="badge p-1.5 font-bold rounded-lg text-empathize bg-define border-empathize text-[10px] font-regular h-[27px] hover:opacity-70"
                       >
                         Add
                       </button>
