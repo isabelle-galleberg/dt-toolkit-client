@@ -34,12 +34,12 @@ function ActivityPageLayout({
         )}
 
         {phase && (
-          <p
+          <div
             className={`text-md font-regular ${phaseColor}`}
             style={{ fontFamily: 'Roboto Slab' }}
           >
             {phase}
-          </p>
+          </div>
         )}
 
         {text && (

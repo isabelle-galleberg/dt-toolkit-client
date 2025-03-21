@@ -195,11 +195,7 @@ const Checklist = () => {
                   {loading && checklist.length > 2 && (
                     <div className="mt-4 text-primary">
                       <p className="font-medium">Generating feedback</p>
-                      <div className="inline-block animate-pulse">
-                        <span className="dot">.</span>
-                        <span className="dot">.</span>
-                        <span className="dot">.</span>
-                      </div>
+                      <span className="loading loading-dots loading-sm"></span>
                     </div>
                   )}
                   {generatedFeedback && !loading && checklist.length > 2 && (

@@ -13,8 +13,10 @@ const RegisterPage = () => {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
 
   const handleRegister = async (e: React.FormEvent) => {
+    setLoading(true);
     e.preventDefault();
     if (password !== confirmPassword) {
       setErrorMessage('Passwords do not match!');
@@ -22,6 +24,7 @@ const RegisterPage = () => {
     }
     try {
       await registerUser(username, password);
+      setLoading(false);
       navigate('/login');
     } catch (err: any) {
       const errorMessage =
@@ -60,7 +63,11 @@ const RegisterPage = () => {
               placeholder="Confirm password"
             />
             <button type="submit" className="btn btn-primary w-full">
-              Register
+              {loading ? (
+                <span className="loading loading-dots loading-sm"></span>
+              ) : (
+                <div>Register</div>
+              )}
             </button>
           </form>
           <p className="mt-4 text-center">

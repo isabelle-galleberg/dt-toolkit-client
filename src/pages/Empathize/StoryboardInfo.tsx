@@ -9,6 +9,7 @@ function StoryboardInfo() {
   const { markTaskComplete, isTaskComplete } = useTaskProgress();
   const { persona } = usePersonaStore();
   const [story, setStory] = useState<Story | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
     if (!isTaskComplete('/empathize/storyboard-info')) {
@@ -26,7 +27,9 @@ function StoryboardInfo() {
   };
 
   useEffect(() => {
+    setLoading(true);
     fetchStory();
+    setLoading(false);
   }, [persona]);
 
   return (
@@ -35,12 +38,18 @@ function StoryboardInfo() {
         header="Ohh no ..!"
         text={
           <>
-            {story?.introduction[0]}
-            <br />
-            {story?.introduction[1]}
-            <br />
-            <br />
-            🔍 What went wrong? Let's figure it out!
+            {loading ? (
+              <span className="loading loading-dots loading-sm"></span>
+            ) : (
+              <div>
+                {story?.introduction[0]}
+                <br />
+                {story?.introduction[1]}
+                <br />
+                <br />
+                🔍 What went wrong? Let's figure it out!
+              </div>
+            )}
           </>
         }
         centerContent={true}
