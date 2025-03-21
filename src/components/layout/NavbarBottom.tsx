@@ -33,7 +33,8 @@ const getNextTooltip = (pathname: string) => {
     '/define/spot-scam': 'Identify at least three signs of a scam to proceed',
     '/define/problem-understanding':
       'Identify at least 3 incidents, causes, and consequences to proceed',
-    '/define/problem-statement': 'Fill out the problem statement to proceed',
+    '/define/problem-statement':
+      'Fill out all parts of the problem statement to proceed',
     '/ideate/checklist': 'Add at least 5 items to the checklist to proceed',
   };
 

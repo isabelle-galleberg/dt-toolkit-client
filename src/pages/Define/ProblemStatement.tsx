@@ -19,7 +19,8 @@ const questions = [
 
 const ProblemStatement = () => {
   const { persona } = usePersonaStore();
-  const { markTaskComplete, isTaskComplete } = useTaskProgress();
+  const { markTaskComplete, markTaskUndone, isTaskComplete } =
+    useTaskProgress();
   const cardId = persona?._id || '';
 
   const initialState: ProblemStatementInfo = {
@@ -51,10 +52,19 @@ const ProblemStatement = () => {
   }, [fetchProblemStatement]);
 
   useEffect(() => {
-    if (!isTaskComplete('/define/problem-statement')) {
-      markTaskComplete('/define/problem-statement');
+    const allPartsFilled = Object.values(problemStatementInfo).every(
+      (part) => part !== ''
+    );
+    if (allPartsFilled) {
+      if (!isTaskComplete('/define/problem-statement')) {
+        markTaskComplete('/define/problem-statement');
+      }
+    } else {
+      if (isTaskComplete('/define/problem-statement')) {
+        markTaskUndone('/define/problem-statement');
+      }
     }
-  }, [isTaskComplete, markTaskComplete]);
+  }, [problemStatementInfo]);
 
   const handleInputChange = async (sectionId: number, value: string) => {
     const key = `part${sectionId}` as keyof ProblemStatementInfo;
