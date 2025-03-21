@@ -22,7 +22,8 @@ const SECTIONS: Section[] = [
 function ProblemUnderstanding() {
   const { persona } = usePersonaStore();
   const cardId = persona?._id || '';
-  const { markTaskComplete, isTaskComplete } = useTaskProgress();
+  const { markTaskComplete, markTaskUndone, isTaskComplete } =
+    useTaskProgress();
   const [answers, setAnswers] = useState<{ [key: number]: string[] } | null>(
     null
   );
@@ -34,10 +35,21 @@ function ProblemUnderstanding() {
   }>(SECTIONS.reduce((acc, section) => ({ ...acc, [section.id]: null }), {}));
 
   useEffect(() => {
-    if (!isTaskComplete('/define/problem-understanding')) {
-      markTaskComplete('/define/problem-understanding');
+    if (
+      answers &&
+      answers[1]?.length >= 3 &&
+      answers[2]?.length >= 3 &&
+      answers[3]?.length >= 3
+    ) {
+      if (!isTaskComplete('/define/problem-understanding')) {
+        markTaskComplete('/define/problem-understanding');
+      }
+    } else {
+      if (isTaskComplete('/define/problem-understanding')) {
+        markTaskUndone('/define/problem-understanding');
+      }
     }
-  }, [isTaskComplete, markTaskComplete]);
+  }, [answers]);
 
   useEffect(() => {
     const fetchData = async () => {

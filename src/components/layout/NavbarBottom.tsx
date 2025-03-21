@@ -32,7 +32,7 @@ const getNextTooltip = (pathname: string) => {
     '/empathize/storyboard': 'Choose an emotion for each story to proceed',
     '/define/spot-scam': 'Identify at least three signs of a scam to proceed',
     '/define/problem-understanding':
-      'Add at least 3 problems, explanations, and consequences to proceed',
+      'Identify at least 3 incidents, causes, and consequences to proceed',
     '/define/problem-statement': 'Fill out the problem statement to proceed',
     '/ideate/checklist': 'Add at least 5 items to the checklist to proceed',
   };
