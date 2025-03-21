@@ -86,9 +86,10 @@ const ProblemStatement = () => {
         key={sectionId}
         className="flex items-center pl-3 p-1 border-2 border-define rounded-3xl bg-transparent text-[15px] tracking-widest font-extralight"
       >
-        <p className="w-[700px]">{questions[sectionId - 1]}</p>
+        <p className="w-full">{questions[sectionId - 1]}</p>
         <input
           type="text"
+          maxLength={50}
           value={problemStatementInfo[key] || ''}
           onChange={(e) => handleInputChange(sectionId, e.target.value)}
           placeholder="Type here ..."
@@ -104,7 +105,7 @@ const ProblemStatement = () => {
       phase="Define"
       phaseColor="text-define"
       activity={
-        <div className="space-y-4">
+        <div className="space-y-4 w-full">
           <Box
             header="Problem statement"
             fillHeight={false}
