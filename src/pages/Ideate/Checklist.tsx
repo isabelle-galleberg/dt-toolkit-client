@@ -81,7 +81,7 @@ const Checklist = () => {
   };
 
   const handleGeneratedFeedback = async () => {
-    if (checklist.length < 2) {
+    if (checklist.length < 1) {
       setGeneratedFeedback(null);
       return;
     }
