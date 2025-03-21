@@ -29,8 +29,8 @@ const getNextTooltip = (pathname: string) => {
     '/empathize/select-persona': 'Choose a persona to proceed',
     '/empathize/persona':
       'Fill out all persona details and add some personal traits to proceed',
-    '/empathize/storyboard': 'Select emotions for the storyboard to proceed',
-    '/define/spot-scam': 'Add at least 3 signs of scam to proceed',
+    '/empathize/storyboard': 'Choose an emotion for each story to proceed',
+    '/define/spot-scam': 'Identify at least three signs of a scam to proceed',
     '/define/problem-understanding':
       'Add at least 3 problems, explanations, and consequences to proceed',
     '/define/problem-statement': 'Fill out the problem statement to proceed',
