@@ -176,7 +176,7 @@ function Storyboard() {
                         bottomContent={
                           index <= activeIndex && (
                             <div className="flex flex-col items-center">
-                              <div className="relative w-36 h-36 flex justify-center items-center">
+                              <div className="relative w-32 h-32 flex justify-center items-center">
                                 <img
                                   src={imageUrl}
                                   alt="emotion"
