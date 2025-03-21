@@ -38,16 +38,16 @@ function Storyboard() {
   }, [emotions, markTaskComplete, isTaskComplete]);
 
   useEffect(() => {
-    setLoading(true);
     fetchStory();
     fetchEmotions();
-    setLoading(false);
   }, [persona]);
 
   const fetchStory = async () => {
+    setLoading(true);
     try {
       const story = await getStory(persona?._id || '');
       setStory(story);
+      setLoading(false);
     } catch (error) {
       console.error('Error fetching story:', error);
     }
