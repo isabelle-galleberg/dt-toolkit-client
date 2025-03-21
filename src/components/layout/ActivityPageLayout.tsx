@@ -43,12 +43,12 @@ function ActivityPageLayout({
         )}
 
         {text && (
-          <p
+          <div
             className="mt-4 text-md text-primary font-light"
             style={{ fontFamily: 'Roboto Slab' }}
           >
             {text}
-          </p>
+          </div>
         )}
 
         <div className="flex flex-wrap justify-center space-x-4 mt-4">
