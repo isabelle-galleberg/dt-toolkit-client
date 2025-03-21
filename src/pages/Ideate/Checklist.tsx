@@ -57,10 +57,6 @@ const Checklist = () => {
     try {
       await deleteChecklistItem(id);
       setChecklist((prev) => prev.filter((item) => item._id !== id));
-      if (checklist.length === 1) {
-        setFeedback(null);
-        return;
-      }
       handleFeedback();
     } catch (error) {
       console.error('Error deleting item', error);
@@ -68,7 +64,7 @@ const Checklist = () => {
   };
 
   const handleFeedback = async () => {
-    if (checklist.length < 2) {
+    if (checklist.length < 1) {
       setFeedback(null);
       return;
     }
@@ -152,18 +148,18 @@ const Checklist = () => {
               <div>
                 <p className="font-bold text-primary">FEEDBACK</p>
                 <div>
-                  {checklist.length <= 2 && (
+                  {checklist.length < 2 && (
                     <div className="text-gray-500 mt-6">
                       Add more items to the checklist to receive feedback.
                     </div>
                   )}
-                  {loading && checklist.length > 2 && (
+                  {loading && checklist.length >= 2 && (
                     <div className="mt-4 text-primary">
                       <p className="font-medium">Generating feedback</p>
                       <span className="loading loading-dots loading-sm"></span>
                     </div>
                   )}
-                  {feedback && !loading && checklist.length > 2 && (
+                  {feedback && !loading && checklist.length >= 2 && (
                     <>
                       <ul className="space-y-1 mt-2">
                         {feedback.strengths.split('\n').map((item, index) => (
@@ -197,7 +193,7 @@ const Checklist = () => {
                       </div>
                     </>
                   )}
-                  {!feedback && !loading && checklist.length > 2 && (
+                  {!feedback && !loading && checklist.length >= 2 && (
                     <button
                       onClick={handleFeedback}
                       className="mt-2 btn btn-primary py-3 px-6 rounded-[12px] transition duration-300 ease-in-out transform hover:scale-105"
