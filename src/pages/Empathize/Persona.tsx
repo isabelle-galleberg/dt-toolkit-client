@@ -124,19 +124,19 @@ function Persona() {
           phase="Empathize"
           phaseColor="text-empathize"
           activity={
-            <div className="grid grid-cols-[1.5fr_1fr] gap-6 text-primary">
+            <div className="grid grid-cols-[1.5fr_1fr] gap-6 text-primary w-full">
               <div className="space-y-4">
                 <div className="flex space-x-6 tracking-widest">
-                  <div className="relative">
+                  <div className="relative w-46 h-46">
                     <img
                       src={persona?.personaImageUrl || ''}
                       alt="persona grandma"
-                      className="w-46 rounded-full"
+                      className="w-46 h-46 object-cover rounded-full"
                     />
-                    <div className="absolute inset-0 border-[4px] border-[#216646] rounded-full pointer-events-none"></div>
+                    <div className="absolute inset-0 border-[4px] border-[#216646] rounded-full pointer-events-none aspect-square"></div>
                   </div>
 
-                  <div>
+                  <div className="w-4/5">
                     <p className="text-left font-semibold text-[15px] mb-4">
                       PERSONAL TRAITS
                     </p>
@@ -163,25 +163,19 @@ function Persona() {
                           </button>
                         </div>
                       ))}
-                      {!addTrait ? (
-                        <button
-                          onClick={() => setAddTrait(true)}
-                          className="badge p-1.5 rounded-lg text-define border-empathize text-md  w-[27px] h-[27px] flex justify-center items-center text-center"
-                        >
-                          +
-                        </button>
-                      ) : (
+                      {personaInfo.traits.length < 5 && (
                         <div className="flex gap-2">
                           <input
                             type="text"
                             value={newTrait}
                             onChange={(e) => setNewTrait(e.target.value)}
                             placeholder="Personal trait"
+                            maxLength={20}
                             className="p-1.5 rounded-lg text-define text-[10px] font-regular border border-empathize bg-transparent"
                           />
                           <button
                             onClick={handleAddTrait}
-                            className="badge p-1.5 rounded-lg text-define border-empathize text-[10px] font-regular h-[27px]"
+                            className="badge p-1.5 rounded-lg text-empathize bg-define border-empathize text-[10px] font-regular h-[27px]"
                           >
                             Add
                           </button>
@@ -221,7 +215,7 @@ function Persona() {
                         />
                       </div>
                       <div>
-                        <p className=" font-semibold">Technology Usage:</p>
+                        <p className="font-semibold">Hopes and Dreams:</p>
                         <textarea
                           value={personaInfo.technologyUsage}
                           onChange={handleInputChange('technologyUsage')}
