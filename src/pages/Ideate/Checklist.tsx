@@ -19,11 +19,18 @@ const Checklist = () => {
   const [newItemText, setNewItemText] = useState<string>('');
   const [feedback, setFeedback] = useState<ChecklistFeedback | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
-  const { markTaskComplete, isTaskComplete } = useTaskProgress();
+  const { markTaskComplete, markTaskUndone, isTaskComplete } =
+    useTaskProgress();
 
   useEffect(() => {
-    if (checklist.length >= 5 && !isTaskComplete('/ideate/checklist')) {
-      markTaskComplete('/ideate/checklist');
+    if (checklist.length >= 5) {
+      if (!isTaskComplete('/ideate/checklist')) {
+        markTaskComplete('/ideate/checklist');
+      }
+    } else {
+      if (isTaskComplete('/ideate/checklist')) {
+        markTaskUndone('/ideate/checklist');
+      }
     }
   }, [checklist]);
 
@@ -46,7 +53,7 @@ const Checklist = () => {
         const newItem = await addChecklistItem(newItemText);
         setChecklist((prev) => [...prev, newItem]);
         setNewItemText('');
-        handleFeedback(); // Generate feedback after adding an item
+        handleFeedback(); // generate feedback after adding an item
       } catch (error) {
         console.error('Error adding item', error);
       }
@@ -104,7 +111,6 @@ const Checklist = () => {
                 placeholder="Type here ..."
                 className="w-full p-3 rounded-[12px] bg-white placeholder-gray-500 text-base-100"
               />
-
               <button
                 onClick={handleAddItem}
                 className="btn btn-primary py-3 px-6 rounded-[12px] transition duration-300 ease-in-out transform hover:scale-105"
