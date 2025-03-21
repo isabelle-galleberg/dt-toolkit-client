@@ -306,14 +306,6 @@ function SpotScam() {
             )}
           </button>
 
-          {/* Show loading spinner when loading */}
-          {loading && (
-            <div className="mt-4 text-primary">
-              <p className="font-medium">Loading hints...</p>
-              <span className="loading loading-dots loading-sm"></span>
-            </div>
-          )}
-
           {/* Hint Section */}
           <div
             className={`transition-all duration-300 ease-in-out shadow-md text-[12px] tracking-widest ${
