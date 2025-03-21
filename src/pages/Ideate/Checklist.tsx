@@ -96,9 +96,15 @@ const Checklist = () => {
                 type="text"
                 value={newItemText}
                 onChange={(e) => setNewItemText(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') {
+                    handleAddItem();
+                  }
+                }}
                 placeholder="Type here ..."
                 className="w-full p-3 rounded-[12px] bg-white placeholder-gray-500 text-base-100"
               />
+
               <button
                 onClick={handleAddItem}
                 className="btn btn-primary py-3 px-6 rounded-[12px] transition duration-300 ease-in-out transform hover:scale-105"
