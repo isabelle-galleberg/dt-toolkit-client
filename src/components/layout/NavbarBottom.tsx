@@ -36,6 +36,7 @@ const getNextTooltip = (pathname: string) => {
     '/define/problem-statement':
       'Fill out all parts of the problem statement to proceed',
     '/ideate/checklist': 'Add at least 5 items to the checklist to proceed',
+    '/test/checklist': 'Test the checklist on all emails to finish',
   };
 
   return tooltips[pathname] || 'Go to the next step';
