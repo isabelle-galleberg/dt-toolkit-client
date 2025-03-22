@@ -273,7 +273,7 @@ function SpotScam() {
                         />
                       ))
                     ) : (
-                      <p>
+                      <p className="text-gray-500">
                         No spotted scams yet. Click on the email to start adding
                         pins.
                       </p>
