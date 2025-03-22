@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import {
   getChecklist,
   addChecklistItem,
@@ -27,6 +27,21 @@ const Checklist = () => {
   const { persona } = usePersonaStore();
   const cardId = persona?._id || '';
   const [feedback, setFeedback] = useState<string[]>([]);
+  const scrollRef = useRef<HTMLDivElement | null>(null);
+
+  const scrollToBottom = () => {
+    setTimeout(() => {
+      if (scrollRef.current) {
+        window.scrollTo({
+          top:
+            scrollRef.current.getBoundingClientRect().top +
+            window.scrollY -
+            100,
+          behavior: 'smooth',
+        });
+      }
+    }, 300);
+  };
 
   useEffect(() => {
     if (checklist.length >= 5) {
@@ -95,6 +110,7 @@ const Checklist = () => {
     } finally {
       setLoading(false);
     }
+    scrollToBottom();
   };
 
   useEffect(() => {
@@ -116,7 +132,7 @@ const Checklist = () => {
       phase="Ideate"
       phaseColor="text-ideate"
       activity={
-        <div className="flex flex-col max-w-4xl w-full space-y-4 mb-36">
+        <div className="flex flex-col max-w-4xl w-full space-y-4">
           <div className="flex flex-col space-y-2 items-center border-2 border-primary p-4 rounded-[20px]">
             <p className="text-left text-primary w-full">
               ENTER QUESTIONS TO HELP SPOT PHISHING IN EMAILS
@@ -209,7 +225,7 @@ const Checklist = () => {
                     </div>
                   )}
                   {generatedFeedback && !loading && checklist.length >= 2 && (
-                    <>
+                    <div ref={scrollRef}>
                       <ul className="space-y-1 mt-2">
                         {generatedFeedback.strengths
                           .split('\n')
@@ -242,7 +258,7 @@ const Checklist = () => {
                             ))}
                         </ul>
                       </div>
-                    </>
+                    </div>
                   )}
                   {!generatedFeedback && !loading && checklist.length >= 2 && (
                     <button
