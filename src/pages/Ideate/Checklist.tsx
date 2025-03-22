@@ -148,11 +148,11 @@ const Checklist = () => {
                   }
                 }}
                 placeholder="Type here ..."
-                className="w-full p-3 rounded-[12px] bg-white placeholder-gray-500 text-base-100"
+                className="w-full p-3 rounded-[8px] bg-white placeholder-gray-500 text-base-100"
               />
               <button
                 onClick={handleAddItem}
-                className="btn btn-primary py-3 px-6 rounded-[12px] transition duration-300 ease-in-out transform hover:scale-105"
+                className="btn btn-primary py-3 px-6 transition duration-300 ease-in-out transform hover:scale-105"
               >
                 Add
               </button>
@@ -263,7 +263,7 @@ const Checklist = () => {
                   {!generatedFeedback && !loading && checklist.length >= 2 && (
                     <button
                       onClick={handleGeneratedFeedback}
-                      className="mt-2 btn btn-primary py-3 px-6 rounded-[12px] transition duration-300 ease-in-out transform hover:scale-105"
+                      className="mt-2 btn btn-primary py-3 px-6 transition duration-300 ease-in-out transform hover:scale-105"
                     >
                       Generate Feedback
                     </button>
