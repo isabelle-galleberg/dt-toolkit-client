@@ -371,7 +371,10 @@ function TestChecklist() {
   const handleFinalDecision = (decision: 'Scam' | 'Legit') => {
     setFinalDecision(decision);
 
-    if (isCorrect) setScore((prev) => prev + 1);
+    if (selectedEmail && decision === selectedEmail.correctAnswer) {
+      setScore((prev) => prev + 1);
+    }
+
     scrollToBottom();
   };
 
