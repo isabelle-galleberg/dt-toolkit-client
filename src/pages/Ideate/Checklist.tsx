@@ -200,7 +200,7 @@ const Checklist = () => {
                 {feedback.length > 0 && (
                   <div className="mb-4">
                     <p className="font-bold text-primary">RECEIVED FEEDBACK</p>
-                    <div className="w-full bg-test px-4 py-2 rounded-[12px] text-prototype">
+                    <div className="w-full bg-test px-4 py-2 rounded-[12px] text-prototype mt-2">
                       <ul className="space-y-1">
                         {feedback.map((item, index) => (
                           <li key={index} className="text-left">
