@@ -1,9 +1,16 @@
+import { useNavigate } from 'react-router-dom';
 import InfoPageLayout from '../components/layout/InfoPageLayout';
 import NavbarBottomBasic from '../components/layout/NavbarBottomBasic';
 import { useUserStore } from '../store/userStore';
 
 function Conclusion() {
-  const { logoutUser } = useUserStore();
+  const navigate = useNavigate();
+  const { updatePage } = useUserStore();
+
+  const returnToStart = () => {
+    navigate('/');
+    updatePage('/');
+  };
 
   return (
     <>
@@ -18,8 +25,8 @@ function Conclusion() {
         showBackButton={true}
         backButtonOnClick={() => window.history.back()}
         showCenterButton={true}
-        centerButtonText="LOGOUT"
-        centerButtonOnClick={() => logoutUser}
+        centerButtonText="RETURN TO START"
+        centerButtonOnClick={() => returnToStart()}
         isTransparent={true}
         centerButtonWidth="w-56"
       />
