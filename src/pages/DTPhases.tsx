@@ -77,7 +77,6 @@ function DesignThinkingPhases() {
             key={phase.id}
             className={`relative rounded-[20px] flex flex-col w-[220px] h-[293px] shadow-lg ${phase.bg} ${phase.textColor}`}
           >
-            {/* Header */}
             <div
               className={`p-4 rounded-t-[20px] flex items-center justify-between`}
             >
@@ -93,19 +92,18 @@ function DesignThinkingPhases() {
               </div>
             </div>
 
-            {/* Body */}
             <div className="flex-grow p-4 text-sm text-end">{phase.text}</div>
           </div>
         ))}
       </div>
 
-      {/* Bottom Navbar */}
       <NavbarBottomBasic
         showBackButton={true}
         backButtonOnClick={() => window.history.back()}
         showCenterButton={true}
         centerButtonText="LET'S START"
         centerButtonOnClick={() => navigate('/empathize')}
+        centerButtonWidth="w-56"
       />
     </>
   );

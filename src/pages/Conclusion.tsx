@@ -1,4 +1,5 @@
 import InfoPageLayout from '../components/layout/InfoPageLayout';
+import NavbarBottomBasic from '../components/layout/NavbarBottomBasic';
 import { useUserStore } from '../store/userStore';
 
 function Conclusion() {
@@ -13,14 +14,15 @@ function Conclusion() {
         }
         headerColor={'text-ideate'}
       />
-      <div className="flex-1 flex justify-center">
-        <button
-          className="absolute bottom-10 btn btn-primary w-48 text-center"
-          onClick={logoutUser}
-        >
-          LOGOUT
-        </button>
-      </div>
+      <NavbarBottomBasic
+        showBackButton={true}
+        backButtonOnClick={() => window.history.back()}
+        showCenterButton={true}
+        centerButtonText="LOGOUT"
+        centerButtonOnClick={() => logoutUser}
+        isTransparent={true}
+        centerButtonWidth="w-56"
+      />
     </>
   );
 }
