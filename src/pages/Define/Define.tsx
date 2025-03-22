@@ -15,7 +15,7 @@ function DefinePage() {
     <InfoPage
       header={'DEFINE'}
       text={
-        "We've seen how the character was fooled by a phishing scam, but why did it happen? In this phase, we're going to break down the scam step by step, look for warning signs and define the problem. The better we understand these tricks, the better we can protect ourselves and others!"
+        "We've seen how the character was fooled by a phishing scam, but why did it happen? 🤔 In this phase, we're going to break down the scam step by step, look for warning signs and define the problem. The better we understand these tricks, the better we can protect ourselves and others! 🛡️💪"
       }
       headerColor={'text-define'}
     ></InfoPage>

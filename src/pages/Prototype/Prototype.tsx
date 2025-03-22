@@ -16,7 +16,7 @@ function Prototype() {
     <InfoPageLayout
       header={'PROTOTYPE'}
       text={
-        "Now it's time to bring your idea to life with GearsBot! You can design a checklist to help people spot phishing scams or create a quiz to teach them how to stay safe."
+        "Now it's time to bring your checklist to life with GearsBot! 🤖✨  You'll turn your checklist into a tool that helps people spot phishing scams and stay safe online.  Let's get started! 🚀"
       }
       headerColor={'text-prototype'}
     />

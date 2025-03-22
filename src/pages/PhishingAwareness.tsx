@@ -8,15 +8,15 @@ import NavbarBottomBasic from '../components/layout/NavbarBottomBasic';
 
 const sections = [
   {
-    title: 'What is phishing?',
+    title: 'What is phishing scam?',
     color: 'text-base-100',
     content: (
       <>
-        <strong>Phishing</strong> is when someone sends you a fake message that
-        looks real. It could be an email, an SMS , or a message on social media.
-        They may pretend to be someone you know or a company you trust, such as
-        your bank or a shop. The aim is to trick you into giving them personal
-        information or money.
+        <strong>Phishing scam</strong> is when someone sends you a fake message
+        that looks real. It could be an email, an SMS, or a message on social
+        media. They may pretend to be someone you know or a company you trust,
+        such as your bank or a shop. The aim is to trick you into giving them
+        personal information or money.
       </>
     ),
     image: phishing,
@@ -108,7 +108,7 @@ const sections = [
     image: phoneCall,
   },
   {
-    title: 'What about you?',
+    title: 'What about you? 💬',
     color: 'text-primary',
     textColor: 'text-primary',
     bgColor: 'bg-pattern',
@@ -122,7 +122,7 @@ const sections = [
     ),
   },
   {
-    title: 'Well done!',
+    title: 'Well Done! 🏆',
     color: 'text-primary',
     textColor: 'text-primary',
     bgColor: 'bg-pattern',

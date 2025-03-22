@@ -19,7 +19,7 @@ function GearsBot() {
       phaseColor="text-prototype"
       text={
         <>
-          Click to start using GearsBot and build your phishing awareness tool!
+          Click to launch GearsBot and start building your scam checklist tool!
         </>
       }
       activity={

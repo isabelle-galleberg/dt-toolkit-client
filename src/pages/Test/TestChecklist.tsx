@@ -425,7 +425,7 @@ function TestChecklist() {
       header="Does your solution work?"
       phase="Test"
       phaseColor="text-test"
-      text={<>Use the checklist to determine if the email is a scam?</>}
+      text={<>Use the checklist to determine if the email is a scam </>}
       activity={
         <div className="text-primary">
           <div className="gap-6">
@@ -527,7 +527,7 @@ function TestChecklist() {
                 <p className="text-[15px]">
                   {isCorrect
                     ? 'Correct! You analyzed this email correctly!'
-                    : `Incorrect! This email was actually ${selectedEmail?.correctAnswer.toLowerCase()}. Review your checklist.`}
+                    : `Incorrect! This email was actually ${selectedEmail?.correctAnswer.toLowerCase()}. Review the checklist.`}
                 </p>
 
                 {selectedEmail?.correctAnswer === 'Scam' && (
