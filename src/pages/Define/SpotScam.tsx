@@ -8,6 +8,7 @@ import {
   addSpottedScam,
   deleteSpottedScam,
 } from '../../services/spottedScamService';
+import { ChevronDownIcon, ChevronUpIcon } from '@heroicons/react/24/solid';
 import { SpottedScam } from '../../types/define';
 import { usePersonaStore } from '../../store/personaStore';
 import { useUserStore } from '../../store/userStore';
@@ -31,6 +32,81 @@ function SpotScam() {
   const cardId = persona?._id;
   const userId = user?._id;
   const [loading, setLoading] = useState<boolean>(true);
+  const [currentHintIndex, setCurrentHintIndex] = useState(0);
+  const [showHints, setShowHints] = useState(false);
+
+  const scamHints = [
+    {
+      id: 1,
+      text: (
+        <>
+          <strong>Check the sender:</strong> Does the email address look
+          legitimate? (Look for misspellings or domain mismatches)
+        </>
+      ),
+    },
+    {
+      id: 2,
+      text: (
+        <>
+          <strong>Watch out for pressure or unrealistic offers:</strong> Is it
+          urging immediate action, threatening consequences, or offering
+          something too good to be true?
+        </>
+      ),
+    },
+    {
+      id: 3,
+      text: (
+        <>
+          <strong>Check the links:</strong> Hover over links—do the actual URLs
+          match the displayed text or the company's website?
+        </>
+      ),
+    },
+    {
+      id: 4,
+      text: (
+        <>
+          <strong>Check the greeting:</strong> Does it use a generic greeting
+          like "Dear Customer" instead of your name?
+        </>
+      ),
+    },
+    {
+      id: 5,
+      text: (
+        <>
+          <strong>Look for errors:</strong> Are there typos, grammatical
+          mistakes, or strange phrasing?
+        </>
+      ),
+    },
+    {
+      id: 6,
+      text: (
+        <>
+          <strong>Think about the requests:</strong> Does it ask for sensitive
+          information like passwords or credit card numbers?
+        </>
+      ),
+    },
+  ];
+
+  const toggleHints = () => {
+    setShowHints((prev) => !prev);
+    setCurrentHintIndex(0);
+  };
+
+  const nextHint = () => {
+    setCurrentHintIndex((prev) => (prev + 1) % scamHints.length);
+  };
+
+  const prevHint = () => {
+    setCurrentHintIndex(
+      (prev) => (prev - 1 + scamHints.length) % scamHints.length
+    );
+  };
 
   useEffect(() => {
     setLoading(true);
@@ -159,57 +235,105 @@ function SpotScam() {
       phase="Define"
       phaseColor="text-define"
       activity={
-        <div className="flex pb-8 gap-8">
-          <div className="w-3/4">
-            <Box
-              icon="✎"
-              header="Click on each suspicious part of the email and explain why it could indicate a scam."
-              fillHeight={true}
-              content={
-                <div className="p-6 space-y-4">
-                  {pins.length > 0 ? (
-                    pins.map((pin, index) => (
-                      <NumberedInput
-                        key={pin.id}
-                        number={index + 1}
-                        onDelete={() => handleDeletePin(index)}
-                        ref={(el) => (inputRefs.current[index] = el)}
-                        onChange={(text) => handleInputChange(index, text)}
-                        onBlur={() => handleSaveScam(index)}
-                        defaultValue={pin.inputText}
-                      />
-                    ))
-                  ) : (
-                    <p>
-                      No spotted scams yet. Click on the email to start adding
-                      pins.
-                    </p>
-                  )}
-                </div>
-              }
-            />
-          </div>
-          <div className="w-1/4 relative h-[400px]">
-            <img
-              src={persona?.phoneImageUrl}
-              alt="Email"
-              className="h-full cursor-pointer"
-              onClick={handleEmailClick}
-            />
+        <div className="text-primary mb-24">
+          <div className="flex pb-2 gap-8">
+            <div className="w-3/4">
+              <Box
+                icon="✎"
+                header="Click on each suspicious part of the email and explain why it could indicate a scam."
+                fillHeight={true}
+                content={
+                  <div className="p-6 space-y-4">
+                    {pins.length > 0 ? (
+                      pins.map((pin, index) => (
+                        <NumberedInput
+                          key={pin.id}
+                          number={index + 1}
+                          onDelete={() => handleDeletePin(index)}
+                          ref={(el) => (inputRefs.current[index] = el)}
+                          onChange={(text) => handleInputChange(index, text)}
+                          onBlur={() => handleSaveScam(index)}
+                          defaultValue={pin.inputText}
+                        />
+                      ))
+                    ) : (
+                      <p>
+                        No spotted scams yet. Click on the email to start adding
+                        pins.
+                      </p>
+                    )}
+                  </div>
+                }
+              />
+            </div>
+            <div className="w-1/4 relative h-[400px]">
+              <img
+                src={persona?.phoneImageUrl}
+                alt="Email"
+                className="h-full cursor-pointer"
+                onClick={handleEmailClick}
+              />
 
-            {pins.map((pin, index) => (
-              <div
-                key={pin.id}
-                className="absolute w-6 h-6 flex items-center justify-center text-[12px] rounded-full bg-define text-base-100"
-                style={{
-                  top: `${pin.y}%`,
-                  left: `${pin.x}%`,
-                  transform: 'translate(-50%, -50%)',
-                }}
+              {pins.map((pin, index) => (
+                <div
+                  key={pin.id}
+                  className="absolute w-6 h-6 flex items-center justify-center text-[12px] rounded-full bg-define text-base-100"
+                  style={{
+                    top: `${pin.y}%`,
+                    left: `${pin.x}%`,
+                    transform: 'translate(-50%, -50%)',
+                  }}
+                >
+                  {index + 1}
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Hint Button */}
+          <button
+            className="px-4 relative text-define text-sm tracking-wide transition-all duration-300 hover:underline hover:opacity-80 flex items-center gap-1"
+            onClick={toggleHints}
+          >
+            {showHints ? (
+              <>
+                <span>Hide Hints</span> <ChevronUpIcon className="h-5 w-5" />
+              </>
+            ) : (
+              <>
+                <span>Get Hints</span> <ChevronDownIcon className="h-5 w-5" />
+              </>
+            )}
+          </button>
+
+          {/* Hint Section */}
+          <div
+            className={`transition-all duration-300 ease-in-out shadow-md text-[12px] tracking-widest ${
+              showHints ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
+            } overflow-hidden`}
+          >
+            <div className="hints-container bg-light p-4 rounded shadow-md flex items-center justify-between">
+              <button
+                className="p-2 rounded-full text-bold text-define transition duration-200 text-xl border border-define px-4 hover:bg-define hover:text-empathize"
+                onClick={prevHint}
               >
-                {index + 1}
+                &lt;
+              </button>
+
+              <div className="text-center w-full">
+                <h3 className="font-semibold text-[15px]">
+                  Hint {currentHintIndex + 1} of {scamHints.length}
+                </h3>
+                <p className="px-8">{scamHints[currentHintIndex].text}</p>
               </div>
-            ))}
+
+              <button
+                className="p-2 rounded-full text-bold text-define transition duration-200 text-xl border border-define px-4 hover:bg-define hover:text-empathize"
+                onClick={nextHint}
+              >
+                &gt;
+              </button>
+            </div>
           </div>
         </div>
       }
