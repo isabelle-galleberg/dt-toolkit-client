@@ -443,7 +443,7 @@ function TestChecklist() {
               <div>
                 <p className="font-bold text-primary px-4">FEEDBACK</p>
                 {feedback.length > 0 ? (
-                  <div className="min-w-80 bg-test px-4 py-2 rounded-[12px] text-prototype">
+                  <div className="min-w-80 bg-test px-4 py-2 rounded-[12px] text-prototype text-[14px]">
                     <ul className="space-y-1 pe-2">
                       {feedback.map((item, index) => (
                         <li key={index} className="text-left">
@@ -462,7 +462,7 @@ function TestChecklist() {
                 <div className="mt-4 flex justify-center">
                   <button
                     onClick={() => navigate('/ideate/checklist')}
-                    className="w-full text-[15px] px-4 py-2 rounded-md bg-primary text-base-100 border border-primary hover:bg-ideate  hover:text-primary hover:border-primary transition"
+                    className="w-full text-[14px] px-4 py-2 rounded-md bg-primary text-base-100 border border-primary hover:bg-ideate  hover:text-primary hover:border-primary transition"
                   >
                     Modify Checklist
                   </button>
@@ -472,7 +472,7 @@ function TestChecklist() {
                 <div className="mt-2 flex justify-center">
                   <button
                     onClick={handleRestartTest}
-                    className="w-full text-[15px] px-4 py-2 rounded-md bg-base-100 text-primary border border-primary hover:bg-primary hover:text-base-100 transition"
+                    className="w-full text-[14px] px-4 py-2 rounded-md bg-base-100 text-primary border border-primary hover:bg-primary hover:text-base-100 transition"
                   >
                     Restart Test
                   </button>
@@ -487,7 +487,7 @@ function TestChecklist() {
                 </div>
               </div>
             ) : (
-              <div className="mt-6 text-[15px]">
+              <div className="mt-6 text-[14px]">
                 <p>Is this email a scam?</p>
                 <div className="flex gap-2 mt-1">
                   <button
@@ -524,7 +524,7 @@ function TestChecklist() {
               <div
                 className={`mt-2 p-4 rounded-md text-[12px] ${isCorrect ? 'bg-empathize text-define' : 'bg-[#902F39] text-red-200'}`}
               >
-                <p className="text-[15px]">
+                <p className="text-[16px]">
                   {isCorrect
                     ? 'Correct! You analyzed this email correctly!'
                     : `Incorrect! This email was actually ${selectedEmail?.correctAnswer.toLowerCase()}. Review the checklist.`}
@@ -545,20 +545,20 @@ function TestChecklist() {
                 <p>{selectedEmail?.explanation}</p>
               </div>
 
-              <p className="mt-2 text-[15px]">Give feedback</p>
+              <p className="mt-2 text-[14px]">Give feedback</p>
               <textarea
                 value={feedback.join('\n')}
                 onChange={handleFeedbackChange}
                 onKeyDown={handleKeyDown}
                 placeholder="• Add feedback here..."
-                className="mt-1 p-2 w-full text-[15px] rounded-md border border-primary text-primary bg-base-100"
+                className="mt-1 p-2 w-full text-[16px] rounded-md border border-primary text-primary bg-base-100"
                 rows={4}
               />
 
               <div className="mt-4 flex justify-end" ref={scrollRef}>
                 <button
                   onClick={handleNext}
-                  className="text-[15px] px-4 py-2 rounded-md bg-base-100 text-primary border border-primary hover:bg-primary hover:text-base-100 transition"
+                  className="btn text-[14px] px-4 py-2 rounded-md bg-base-100 text-primary border border-primary hover:bg-primary hover:text-base-100 transition"
                 >
                   Test on another email
                 </button>
