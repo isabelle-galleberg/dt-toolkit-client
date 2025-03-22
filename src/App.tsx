@@ -38,7 +38,7 @@ function App() {
     location.pathname === '/conclusion';
   return (
     <TaskProgressProvider>
-      <div className="h-screen w-screen flex flex-col">
+      <div className="min-h-screen w-screen flex flex-col bg-pattern bg-cover">
         {!token ? (
           <Routes>
             <Route path="/register" element={<Register />} />
@@ -89,7 +89,6 @@ function App() {
               <Route path="/prototype" element={<Prototype />} />
               <Route path="/prototype/gearsbot" element={<GearsBot />} />
               <Route path="/test" element={<Test />} />
-              {/* TODO: update url */}
               <Route path="/test/checklist" element={<TestChecklist />} />
               <Route path="/conclusion" element={<Conclusion />} />
             </Routes>

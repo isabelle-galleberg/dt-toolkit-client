@@ -4,6 +4,7 @@ import harmful from '../assets/harmful.png';
 import textMessage from '../assets/text-message.png';
 import fakeMessage from '../assets/fake-websites.png';
 import phoneCall from '../assets/phone-call-scams.png';
+import NavbarBottomBasic from '../components/layout/NavbarBottomBasic';
 
 const sections = [
   {
@@ -110,7 +111,7 @@ const sections = [
     title: 'What about you?',
     color: 'text-primary',
     textColor: 'text-primary',
-    bgColor: 'bg-base-100',
+    bgColor: 'bg-pattern',
     content: (
       <>
         Now that you know more about this, take <strong>ten minutes</strong> to
@@ -124,7 +125,7 @@ const sections = [
     title: 'Well done!',
     color: 'text-primary',
     textColor: 'text-primary',
-    bgColor: 'bg-base-100',
+    bgColor: 'bg-pattern',
     content: (
       <>
         This is the end of the <strong>"What is a phishing scam? "</strong>
@@ -159,13 +160,13 @@ export default function PhishingAwareness() {
         <div
           key={index}
           ref={(el) => (sectionRefs.current[index] = el)}
-          className={`h-screen flex flex-col justify-center items-center px-6 text-base-100 ${
-            section.bgColor ? section.bgColor : 'bg-primary'
+          className={`min-h-screen flex flex-col justify-center items-center px-6 text-base-100 ${
+            section.bgColor ? section.bgColor : 'bg-pattern-primary'
           }`}
         >
-          <div className="fixed top-0 left-0 w-full flex items-center justify-between h-[88px] pb-4 px-4 bg-base-100 shadow-md" />
+          <div className="fixed top-0 left-0 w-full flex items-center justify-between h-20 pb-4 px-4 bg-base-100 shadow-[0_10px_30px_rgba(0,0,0,0.2)]" />
 
-          <div className="max-w-3xl flex flex-col md:flex-row items-center gap-6">
+          <div className="max-w-3xl flex flex-col md:flex-row items-center gap-6 mt-24 pb-24">
             {/* Text on the right */}
             <div className="text-center md:text-left">
               <h2 className={`text-3xl font-bold mb-4 ${section.color}`}>
@@ -185,18 +186,22 @@ export default function PhishingAwareness() {
               <img
                 src={section.image}
                 alt={section.title}
-                className="w-52 h-52 md:w-72 md:h-72 object-contain"
+                className="w-64 h-64 md:w-64 md:h-64 object-contain"
               />
             )}
           </div>
 
           {index === step - 1 && (
-            <button
-              onClick={handleNext}
-              className="absolute bottom-10 px-6 py-2 btn w-36 bg-ideate text-primary border-ideate hover:bg-ideate hover:text-base-100 hover:border-ideate"
-            >
-              {step < sections.length ? 'CONTINUE' : 'END ACTIVITY'}
-            </button>
+            <NavbarBottomBasic
+              showCenterButton={true}
+              centerButtonText={
+                step < sections.length ? 'CONTINUE' : 'END ACTIVITY'
+              }
+              centerButtonOnClick={() => handleNext()}
+              isTransparent={true}
+              centerButtonWidth="w-56"
+              centerButtonStyle="bg-ideate text-primary border-ideate hover:bg-ideate hover:text-base-100 hover:border-ideate"
+            />
           )}
         </div>
       ))}

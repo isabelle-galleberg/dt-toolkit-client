@@ -3,6 +3,7 @@ import InfoPage from '../components/layout/InfoPageLayout';
 import ActivityPageLayout from '../components/layout/ActivityPageLayout';
 import { Link, useNavigate } from 'react-router-dom';
 import { useUserStore } from '../store/userStore';
+import NavbarBottomBasic from '../components/layout/NavbarBottomBasic';
 
 function Welcome() {
   // State to track if "Start Now" was clicked
@@ -62,37 +63,38 @@ function Welcome() {
           }
         />
       )}
-      <div className="absolute bottom-0 left-0 w-full flex items-center justify-between h-[88px] pb-4 px-4">
-        {started && (
-          <button
-            onClick={() => setStarted(false)}
-            className="btn btn-primary btn-outline w-24"
-          >
-            Back
-          </button>
-        )}
-        {!started ? (
-          <div className="flex flex-col items-center justify-center mx-auto">
-            {user?.page === '/' ? (
-              <button
-                onClick={() => setStarted(true)}
-                className="btn btn-primary w-56"
-              >
-                START NOW
-              </button>
-            ) : (
-              <button
-                onClick={() => navigate(user?.page || '/design-thinking')}
-                className="btn btn-primary w-56"
-              >
-                CONTINUE
-              </button>
-            )}
-          </div>
-        ) : (
-          <div className="flex-1" />
-        )}
-      </div>
+
+      {started && (
+        <NavbarBottomBasic
+          showBackButton={true}
+          backButtonOnClick={() => setStarted(false)}
+          isTransparent={true}
+        />
+      )}
+
+      {!started && (
+        <div>
+          {user?.page === '/' ? (
+            <NavbarBottomBasic
+              showCenterButton={true}
+              centerButtonText={'START NOW'}
+              centerButtonOnClick={() => setStarted(true)}
+              isTransparent={true}
+              centerButtonWidth="w-56"
+            />
+          ) : (
+            <NavbarBottomBasic
+              showCenterButton={true}
+              centerButtonText={'CONTINUE'}
+              centerButtonOnClick={() =>
+                navigate(user?.page || '/design-thinking')
+              }
+              isTransparent={true}
+              centerButtonWidth="w-56"
+            />
+          )}
+        </div>
+      )}
     </div>
   );
 }

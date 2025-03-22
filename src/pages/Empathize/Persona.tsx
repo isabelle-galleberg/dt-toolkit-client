@@ -169,7 +169,7 @@ function Persona() {
                     </div>
                   ))}
                   {personaInfo.traits.length < 5 && (
-                    <div className="flex gap-2">
+                    <div className="flex gap-2 bg-base-100">
                       <input
                         type="text"
                         value={newTrait}
@@ -260,7 +260,7 @@ function Persona() {
                   },
                 ].map((slider, index) => (
                   <div key={index} className="flex flex-col gap-1">
-                    <div className="flex justify-between text-[10px]  font-regular tracking-widest text-define">
+                    <div className="flex justify-between text-[10px] font-regular tracking-widest text-define">
                       <p>{slider.labelLeft}</p>
                       <p>{slider.labelRight}</p>
                     </div>
