@@ -84,7 +84,7 @@ const ProblemStatement = () => {
     return (
       <div
         key={sectionId}
-        className="flex items-center pl-3 p-1 border-2 border-define rounded-3xl bg-transparent text-[15px] tracking-widest font-extralight"
+        className="flex items-center pl-3 p-1 border-2 border-define rounded-3xl bg-base-100 text-[12px] tracking-widest font-extralight"
       >
         <p className="w-full">{questions[sectionId - 1]}</p>
         <input

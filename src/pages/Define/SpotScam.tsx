@@ -34,6 +34,21 @@ function SpotScam() {
   const [loading, setLoading] = useState<boolean>(true);
   const [currentHintIndex, setCurrentHintIndex] = useState(0);
   const [showHints, setShowHints] = useState(false);
+  const scrollRef = useRef<HTMLDivElement | null>(null);
+
+  const scrollToBottom = () => {
+    setTimeout(() => {
+      if (scrollRef.current) {
+        window.scrollTo({
+          top:
+            scrollRef.current.getBoundingClientRect().top +
+            window.scrollY -
+            100,
+          behavior: 'smooth',
+        });
+      }
+    }, 300);
+  };
 
   const scamHints = [
     {
@@ -95,6 +110,7 @@ function SpotScam() {
 
   const toggleHints = () => {
     setShowHints((prev) => !prev);
+    scrollToBottom();
     setCurrentHintIndex(0);
   };
 
@@ -235,7 +251,7 @@ function SpotScam() {
       phase="Define"
       phaseColor="text-define"
       activity={
-        <div className="text-primary mb-24">
+        <div className="text-primary">
           <div className="flex pb-2 gap-8">
             <div className="w-3/4">
               <Box
@@ -308,9 +324,10 @@ function SpotScam() {
 
           {/* Hint Section */}
           <div
-            className={`transition-all duration-300 ease-in-out shadow-md text-[12px] tracking-widest ${
+            className={`transition-all duration-300 ease-in-out shadow-md text-[12px] tracking-widest bg-base-100 ${
               showHints ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
             } overflow-hidden`}
+            ref={scrollRef}
           >
             <div className="hints-container bg-light p-4 rounded shadow-md flex items-center justify-between">
               <button

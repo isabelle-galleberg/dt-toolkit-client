@@ -4,6 +4,7 @@ import EmailComponent from '../../components/Email';
 import { useNavigate } from 'react-router-dom';
 import { usePersonaStore } from '../../store/personaStore';
 import { getFeedback, upsertFeedback } from '../../services/feedbackService';
+import { useTaskProgress } from '../../context/TaskProgressContext';
 
 interface Email {
   sender: string;
@@ -300,11 +301,12 @@ function TestChecklist() {
   const [score, setScore] = useState(0);
   const [totalAttempts, setTotalAttempts] = useState(0);
   const [feedback, setFeedback] = useState<string[]>([]);
+  const { markTaskComplete, markTaskUndone, isTaskComplete } =
+    useTaskProgress();
   const progress =
     totalAttempts >= 0
       ? ((totalAttempts / emails.length) * 100).toFixed(1)
       : '0.0';
-
   const isAllEmailsDone = totalAttempts === 6;
   const isCorrect = selectedEmail
     ? finalDecision === selectedEmail.correctAnswer
@@ -323,6 +325,18 @@ function TestChecklist() {
       }
     }, 300);
   };
+
+  useEffect(() => {
+    if (isAllEmailsDone) {
+      if (!isTaskComplete('/test/checklist')) {
+        markTaskComplete('/test/checklist');
+      }
+    } else {
+      if (isTaskComplete('/test/checklist')) {
+        markTaskUndone('/test/checklist');
+      }
+    }
+  }, [isAllEmailsDone]);
 
   useEffect(() => {
     if (!cardId) return;
@@ -371,7 +385,10 @@ function TestChecklist() {
   const handleFinalDecision = (decision: 'Scam' | 'Legit') => {
     setFinalDecision(decision);
 
-    if (isCorrect) setScore((prev) => prev + 1);
+    if (selectedEmail && decision === selectedEmail.correctAnswer) {
+      setScore((prev) => prev + 1);
+    }
+
     scrollToBottom();
   };
 
@@ -410,7 +427,7 @@ function TestChecklist() {
       phaseColor="text-test"
       text={<>Use the checklist to determine if the email is a scam?</>}
       activity={
-        <div className="text-primary mb-24">
+        <div className="text-primary">
           <div className="gap-6">
             {selectedEmail && !isAllEmailsDone && (
               <EmailComponent
@@ -424,10 +441,10 @@ function TestChecklist() {
 
             {isAllEmailsDone ? (
               <div>
-                <p className="font-bold text-primary">FEEDBACK</p>
+                <p className="font-bold text-primary px-4">FEEDBACK</p>
                 {feedback.length > 0 ? (
-                  <div className="w-full bg-test px-4 py-2 rounded-[12px] text-prototype">
-                    <ul className="space-y-1">
+                  <div className="min-w-80 bg-test px-4 py-2 rounded-[12px] text-prototype">
+                    <ul className="space-y-1 pe-2">
                       {feedback.map((item, index) => (
                         <li key={index} className="text-left">
                           {item}
@@ -436,7 +453,7 @@ function TestChecklist() {
                     </ul>
                   </div>
                 ) : (
-                  <p className="text-gray-500 text-[12px] mt-2">
+                  <p className="text-gray-500 text-[12px] mt-2 min-w-80 px-4">
                     No feedback provided.
                   </p>
                 )}
@@ -475,24 +492,24 @@ function TestChecklist() {
                 <div className="flex gap-2 mt-1">
                   <button
                     onClick={() => handleFinalDecision('Scam')}
-                    className={`btn ${
+                    className={`btn border hover:bg-primary hover:text-base-100 ${
                       finalDecision === 'Scam'
                         ? isCorrect
-                          ? 'bg-empathize text-define'
-                          : 'bg-[#902F39] text-red-200'
-                        : 'bg-gray-700'
+                          ? 'bg-empathize text-define border-define'
+                          : 'bg-[#902F39] text-red-200 border-red-200'
+                        : 'bg-base-100 text-primary border-primary'
                     }`}
                   >
                     Yes, it's a scam!
                   </button>
                   <button
                     onClick={() => handleFinalDecision('Legit')}
-                    className={`btn ${
+                    className={`btn border hover:bg-primary hover:text-base-100 ${
                       finalDecision === 'Legit'
                         ? isCorrect
-                          ? 'bg-empathize text-define'
-                          : 'bg-[#902F39] text-red-200'
-                        : 'bg-gray-700'
+                          ? 'bg-empathize text-define border-define'
+                          : 'bg-[#902F39] text-red-200 border-red-200'
+                        : 'bg-base-100 text-primary border-primary'
                     }`}
                   >
                     No, it's legit!
@@ -534,7 +551,7 @@ function TestChecklist() {
                 onChange={handleFeedbackChange}
                 onKeyDown={handleKeyDown}
                 placeholder="• Add feedback here..."
-                className="mt-1 p-2 w-full text-[15px] rounded-md border border-primary text-primary bg-transparent"
+                className="mt-1 p-2 w-full text-[15px] rounded-md border border-primary text-primary bg-base-100"
                 rows={4}
               />
 

@@ -100,7 +100,7 @@ function Navbar() {
   };
 
   return (
-    <div className="navbar bg-base-100 fixed bottom-0 z-50 shadow pb-4 px-4">
+    <div className="navbar bg-base-100 fixed bottom-0 z-10 p-4 flex justify-between items-center w-full shadow-[0_-10px_30px_rgba(0,0,0,0.2)]">
       <div className="navbar-start">
         {/* Hide back button if on '/' page */}
         {location.pathname !== '/' && (
@@ -112,32 +112,30 @@ function Navbar() {
           </button>
         )}
       </div>
-      <div className="navbar-center hidden lg:flex">
-        <ul className="menu menu-horizontal px-1 space-x-3">
-          <button
-            className={`${getButtonClass('/empathize', 'empathize')} cursor-auto`}
-          >
-            EMPATHIZE
-          </button>
-          <button
-            className={`${getButtonClass('/define', 'define')} cursor-auto`}
-          >
-            DEFINE
-          </button>
-          <button
-            className={`${getButtonClass('/ideate', 'ideate')} cursor-auto`}
-          >
-            IDEATE
-          </button>
-          <button
-            className={`${getButtonClass('/prototype', 'prototype')} cursor-auto`}
-          >
-            PROTOTYPE
-          </button>
-          <button className={`${getButtonClass('/test', 'test')} cursor-auto`}>
-            TEST
-          </button>
-        </ul>
+      <div className="hidden lg:flex flex-1 justify-center space-x-4">
+        <button
+          className={`${getButtonClass('/empathize', 'empathize')} cursor-auto`}
+        >
+          EMPATHIZE
+        </button>
+        <button
+          className={`${getButtonClass('/define', 'define')} cursor-auto`}
+        >
+          DEFINE
+        </button>
+        <button
+          className={`${getButtonClass('/ideate', 'ideate')} cursor-auto`}
+        >
+          IDEATE
+        </button>
+        <button
+          className={`${getButtonClass('/prototype', 'prototype')} cursor-auto`}
+        >
+          PROTOTYPE
+        </button>
+        <button className={`${getButtonClass('/test', 'test')} cursor-auto`}>
+          TEST
+        </button>
       </div>
 
       <div className="navbar-end">

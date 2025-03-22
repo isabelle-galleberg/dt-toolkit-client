@@ -1,4 +1,5 @@
 import { useNavigate } from 'react-router-dom';
+import NavbarBottomBasic from '../components/layout/NavbarBottomBasic';
 
 const phases = [
   {
@@ -76,7 +77,6 @@ function DesignThinkingPhases() {
             key={phase.id}
             className={`relative rounded-[20px] flex flex-col w-[220px] h-[293px] shadow-lg ${phase.bg} ${phase.textColor}`}
           >
-            {/* Header */}
             <div
               className={`p-4 rounded-t-[20px] flex items-center justify-between`}
             >
@@ -92,32 +92,19 @@ function DesignThinkingPhases() {
               </div>
             </div>
 
-            {/* Body */}
             <div className="flex-grow p-4 text-sm text-end">{phase.text}</div>
           </div>
         ))}
       </div>
 
-      {/* Bottom Navbar */}
-      <div className="fixed bottom-0 left-0 w-full bg-base-100 shadow-md py-4 flex items-center justify-between px-6 h-[88px]">
-        {/* Back Button */}
-        <button
-          onClick={() => window.history.back()}
-          className="btn btn-primary btn-outline w-24"
-        >
-          Back
-        </button>
-
-        {/* Start Activity Button */}
-        <div className="absolute left-1/2 transform -translate-x-1/2">
-          <button
-            onClick={() => navigate('/empathize')}
-            className="px-6 py-2 btn bg-primary text-base-100 border-primary hover:bg-primary hover:text-ideate hover:border-primary"
-          >
-            LET'S START
-          </button>
-        </div>
-      </div>
+      <NavbarBottomBasic
+        showBackButton={true}
+        backButtonOnClick={() => window.history.back()}
+        showCenterButton={true}
+        centerButtonText="LET'S START"
+        centerButtonOnClick={() => navigate('/empathize')}
+        centerButtonWidth="w-56"
+      />
     </>
   );
 }

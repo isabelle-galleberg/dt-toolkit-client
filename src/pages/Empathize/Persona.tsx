@@ -169,7 +169,7 @@ function Persona() {
                     </div>
                   ))}
                   {personaInfo.traits.length < 5 && (
-                    <div className="flex gap-2">
+                    <div className="flex gap-2 bg-base-100">
                       <input
                         type="text"
                         value={newTrait}
@@ -211,11 +211,16 @@ function Persona() {
                     />
                   </div>
                   <div>
-                    <p className=" font-semibold">Occupation and Hobbies:</p>
+                    <p className="font-semibold">Occupation and Hobbies:</p>
                     <textarea
                       value={personaInfo.occupationAndHobbies}
                       onChange={handleInputChange('occupationAndHobbies')}
-                      className="border border-gray-500 w-full my-2 px-2 py-1 bg-transparent"
+                      onInput={(e) => {
+                        const target = e.target as HTMLTextAreaElement;
+                        target.style.height = 'auto';
+                        target.style.height = `${target.scrollHeight}px`;
+                      }}
+                      className="border border-gray-500 w-full my-2 px-2 py-1 bg-transparent resize-none overflow-hidden"
                     />
                   </div>
                   <div>
@@ -223,7 +228,12 @@ function Persona() {
                     <textarea
                       value={personaInfo.technologyUsage}
                       onChange={handleInputChange('technologyUsage')}
-                      className="border border-gray-500 w-full my-2 px-2 py-1 bg-transparent"
+                      onInput={(e) => {
+                        const target = e.target as HTMLTextAreaElement;
+                        target.style.height = 'auto';
+                        target.style.height = `${target.scrollHeight}px`;
+                      }}
+                      className="border border-gray-500 w-full my-2 px-2 py-1 bg-transparent resize-none overflow-hidden"
                     />
                   </div>
                 </div>
@@ -260,7 +270,7 @@ function Persona() {
                   },
                 ].map((slider, index) => (
                   <div key={index} className="flex flex-col gap-1">
-                    <div className="flex justify-between text-[10px]  font-regular tracking-widest text-define">
+                    <div className="flex justify-between text-[10px] font-regular tracking-widest text-define">
                       <p>{slider.labelLeft}</p>
                       <p>{slider.labelRight}</p>
                     </div>

@@ -10,6 +10,10 @@ export default {
         prototype: '#E9D7FA',
         test: '#907AFF',
       },
+      backgroundImage: {
+        pattern: "url('/src/assets/bg-pattern-dark.svg')",
+        'pattern-primary': "url('/src/assets/bg-pattern-primary.svg')",
+      },
     },
   },
   plugins: [require('daisyui')],
