@@ -4,6 +4,7 @@ import EmailComponent from '../../components/Email';
 import { useNavigate } from 'react-router-dom';
 import { usePersonaStore } from '../../store/personaStore';
 import { getFeedback, upsertFeedback } from '../../services/feedbackService';
+import { useTaskProgress } from '../../context/TaskProgressContext';
 
 interface Email {
   sender: string;
@@ -300,11 +301,12 @@ function TestChecklist() {
   const [score, setScore] = useState(0);
   const [totalAttempts, setTotalAttempts] = useState(0);
   const [feedback, setFeedback] = useState<string[]>([]);
+  const { markTaskComplete, markTaskUndone, isTaskComplete } =
+    useTaskProgress();
   const progress =
     totalAttempts >= 0
       ? ((totalAttempts / emails.length) * 100).toFixed(1)
       : '0.0';
-
   const isAllEmailsDone = totalAttempts === 6;
   const isCorrect = selectedEmail
     ? finalDecision === selectedEmail.correctAnswer
@@ -323,6 +325,18 @@ function TestChecklist() {
       }
     }, 300);
   };
+
+  useEffect(() => {
+    if (isAllEmailsDone) {
+      if (!isTaskComplete('/test/checklist')) {
+        markTaskComplete('/test/checklist');
+      }
+    } else {
+      if (isTaskComplete('/test/checklist')) {
+        markTaskUndone('/test/checklist');
+      }
+    }
+  }, [isAllEmailsDone]);
 
   useEffect(() => {
     if (!cardId) return;
