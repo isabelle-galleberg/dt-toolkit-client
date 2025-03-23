@@ -142,7 +142,7 @@ function Persona() {
               </div>
 
               <div className="w-4/5">
-                <p className="text-left font-semibold text-[15px] mb-4">
+                <p className="text-left font-semibold text-[16px] mb-4">
                   PERSONAL TRAITS
                 </p>
                 <div className="flex flex-wrap gap-2">
@@ -242,7 +242,7 @@ function Persona() {
           </div>
           <div className="flex flex-col space-y-10">
             <div className="space-y-2">
-              <p className="text-left font-semibold text-[15px]  tracking-widest mb-6">
+              <p className="text-left font-semibold text-[16px]  tracking-widest mb-6">
                 TECHNOLOGY & INTERNET USAGE
               </p>
               <div className="flex flex-col space-y-8">

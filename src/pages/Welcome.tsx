@@ -20,7 +20,7 @@ function Welcome() {
       {/* Conditionally Render InfoPage or ActivityPageLayout */}
       {!started ? (
         <InfoPage
-          header={'Think before you click!'}
+          header={'Think Before You Click!'}
           text={'a design thinking workshop on phishing awareness'}
           headerColor="text-ideate"
         />

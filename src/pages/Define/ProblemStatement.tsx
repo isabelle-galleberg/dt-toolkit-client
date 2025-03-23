@@ -84,7 +84,7 @@ const ProblemStatement = () => {
     return (
       <div
         key={sectionId}
-        className="flex items-center pl-3 p-1 border-2 border-define rounded-3xl bg-base-100 text-[12px] tracking-widest font-extralight"
+        className="flex items-center pl-3 p-1 border-2 border-define rounded-3xl bg-base-100 text-[14px] tracking-widest font-extralight"
       >
         <p className="w-full">{questions[sectionId - 1]}</p>
         <input
@@ -105,7 +105,7 @@ const ProblemStatement = () => {
       phase="Define"
       phaseColor="text-define"
       activity={
-        <div className="space-y-4 w-full">
+        <div className="space-y-4 w-full text-primary">
           <Box
             header="Problem statement"
             fillHeight={false}

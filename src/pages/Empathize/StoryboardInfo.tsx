@@ -35,7 +35,7 @@ function StoryboardInfo() {
   return (
     <>
       <ActivityPageLayout
-        header="Ohh no ..!"
+        header="Ohh no ..! 😱"
         text={
           <>
             {loading ? (

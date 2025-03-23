@@ -34,8 +34,8 @@ const LoginForm = () => {
         header="Login to Your Account"
         text={
           <>
-            Welcome back! We're excited to see you again. Please login to
-            continue your journey in Design Thinking.
+            Welcome! We're so excited to have you here! Please login to begin
+            your journey in Design Thinking.
           </>
         }
         activity={

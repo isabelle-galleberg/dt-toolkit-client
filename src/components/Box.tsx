@@ -26,11 +26,11 @@ function Box({
               <span className="text-sm text-primary">{icon}</span>
             </div>
           )}
-          <p className="text-left text-[15px] tracking-widest">{header}</p>
+          <p className="text-left text-[16px] tracking-widest">{header}</p>
         </div>
         {onExit && (
           <button
-            className="ml-2 text-base-100 text-[15px] hover:text-red-600 text-xs flex mb-6"
+            className="ml-2 text-base-100 text-[16px] hover:text-red-600 text-xs flex mb-6"
             onClick={onExit}
           >
             ✕

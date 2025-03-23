@@ -273,7 +273,7 @@ function SpotScam() {
                         />
                       ))
                     ) : (
-                      <p>
+                      <p className="text-gray-500 text-[14px]">
                         No spotted scams yet. Click on the email to start adding
                         pins.
                       </p>
@@ -338,8 +338,8 @@ function SpotScam() {
               </button>
 
               <div className="text-center w-full">
-                <h3 className="font-semibold text-[15px]">
-                  Hint {currentHintIndex + 1} of {scamHints.length}
+                <h3 className="font-semibold text-[16px]">
+                  💡 Hint {currentHintIndex + 1} of {scamHints.length}
                 </h3>
                 <p className="px-8">{scamHints[currentHintIndex].text}</p>
               </div>

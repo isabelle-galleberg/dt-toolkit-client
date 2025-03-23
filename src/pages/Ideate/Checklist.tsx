@@ -137,7 +137,7 @@ const Checklist = () => {
             <p className="text-left text-primary w-full">
               ENTER QUESTIONS TO HELP SPOT PHISHING IN EMAILS
             </p>
-            <div className="flex flex-row w-full space-x-4">
+            <div className="flex flex-row w-full space-x-4 text-[14px]">
               <input
                 type="text"
                 value={newItemText}
@@ -148,11 +148,11 @@ const Checklist = () => {
                   }
                 }}
                 placeholder="Type here ..."
-                className="w-full p-3 rounded-[12px] bg-white placeholder-gray-500 text-base-100"
+                className="w-full p-3 rounded-[8px] bg-white placeholder-gray-500 text-base-100"
               />
               <button
                 onClick={handleAddItem}
-                className="btn btn-primary py-3 px-6 rounded-[12px] transition duration-300 ease-in-out transform hover:scale-105"
+                className="btn btn-primary py-3 px-6 transition duration-300 ease-in-out transform hover:scale-105"
               >
                 Add
               </button>
@@ -161,7 +161,7 @@ const Checklist = () => {
           <div className="flex flex-row space-x-6">
             <div className="space-y-2 w-1/2">
               <p className="font-bold text-primary">SCAM SPOTTER CHECKLIST</p>
-              <ul className="bg-primary p-4 rounded-[20px] min-h-64 h-full">
+              <ul className="bg-primary p-4 rounded-[20px] min-h-64 h-full text-[14px]">
                 <div className="text-black flex flex-row space-x-4 items-center ">
                   <input type="checkbox" className="form-checkbox h-5 w-5" />
                   <div>Does the email ask for personal information?</div>
@@ -200,7 +200,7 @@ const Checklist = () => {
                 {feedback.length > 0 && (
                   <div className="mb-4">
                     <p className="font-bold text-primary">RECEIVED FEEDBACK</p>
-                    <div className="w-full bg-test px-4 py-2 rounded-[12px] text-prototype">
+                    <div className="w-full bg-test px-4 py-2 rounded-[12px] text-prototype text-[14px] mt-2">
                       <ul className="space-y-1">
                         {feedback.map((item, index) => (
                           <li key={index} className="text-left">
@@ -212,7 +212,7 @@ const Checklist = () => {
                   </div>
                 )}
                 <p className="font-bold text-primary">GENERATED FEEDBACK</p>
-                <div>
+                <div className="text-[14px]">
                   {checklist.length < 2 && (
                     <div className="text-gray-500 mt-6">
                       Add more items to the checklist to receive feedback.
@@ -263,7 +263,7 @@ const Checklist = () => {
                   {!generatedFeedback && !loading && checklist.length >= 2 && (
                     <button
                       onClick={handleGeneratedFeedback}
-                      className="mt-2 btn btn-primary py-3 px-6 rounded-[12px] transition duration-300 ease-in-out transform hover:scale-105"
+                      className="mt-2 btn btn-primary py-3 px-6 transition duration-300 ease-in-out transform hover:scale-105"
                     >
                       Generate Feedback
                     </button>
