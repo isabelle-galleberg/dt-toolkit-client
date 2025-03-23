@@ -71,7 +71,7 @@ function DesignThinkingPhases() {
         </div>
       </div>
 
-      <div className="flex flex-wrap justify-center gap-2 py-10">
+      <div className="flex flex-wrap justify-center gap-2 py-10 pb-24">
         {phases.map((phase) => (
           <div
             key={phase.id}
