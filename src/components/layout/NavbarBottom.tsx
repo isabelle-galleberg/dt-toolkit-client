@@ -79,21 +79,22 @@ function Navbar() {
     updatePage(prevPage);
   };
 
-  const getButtonClass = (path: string, buttonType: string) => {
-    const baseClasses = 'btn btn-outline w-36';
+  const getTextClass = (path: string, type: string) => {
+    const baseClasses =
+      'w-36 h-12 flex items-center justify-center text-center text-[14px] px-4 p-2 rounded-[8px] border border-empathize font-bold cursor-default';
     const isActive = location.pathname.startsWith(path);
 
-    switch (buttonType) {
+    switch (type) {
       case 'empathize':
-        return `${baseClasses} ${isActive ? 'bg-empathize text-define' : 'text-empathize'} hover:text-empathize hover:bg-base-100 hover:border-empathize`;
+        return `border-empathize ${baseClasses} ${isActive ? 'bg-empathize text-define' : 'text-empathize'}`;
       case 'define':
-        return `${baseClasses} ${isActive ? 'bg-define text-empathize' : 'text-define'} hover:text-define hover:bg-base-100 hover:border-define`;
+        return `border-define ${baseClasses} ${isActive ? 'bg-define text-empathize' : 'text-define'}`;
       case 'ideate':
-        return `${baseClasses} ${isActive ? 'bg-ideate text-primary' : 'text-ideate'} hover:text-ideate hover:bg-base-100 hover:border-ideate `;
+        return `border-ideate ${baseClasses} ${isActive ? 'bg-ideate text-primary' : 'text-ideate'}`;
       case 'prototype':
-        return `${baseClasses} ${isActive ? 'bg-prototype text-test' : 'text-prototype'} hover:text-prototype hover:bg-base-100 hover:border-prototype `;
+        return `border-prototype ${baseClasses} ${isActive ? 'bg-prototype text-test' : 'text-prototype'}`;
       case 'test':
-        return `${baseClasses} ${isActive ? 'bg-test text-prototype' : 'text-test'} hover:text-test hover:bg-base-100 hover:border-test `;
+        return `border-test ${baseClasses} ${isActive ? 'bg-test text-prototype' : 'text-test'}`;
       default:
         return baseClasses;
     }
@@ -113,29 +114,15 @@ function Navbar() {
         )}
       </div>
       <div className="hidden lg:flex flex-1 justify-center space-x-4">
-        <button
-          className={`${getButtonClass('/empathize', 'empathize')} cursor-auto`}
-        >
+        <span className={getTextClass('/empathize', 'empathize')}>
           EMPATHIZE
-        </button>
-        <button
-          className={`${getButtonClass('/define', 'define')} cursor-auto`}
-        >
-          DEFINE
-        </button>
-        <button
-          className={`${getButtonClass('/ideate', 'ideate')} cursor-auto`}
-        >
-          IDEATE
-        </button>
-        <button
-          className={`${getButtonClass('/prototype', 'prototype')} cursor-auto`}
-        >
+        </span>
+        <span className={getTextClass('/define', 'define')}>DEFINE</span>
+        <span className={getTextClass('/ideate', 'ideate')}>IDEATE</span>
+        <span className={getTextClass('/prototype', 'prototype')}>
           PROTOTYPE
-        </button>
-        <button className={`${getButtonClass('/test', 'test')} cursor-auto`}>
-          TEST
-        </button>
+        </span>
+        <span className={getTextClass('/test', 'test')}>TEST</span>
       </div>
 
       <div className="navbar-end">
