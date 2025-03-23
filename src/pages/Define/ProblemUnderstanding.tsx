@@ -7,6 +7,7 @@ import {
   getProblemUnderstanding,
 } from '../../services/problemUnderstandingService';
 import { usePersonaStore } from '../../store/personaStore';
+import LoadingSpinner from '../../components/LoadingSpinner';
 
 interface Section {
   id: number;
@@ -22,6 +23,7 @@ const SECTIONS: Section[] = [
 function ProblemUnderstanding() {
   const { persona } = usePersonaStore();
   const cardId = persona?._id || '';
+  const [loading, setLoading] = useState<boolean>(true);
   const { markTaskComplete, markTaskUndone, isTaskComplete } =
     useTaskProgress();
   const [answers, setAnswers] = useState<{ [key: number]: string[] } | null>(
@@ -54,7 +56,7 @@ function ProblemUnderstanding() {
   useEffect(() => {
     const fetchData = async () => {
       if (!cardId) return;
-
+      setLoading(true);
       try {
         const data = await getProblemUnderstanding(cardId);
         if (data) {
@@ -71,6 +73,7 @@ function ProblemUnderstanding() {
             )
           );
         }
+        setLoading(false);
       } catch (error) {
         console.error('Failed to fetch problem understanding:', error);
       }
@@ -146,6 +149,10 @@ function ProblemUnderstanding() {
       };
     });
   };
+
+  if (loading) {
+    return <LoadingSpinner />;
+  }
 
   return (
     <ActivityPageLayout

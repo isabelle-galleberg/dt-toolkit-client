@@ -8,6 +8,7 @@ import {
   getProblemStatement,
   upsertProblemStatement,
 } from '../../services/problemStatementService';
+import LoadingSpinner from '../../components/LoadingSpinner';
 
 const questions = [
   'Who got scammed?',
@@ -22,6 +23,7 @@ const ProblemStatement = () => {
   const { markTaskComplete, markTaskUndone, isTaskComplete } =
     useTaskProgress();
   const cardId = persona?._id || '';
+  const [loading, setLoading] = useState<boolean>(true);
 
   const initialState: ProblemStatementInfo = {
     cardId,
@@ -37,11 +39,13 @@ const ProblemStatement = () => {
 
   const fetchProblemStatement = useCallback(async () => {
     if (!cardId) return;
+    setLoading(true);
     try {
       const fetchedProblemStatement = await getProblemStatement(cardId);
       if (fetchedProblemStatement) {
         setProblemStatementInfo(fetchedProblemStatement);
       }
+      setLoading(false);
     } catch (error) {
       console.error('Error fetching problem statement:', error);
     }
@@ -98,6 +102,10 @@ const ProblemStatement = () => {
       </div>
     );
   };
+
+  if (loading) {
+    return <LoadingSpinner />;
+  }
 
   return (
     <ActivityPageLayout
