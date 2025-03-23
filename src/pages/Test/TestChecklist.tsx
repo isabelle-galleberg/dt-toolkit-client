@@ -292,8 +292,6 @@ const getRandomEmails = (numEmails = 6) => {
   ].sort(() => Math.random() - 0.5);
 };
 
-// const emails: Email[] = getRandomEmails();
-
 function TestChecklist() {
   const { persona } = usePersonaStore();
   const cardId = persona?._id || '';
@@ -402,7 +400,6 @@ function TestChecklist() {
     setEmails(getRandomEmails());
     setScore(0);
     setStep(1);
-    setFeedback([]);
     setTestCompleted(false);
 
     try {
@@ -506,7 +503,6 @@ function TestChecklist() {
                 {feedback.length > 0 ? (
                   <div className="min-w-80 bg-test px-4 py-2 rounded-[12px] text-prototype text-[14px] mt-2">
                     <ul className="space-y-1 pe-2">
-                      {/* TODO: make sure feedback loads */}
                       {feedback.map((item, index) => (
                         <li key={index} className="text-left">
                           {item}
@@ -587,9 +583,19 @@ function TestChecklist() {
                   placeholder="• Add feedback here..."
                   className="mt-1 p-2 w-full text-[14px] rounded-md border border-primary text-primary bg-base-100"
                   rows={4}
+                  ref={(el) => {
+                    if (el) {
+                      el.style.height = 'auto';
+                      el.style.height = el.scrollHeight + 'px';
+                    }
+                  }}
+                  onInput={(e) => {
+                    const target = e.target as HTMLTextAreaElement;
+                    target.style.height = 'auto';
+                    target.style.height = target.scrollHeight + 'px';
+                  }}
                 />
               </div>
-
               <div className="mt-1 flex justify-end" ref={scrollRef}>
                 {/* TODO: remove bottom to navbar */}
                 <button
