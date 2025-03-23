@@ -160,7 +160,7 @@ export default function PhishingAwareness() {
         <div
           key={index}
           ref={(el) => (sectionRefs.current[index] = el)}
-          className={`min-h-screen flex flex-col justify-center items-center px-6 text-base-100 ${
+          className={`min-h-screen flex flex-col justify-center items-center px-6 text-base-100 bg-primary ${
             section.bgColor ? section.bgColor : 'bg-pattern-primary'
           }`}
         >
