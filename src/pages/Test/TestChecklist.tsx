@@ -3,7 +3,12 @@ import ActivityPageLayout from '../../components/layout/ActivityPageLayout';
 import EmailComponent from '../../components/Email';
 import { useNavigate } from 'react-router-dom';
 import { usePersonaStore } from '../../store/personaStore';
-import { getFeedback, upsertFeedback } from '../../services/feedbackService';
+import {
+  getFeedback,
+  resetTest,
+  updateTestResults,
+  upsertFeedback,
+} from '../../services/feedbackService';
 import { useTaskProgress } from '../../context/TaskProgressContext';
 
 interface Email {
@@ -274,19 +279,20 @@ const legitEmails: Email[] = [
   },
 ];
 
-const selectBalancedEmails = (numEmails = 6) => {
-  numEmails = numEmails % 2 === 0 ? numEmails : numEmails + 1;
-  const shuffledScam = [...scamEmails].sort(() => 0.5 - Math.random());
-  const shuffledLegit = [...legitEmails].sort(() => 0.5 - Math.random());
-  const numScam = numEmails / 2;
-  const numLegit = numEmails / 2;
+const getRandomEmails = (numEmails = 6) => {
+  const numScam = Math.floor(numEmails / 2);
+  const numLegit = numEmails - numScam;
+
+  const selectRandom = (arr: Email[], count: number) =>
+    arr.sort(() => Math.random() - 0.5).slice(0, count);
+
   return [
-    ...shuffledScam.slice(0, numScam),
-    ...shuffledLegit.slice(0, numLegit),
-  ].sort(() => 0.5 - Math.random());
+    ...selectRandom(scamEmails, numScam),
+    ...selectRandom(legitEmails, numLegit),
+  ].sort(() => Math.random() - 0.5);
 };
 
-const emails: Email[] = selectBalancedEmails();
+const emails: Email[] = getRandomEmails();
 
 function TestChecklist() {
   const { persona } = usePersonaStore();
@@ -298,13 +304,14 @@ function TestChecklist() {
   const [finalDecision, setFinalDecision] = useState<'Scam' | 'Legit' | null>(
     null
   );
-  const [score, setScore] = useState(0);
+  const [score, setScore] = useState<number>(0);
+  const [testCompleted, setTestCompleted] = useState<boolean>(false);
   const [step, setStep] = useState(1);
   const [feedback, setFeedback] = useState<string[]>([]);
   const { markTaskComplete, markTaskUndone, isTaskComplete } =
     useTaskProgress();
   const progress = step > 0 ? ((step / emails.length) * 100).toFixed(1) : '0.0';
-  const isAllEmailsDone = step === emails.length + 1;
+  const isAllEmailsDone = step === emails.length + 1 || testCompleted;
   const isCorrect = selectedEmail
     ? finalDecision === selectedEmail.correctAnswer
     : null;
@@ -336,16 +343,25 @@ function TestChecklist() {
   }, [isAllEmailsDone]);
 
   useEffect(() => {
-    if (!cardId) return;
-    const fetchFeedback = async () => {
+    const fetchFeedbackData = async () => {
+      if (!cardId) return;
+
       try {
-        const data = await getFeedback(cardId);
-        setFeedback(data.feedback);
+        const feedbackData = await getFeedback(cardId);
+
+        // Set state with fetched values
+        setScore(feedbackData.score || 0);
+        setTestCompleted(feedbackData.testCompleted || false);
+
+        if (feedbackData.feedback) {
+          setFeedback(feedbackData.feedback);
+        }
       } catch (error) {
-        console.error('Failed to fetch feedback:', error);
+        console.error('Error fetching feedback:', error);
       }
     };
-    fetchFeedback();
+
+    fetchFeedbackData();
   }, [cardId]);
 
   useEffect(() => {
@@ -389,12 +405,18 @@ function TestChecklist() {
     scrollToBottom();
   };
 
-  const handleRestartTest = () => {
+  const handleRestartTest = async () => {
     setRemainingEmails([...emails]);
     setScore(0);
     setStep(1);
     setFeedback([]);
-    handleSelectEmail();
+    setTestCompleted(false);
+
+    try {
+      await resetTest(cardId);
+    } catch (error) {
+      console.error('Failed to reset test results:', error);
+    }
   };
 
   const handleFeedbackChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -416,6 +438,22 @@ function TestChecklist() {
   useEffect(() => {
     handleSelectEmail();
   }, []);
+
+  const handleTestCompletion = async () => {
+    if (!cardId) return;
+
+    try {
+      await updateTestResults(cardId, score, true);
+    } catch (error) {
+      console.error('Failed to update test results:', error);
+    }
+  };
+
+  useEffect(() => {
+    if (isAllEmailsDone) {
+      handleTestCompletion();
+    }
+  }, [isAllEmailsDone]);
 
   return (
     <ActivityPageLayout
@@ -475,6 +513,7 @@ function TestChecklist() {
                 {feedback.length > 0 ? (
                   <div className="min-w-80 bg-test px-4 py-2 rounded-[12px] text-prototype text-[14px] mt-2">
                     <ul className="space-y-1 pe-2">
+                      {/* TODO: make sure feedback loads */}
                       {feedback.map((item, index) => (
                         <li key={index} className="text-left">
                           {item}
