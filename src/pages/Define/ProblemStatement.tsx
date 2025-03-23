@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import ActivityPageLayout from '../../components/layout/ActivityPageLayout';
 import Box from '../../components/Box';
 import { useTaskProgress } from '../../context/TaskProgressContext';
@@ -36,6 +36,20 @@ const ProblemStatement = () => {
 
   const [problemStatementInfo, setProblemStatementInfo] =
     useState(initialState);
+  const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
+
+  const handleKeyDown = (
+    event: React.KeyboardEvent<HTMLInputElement>,
+    sectionId: number
+  ) => {
+    if (event.key === 'Enter') {
+      event.preventDefault();
+      const nextInput = inputRefs.current[sectionId];
+      if (nextInput) {
+        nextInput.focus();
+      }
+    }
+  };
 
   const fetchProblemStatement = useCallback(async () => {
     if (!cardId) return;
@@ -92,10 +106,12 @@ const ProblemStatement = () => {
       >
         <p className="w-full">{questions[sectionId - 1]}</p>
         <input
+          ref={(el) => (inputRefs.current[sectionId - 1] = el)}
           type="text"
           maxLength={50}
           value={problemStatementInfo[key] || ''}
           onChange={(e) => handleInputChange(sectionId, e.target.value)}
+          onKeyDown={(e) => handleKeyDown(e, sectionId)}
           placeholder="Type here ..."
           className="w-full p-1 pl-2 bg-define rounded-[20px] text-empathize focus:outline-none resize-none placeholder-empathize placeholder-opacity-70"
         />
