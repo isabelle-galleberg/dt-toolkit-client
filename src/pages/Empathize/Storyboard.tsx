@@ -156,11 +156,12 @@ function Storyboard() {
                                     >
                                       {emoji}
                                     </span>
-                                    <span
+                                    {/* Add this code if we want to show emoji labels */}
+                                    {/* <span
                                       className={`text-xs mt-1 ${selectedEmoji === emoji ? 'font-bold' : ''}`}
                                     >
                                       {label}
-                                    </span>
+                                    </span> */}
                                   </div>
                                 )
                               )}

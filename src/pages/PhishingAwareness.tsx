@@ -88,9 +88,9 @@ const sections = [
     color: 'text-ideate',
     content: (
       <>
-        Some phishing scams create fake websites that look exactly like real
-        ones. They trick you into entering your login details, which go straight
-        to the scammer.
+        Some phishing scams create fake websites that look like real ones. They
+        trick you into entering your login details, which go straight to the
+        scammer.
       </>
     ),
     image: fakeMessage,
@@ -115,9 +115,9 @@ const sections = [
     content: (
       <>
         Now that you know more about this, take <strong>ten minutes</strong> to
-        chat with your group! Have you ever come across a tricky message, email,
-        or website that tried to mislead you? Share your stories and get ready
-        to tell the class about them!
+        chat with your group! Have you or someone you know ever come across a
+        tricky message, email, or website that tried to mislead you? Share your
+        stories and get ready to tell the class about them!
       </>
     ),
   },
@@ -195,7 +195,7 @@ export default function PhishingAwareness() {
             <NavbarBottomBasic
               showCenterButton={true}
               centerButtonText={
-                step < sections.length ? 'CONTINUE' : 'END ACTIVITY'
+                step < sections.length ? 'CONTINUE' : 'GO TO NEXT ACTIVITY'
               }
               centerButtonOnClick={() => handleNext()}
               isTransparent={true}

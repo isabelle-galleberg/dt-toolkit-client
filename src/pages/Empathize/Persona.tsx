@@ -169,19 +169,19 @@ function Persona() {
                     </div>
                   ))}
                   {personaInfo.traits.length < 5 && (
-                    <div className="flex gap-2 bg-base-100">
+                    <div className="flex gap-2">
                       <input
                         type="text"
                         value={newTrait}
                         onChange={(e) => setNewTrait(e.target.value)}
                         onKeyDown={handleKeyDown}
-                        placeholder="Personal trait"
+                        placeholder="Add more trait ..."
                         maxLength={20}
-                        className="p-1.5 rounded-lg text-define text-[10px] font-regular border border-empathize bg-transparent"
+                        className="p-1.5 rounded-lg text-define text-[10px] font-regular border border-empathize bg-base-100"
                       />
                       <button
                         onClick={handleAddTrait}
-                        className="badge p-1.5 font-bold rounded-lg text-empathize bg-define border-empathize text-[10px] font-regular h-[27px] hover:opacity-70"
+                        className="badge p-1.5 font-bold rounded-lg text-empathize bg-define border-empathize text-[10px] font-regular h-[29px] hover:opacity-70"
                       >
                         Add
                       </button>
