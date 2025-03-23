@@ -299,15 +299,12 @@ function TestChecklist() {
     null
   );
   const [score, setScore] = useState(0);
-  const [totalAttempts, setTotalAttempts] = useState(0);
+  const [step, setStep] = useState(1);
   const [feedback, setFeedback] = useState<string[]>([]);
   const { markTaskComplete, markTaskUndone, isTaskComplete } =
     useTaskProgress();
-  const progress =
-    totalAttempts >= 0
-      ? ((totalAttempts / emails.length) * 100).toFixed(1)
-      : '0.0';
-  const isAllEmailsDone = totalAttempts === 6;
+  const progress = step > 0 ? ((step / emails.length) * 100).toFixed(1) : '0.0';
+  const isAllEmailsDone = step === emails.length + 1;
   const isCorrect = selectedEmail
     ? finalDecision === selectedEmail.correctAnswer
     : null;
@@ -378,7 +375,7 @@ function TestChecklist() {
   };
 
   const handleNext = () => {
-    setTotalAttempts((prev) => prev + 1);
+    setStep((prev) => prev + 1);
     handleSelectEmail();
   };
 
@@ -395,7 +392,7 @@ function TestChecklist() {
   const handleRestartTest = () => {
     setRemainingEmails([...emails]);
     setScore(0);
-    setTotalAttempts(0);
+    setStep(1);
     setFeedback([]);
     handleSelectEmail();
   };
@@ -425,7 +422,12 @@ function TestChecklist() {
       header="Does your solution work?"
       phase="Test"
       phaseColor="text-test"
-      text={<>Use the checklist to determine if the email is a scam </>}
+      text={
+        <>
+          {!isAllEmailsDone &&
+            'Use the checklist to determine if the email is a scam'}
+        </>
+      }
       activity={
         <div className="text-primary">
           <div className="gap-6">
@@ -441,9 +443,37 @@ function TestChecklist() {
 
             {isAllEmailsDone ? (
               <div>
-                <p className="font-bold text-primary px-4">FEEDBACK</p>
+                {/* Score Tracking */}
+                <div className="text-center mt-4 mb-8">
+                  <h2 className="font-bold">🏆 YOUR SCORE</h2>
+                  <p className="text-[12px]">
+                    Correct Answers: {score} / {emails.length}
+                  </p>
+                </div>
+
+                {/* Modify checklist button */}
+                <div className="mt-4 flex justify-center">
+                  <button
+                    onClick={() => navigate('/ideate/checklist')}
+                    className="btn w-full text-[14px] px-4 py-2 rounded-md bg-primary text-base-100 border border-primary hover:bg-ideate  hover:text-primary hover:border-primary transition"
+                  >
+                    Modify Checklist
+                  </button>
+                </div>
+
+                {/* Restart test button */}
+                <div className="mt-2 flex justify-center">
+                  <button
+                    onClick={handleRestartTest}
+                    className="btn w-full text-[14px] px-4 py-2 rounded-md bg-base-100 text-primary border border-primary hover:bg-base-100 hover:text-test hover:border-test transition"
+                  >
+                    Restart Test
+                  </button>
+                </div>
+
+                <p className="font-bold text-primary px-4 mt-4">FEEDBACK</p>
                 {feedback.length > 0 ? (
-                  <div className="min-w-80 bg-test px-4 py-2 rounded-[12px] text-prototype text-[14px]">
+                  <div className="min-w-80 bg-test px-4 py-2 rounded-[12px] text-prototype text-[14px] mt-2">
                     <ul className="space-y-1 pe-2">
                       {feedback.map((item, index) => (
                         <li key={index} className="text-left">
@@ -457,34 +487,6 @@ function TestChecklist() {
                     No feedback provided.
                   </p>
                 )}
-
-                {/* Modify checklist button */}
-                <div className="mt-4 flex justify-center">
-                  <button
-                    onClick={() => navigate('/ideate/checklist')}
-                    className="w-full text-[14px] px-4 py-2 rounded-md bg-primary text-base-100 border border-primary hover:bg-ideate  hover:text-primary hover:border-primary transition"
-                  >
-                    Modify Checklist
-                  </button>
-                </div>
-
-                {/* Restart test button */}
-                <div className="mt-2 flex justify-center">
-                  <button
-                    onClick={handleRestartTest}
-                    className="w-full text-[14px] px-4 py-2 rounded-md bg-base-100 text-primary border border-primary hover:bg-primary hover:text-base-100 transition"
-                  >
-                    Restart Test
-                  </button>
-                </div>
-
-                {/* Score Tracking */}
-                <div className="mt-6 text-center">
-                  <h2 className="font-bold">🏆 YOUR SCORE</h2>
-                  <p className="text-[12px]">
-                    Correct Answers: {score} / {totalAttempts}
-                  </p>
-                </div>
               </div>
             ) : (
               <div className="mt-6 text-[14px]">
@@ -544,37 +546,44 @@ function TestChecklist() {
                 <h2 className="mt-4 font-bold">💡 Explanation</h2>
                 <p>{selectedEmail?.explanation}</p>
               </div>
+              <div ref={scrollRef}>
+                <p className="mt-2 text-[14px]">Give feedback</p>
+                <textarea
+                  value={feedback.join('\n')}
+                  onChange={handleFeedbackChange}
+                  onKeyDown={handleKeyDown}
+                  placeholder="• Add feedback here..."
+                  className="mt-1 p-2 w-full text-[14px] rounded-md border border-primary text-primary bg-base-100"
+                  rows={4}
+                />
+              </div>
 
-              <p className="mt-2 text-[14px]">Give feedback</p>
-              <textarea
-                value={feedback.join('\n')}
-                onChange={handleFeedbackChange}
-                onKeyDown={handleKeyDown}
-                placeholder="• Add feedback here..."
-                className="mt-1 p-2 w-full text-[16px] rounded-md border border-primary text-primary bg-base-100"
-                rows={4}
-              />
-
-              <div className="mt-4 flex justify-end" ref={scrollRef}>
+              <div className="mt-1 flex justify-end" ref={scrollRef}>
+                {/* TODO: remove bottom to navbar */}
                 <button
                   onClick={handleNext}
-                  className="btn text-[14px] px-4 py-2 rounded-md bg-base-100 text-primary border border-primary hover:bg-primary hover:text-base-100 transition"
+                  className="btn w-24 text-[14px] px-4 py-2 rounded-md bg-base-100 text-primary border border-primary hover:bg-primary hover:text-base-100 transition"
                 >
-                  Test on another email
+                  Next
                 </button>
               </div>
             </div>
           )}
+
           {/* Progress */}
-          <div className="w-full bg-base-100 border border-primary rounded-full h-1.9 mt-8">
-            <div
-              className="bg-primary  border border-primary rounded-full  h-2 "
-              style={{ width: `${progress}%` }}
-            ></div>
-          </div>
-          <p className="text-center text-[12px] mt-2">
-            Progress: {totalAttempts} / {emails.length} ({progress}%)
-          </p>
+          {!isAllEmailsDone && (
+            <div className="fixed bottom-20 left-0 w-full z-5 space-y-1">
+              <p className="text-[12px] text-center font-semibold text-ideate">
+                Progress: {step} / {emails.length}
+              </p>
+              <div className="bg-base-100 h-2">
+                <div
+                  className="h-2 bg-ideate transition-all duration-300"
+                  style={{ width: `${progress}%` }}
+                ></div>
+              </div>
+            </div>
+          )}
         </div>
       }
     />
