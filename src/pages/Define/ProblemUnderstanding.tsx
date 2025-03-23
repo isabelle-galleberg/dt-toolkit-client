@@ -166,6 +166,11 @@ function ProblemUnderstanding() {
       header={`Why did ${persona?.alias} fall for the scam?`}
       phase="Define"
       phaseColor="text-define"
+      text={
+        <>
+          Add as many incidents, causes, and consequences as you can think of!
+        </>
+      }
       activity={
         <div className="flex justify-center items-start mt-8 space-x-4 w-full">
           {answers &&
