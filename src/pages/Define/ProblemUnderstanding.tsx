@@ -104,29 +104,36 @@ function ProblemUnderstanding() {
     setInputValues((prev) => ({ ...prev, [sectionId]: value }));
   };
 
+  const addAnswer = (sectionId: number) => {
+    if (!inputValues[sectionId]?.trim()) return;
+
+    setAnswers((prev) => {
+      if (!prev) return prev;
+
+      const sectionAnswers = prev[sectionId] || [];
+      let updatedAnswers;
+
+      if (editingIndex[sectionId] !== null) {
+        updatedAnswers = [...sectionAnswers];
+        updatedAnswers[editingIndex[sectionId]!] = inputValues[sectionId];
+      } else {
+        updatedAnswers = [...sectionAnswers, inputValues[sectionId]];
+      }
+
+      return { ...prev, [sectionId]: updatedAnswers };
+    });
+
+    setInputValues((prev) => ({ ...prev, [sectionId]: '' }));
+    setEditingIndex((prev) => ({ ...prev, [sectionId]: null }));
+  };
+
   const handleKeyDown = (
     e: React.KeyboardEvent<HTMLInputElement>,
     sectionId: number
   ) => {
-    if (e.key === 'Enter' && inputValues[sectionId]?.trim()) {
-      setAnswers((prev) => {
-        if (!prev) return prev;
-
-        const sectionAnswers = prev[sectionId] || [];
-        let updatedAnswers;
-
-        if (editingIndex[sectionId] !== null) {
-          updatedAnswers = [...sectionAnswers];
-          updatedAnswers[editingIndex[sectionId]!] = inputValues[sectionId];
-        } else {
-          updatedAnswers = [...sectionAnswers, inputValues[sectionId]];
-        }
-
-        return { ...prev, [sectionId]: updatedAnswers };
-      });
-
-      setInputValues((prev) => ({ ...prev, [sectionId]: '' }));
-      setEditingIndex((prev) => ({ ...prev, [sectionId]: null }));
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      addAnswer(sectionId);
     }
   };
 
@@ -170,16 +177,25 @@ function ProblemUnderstanding() {
                   content={
                     <div className="p-4 flex flex-col text-[12px] tracking-widest space-y-2">
                       {/* Input field */}
-                      <input
-                        type="text"
-                        value={inputValues[section.id] || ''}
-                        onChange={(e) =>
-                          handleInputChange(section.id, e.target.value)
-                        }
-                        onKeyDown={(e) => handleKeyDown(e, section.id)}
-                        placeholder="Type here ..."
-                        className="w-full p-2 border-2 border-define rounded-[20px] bg-transparent text-primary focus:outline-none resize-none"
-                      />
+                      <div className="relative flex items-center border-2 border-define rounded-[20px] bg-transparent">
+                        <input
+                          type="text"
+                          value={inputValues[section.id] || ''}
+                          onChange={(e) =>
+                            handleInputChange(section.id, e.target.value)
+                          }
+                          onKeyDown={(e) => handleKeyDown(e, section.id)}
+                          placeholder="Type here ..."
+                          className="w-full p-2 pr-[55px] bg-transparent text-primary focus:outline-none resize-none"
+                        />
+                        <button
+                          onClick={() => addAnswer(section.id)}
+                          disabled={!inputValues[section.id].trim()}
+                          className="absolute right-2 px-2 py-1 text-[10px] text-empathize bg-define rounded-full disabled:text-base-100 disabled:bg-[color-mix(in_oklch,#e5e7eb_35%,transparent)]"
+                        >
+                          Add
+                        </button>
+                      </div>
 
                       {/* Answers list */}
                       <div className="overflow-auto mt-2 space-y-2">
