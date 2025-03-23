@@ -4,6 +4,7 @@ import { useTaskProgress } from '../../context/TaskProgressContext';
 import { usePersonaStore } from '../../store/personaStore';
 import { Story } from '../../types/story';
 import { getStory } from '../../services/storyService';
+import LoadingSpinner from '../../components/LoadingSpinner';
 
 function StoryboardInfo() {
   const { markTaskComplete, isTaskComplete } = useTaskProgress();
@@ -18,39 +19,37 @@ function StoryboardInfo() {
   }, [isTaskComplete, markTaskComplete]);
 
   const fetchStory = async () => {
+    setLoading(true);
     try {
       const story = await getStory(persona?._id || '');
       setStory(story);
+      setLoading(false);
     } catch (error) {
       console.error('Error fetching story:', error);
     }
   };
 
   useEffect(() => {
-    setLoading(true);
     fetchStory();
-    setLoading(false);
   }, [persona]);
+
+  if (loading) {
+    return <LoadingSpinner />;
+  }
 
   return (
     <>
       <ActivityPageLayout
         header="Ohh no ..! 😱"
         text={
-          <>
-            {loading ? (
-              <span className="loading loading-dots loading-sm"></span>
-            ) : (
-              <div>
-                {story?.introduction[0]}
-                <br />
-                {story?.introduction[1]}
-                <br />
-                <br />
-                🔍 What went wrong? Let's figure it out!
-              </div>
-            )}
-          </>
+          <div>
+            {story?.introduction[0]}
+            <br />
+            {story?.introduction[1]}
+            <br />
+            <br />
+            🔍 What went wrong? Let's figure it out!
+          </div>
         }
         centerContent={true}
       ></ActivityPageLayout>
