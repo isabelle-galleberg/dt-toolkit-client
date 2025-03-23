@@ -90,7 +90,7 @@ function Navbar() {
 
   const getTextClass = (path: string, type: string) => {
     const baseClasses =
-      'w-36 h-12 flex items-center justify-center text-center text-[14px] px-4 p-2 rounded-[8px] border border-empathize font-bold cursor-default';
+      'w-36 h-12 flex items-center justify-center text-center text-[14px] px-4 p-2 rounded-[8px] border font-bold cursor-default';
     const isActive = location.pathname.startsWith(path);
 
     switch (type) {
