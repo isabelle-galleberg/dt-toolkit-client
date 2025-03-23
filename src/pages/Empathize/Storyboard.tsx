@@ -139,7 +139,7 @@ function Storyboard() {
                             <p>Pick an icon that fits their feelings!</p>
                             <div className="flex space-x-2 text-lg justify-center">
                               {Object.entries(labelToEmojiMap).map(
-                                ([label, emoji]) => (
+                                ([, emoji]) => (
                                   <div
                                     key={emoji}
                                     className="flex flex-col items-center"
