@@ -292,29 +292,30 @@ const getRandomEmails = (numEmails = 6) => {
   ].sort(() => Math.random() - 0.5);
 };
 
-const emails: Email[] = getRandomEmails();
+// const emails: Email[] = getRandomEmails();
 
 function TestChecklist() {
   const { persona } = usePersonaStore();
   const cardId = persona?._id || '';
   const navigate = useNavigate();
+  const { markTaskComplete, markTaskUndone, isTaskComplete } =
+    useTaskProgress();
   const scrollRef = useRef<HTMLDivElement | null>(null);
-  const [remainingEmails, setRemainingEmails] = useState<Email[]>(emails);
-  const [selectedEmail, setSelectedEmail] = useState<Email | null>(null);
+  const [feedback, setFeedback] = useState<string[]>([]);
+  const [score, setScore] = useState<number>(0);
+  const [emails, setEmails] = useState<Email[]>(getRandomEmails());
+  const numEmails = emails.length;
+  const [step, setStep] = useState(1);
+  const currentEmail = emails[step - 1];
   const [finalDecision, setFinalDecision] = useState<'Scam' | 'Legit' | null>(
     null
   );
-  const [score, setScore] = useState<number>(0);
-  const [testCompleted, setTestCompleted] = useState<boolean>(false);
-  const [step, setStep] = useState(1);
-  const [feedback, setFeedback] = useState<string[]>([]);
-  const { markTaskComplete, markTaskUndone, isTaskComplete } =
-    useTaskProgress();
-  const progress = step > 0 ? ((step / emails.length) * 100).toFixed(1) : '0.0';
-  const isAllEmailsDone = step === emails.length + 1 || testCompleted;
-  const isCorrect = selectedEmail
-    ? finalDecision === selectedEmail.correctAnswer
+  const isCorrect = currentEmail
+    ? finalDecision === currentEmail.correctAnswer
     : null;
+  const [testCompleted, setTestCompleted] = useState<boolean>(false);
+  const isAllEmailsDone = step === numEmails + 1 || testCompleted;
+  const progress = step > 0 ? ((step / numEmails) * 100).toFixed(1) : '0.0';
 
   const scrollToBottom = () => {
     setTimeout(() => {
@@ -349,7 +350,6 @@ function TestChecklist() {
       try {
         const feedbackData = await getFeedback(cardId);
 
-        // Set state with fetched values
         setScore(feedbackData.score || 0);
         setTestCompleted(feedbackData.testCompleted || false);
 
@@ -380,14 +380,7 @@ function TestChecklist() {
     setFinalDecision(null);
     setFeedback((prev) => prev.filter((item) => item.trim() !== '•'));
 
-    if (remainingEmails.length === 0) return;
-
-    const newEmails = [...remainingEmails];
-    const randomIndex = Math.floor(Math.random() * newEmails.length);
-    const nextEmail = newEmails.splice(randomIndex, 1)[0];
-
-    setSelectedEmail(nextEmail || null);
-    setRemainingEmails(newEmails);
+    if (step === numEmails) return;
   };
 
   const handleNext = () => {
@@ -398,7 +391,7 @@ function TestChecklist() {
   const handleFinalDecision = (decision: 'Scam' | 'Legit') => {
     setFinalDecision(decision);
 
-    if (selectedEmail && decision === selectedEmail.correctAnswer) {
+    if (currentEmail && decision === currentEmail.correctAnswer) {
       setScore((prev) => prev + 1);
     }
 
@@ -406,7 +399,7 @@ function TestChecklist() {
   };
 
   const handleRestartTest = async () => {
-    setRemainingEmails([...emails]);
+    setEmails(getRandomEmails());
     setScore(0);
     setStep(1);
     setFeedback([]);
@@ -469,13 +462,13 @@ function TestChecklist() {
       activity={
         <div className="text-primary">
           <div className="gap-6">
-            {selectedEmail && !isAllEmailsDone && (
+            {currentEmail && !isAllEmailsDone && (
               <EmailComponent
-                sender={selectedEmail.sender}
-                subject={selectedEmail.subject}
-                text={selectedEmail.content}
-                buttonText={selectedEmail.buttonText}
-                buttonLink={selectedEmail.buttonLink}
+                sender={currentEmail.sender}
+                subject={currentEmail.subject}
+                text={currentEmail.content}
+                buttonText={currentEmail.buttonText}
+                buttonLink={currentEmail.buttonLink}
               />
             )}
 
@@ -485,7 +478,7 @@ function TestChecklist() {
                 <div className="text-center mt-4 mb-8">
                   <h2 className="font-bold">🏆 YOUR SCORE</h2>
                   <p className="text-[12px]">
-                    Correct Answers: {score} / {emails.length}
+                    Correct Answers: {score} / {numEmails}
                   </p>
                 </div>
 
@@ -568,14 +561,14 @@ function TestChecklist() {
                 <p className="text-[16px]">
                   {isCorrect
                     ? 'Correct! You analyzed this email correctly!'
-                    : `Incorrect! This email was actually ${selectedEmail?.correctAnswer.toLowerCase()}. Review the checklist.`}
+                    : `Incorrect! This email was actually ${currentEmail?.correctAnswer.toLowerCase()}. Review the checklist.`}
                 </p>
 
-                {selectedEmail?.correctAnswer === 'Scam' && (
+                {currentEmail?.correctAnswer === 'Scam' && (
                   <>
                     <p className="mt-2 font-bold">🔎 Identified Scam Signs</p>
                     <ul className="text-left list-disc list-inside">
-                      {selectedEmail.scamSigns.map((sign, index) => (
+                      {currentEmail.scamSigns.map((sign, index) => (
                         <li key={index}>{sign}</li>
                       ))}
                     </ul>
@@ -583,7 +576,7 @@ function TestChecklist() {
                 )}
 
                 <h2 className="mt-4 font-bold">💡 Explanation</h2>
-                <p>{selectedEmail?.explanation}</p>
+                <p>{currentEmail?.explanation}</p>
               </div>
               <div ref={scrollRef}>
                 <p className="mt-2 text-[14px]">Give feedback</p>
@@ -613,7 +606,7 @@ function TestChecklist() {
           {!isAllEmailsDone && (
             <div className="fixed bottom-20 left-0 w-full z-5 space-y-1">
               <p className="text-[12px] text-center font-semibold text-ideate">
-                Progress: {step} / {emails.length}
+                Progress: {step} / {numEmails}
               </p>
               <div className="bg-base-100 h-2">
                 <div
