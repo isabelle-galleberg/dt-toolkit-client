@@ -147,15 +147,16 @@ function Storyboard() {
                                     <span
                                       className={`cursor-pointer transition-all rounded-full h-9 w-9 flex justify-center items-center text-center ${
                                         selectedEmoji === emoji
-                                          ? 'opacity-100'
+                                          ? 'opacity-100 bg-primary'
                                           : 'grayscale opacity-50'
-                                      }`}
+                                      }  hover:grayscale-0 hover:opacity-100`}
                                       onClick={() =>
                                         handleEmojiClick(index, emoji)
                                       }
                                     >
                                       {emoji}
                                     </span>
+
                                     {/* Add this code if we want to show emoji labels */}
                                     {/* <span
                                       className={`text-xs mt-1 ${selectedEmoji === emoji ? 'font-bold' : ''}`}
