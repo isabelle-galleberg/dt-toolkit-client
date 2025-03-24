@@ -35,3 +35,17 @@ export const deleteSpottedScam = async (id: string): Promise<void> => {
     throw error;
   }
 };
+
+export const getHint = async (
+  scamsDetected: string[]
+): Promise<{ hint: string }> => {
+  try {
+    const response = await api.post<{ hint: string }>(`${API_URL}/hint`, {
+      scamsDetected,
+    });
+    return response.data;
+  } catch (error) {
+    console.error('Error generating hint:', error);
+    throw error;
+  }
+};
