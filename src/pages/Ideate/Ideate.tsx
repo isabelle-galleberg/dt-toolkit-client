@@ -19,7 +19,7 @@ function Ideate() {
       header={'IDEATE'}
       text={`
         Now that we've defined the problem, it’s time to get creative! 🧠✨
-        Let’s make a checklist to help ${alias} spot phishing emails, so he never falls for a scam again! 📝
+        Let’s make a checklist to help ${alias} spot phishing emails, so they never fall for a scam again! 📝
         `}
       headerColor={'text-ideate'}
     />
