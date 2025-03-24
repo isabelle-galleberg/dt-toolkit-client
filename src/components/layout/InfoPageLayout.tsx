@@ -10,7 +10,7 @@ function InfoPage({
   headerColor = 'text-primary',
 }: InfoPageProps) {
   return (
-    <div className="flex items-center justify-center min-h-screen px-4">
+    <div className="flex items-center justify-center min-h-screen px-4 pb-24">
       <div className="text-center py-8 max-w-2xl w-full">
         <h1
           className={`text-4xl font-bold ${headerColor}`}

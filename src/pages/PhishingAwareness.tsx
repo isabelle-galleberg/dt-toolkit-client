@@ -1,10 +1,11 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useCallback } from 'react';
 import phishing from '../assets/phishing.png';
 import harmful from '../assets/harmful.png';
 import textMessage from '../assets/text-message.png';
 import fakeMessage from '../assets/fake-websites.png';
 import phoneCall from '../assets/phone-call-scams.png';
 import NavbarBottomBasic from '../components/layout/NavbarBottomBasic';
+import { debounce } from 'lodash';
 
 const sections = [
   {
@@ -88,9 +89,9 @@ const sections = [
     color: 'text-ideate',
     content: (
       <>
-        Some phishing scams create fake websites that look exactly like real
-        ones. They trick you into entering your login details, which go straight
-        to the scammer.
+        Some phishing scams create fake websites that look like real ones. They
+        trick you into entering your login details, which go straight to the
+        scammer.
       </>
     ),
     image: fakeMessage,
@@ -115,9 +116,9 @@ const sections = [
     content: (
       <>
         Now that you know more about this, take <strong>ten minutes</strong> to
-        chat with your group! Have you ever come across a tricky message, email,
-        or website that tried to mislead you? Share your stories and get ready
-        to tell the class about them!
+        chat with your group! Have you or someone you know ever come across a
+        tricky message, email, or website that tried to mislead you? Share your
+        stories and get ready to tell the class about them!
       </>
     ),
   },
@@ -139,6 +140,7 @@ const sections = [
 export default function PhishingAwareness() {
   const [step, setStep] = useState(1);
   const sectionRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const progressPercentage = (step / sections.length) * 100;
 
   useEffect(() => {
     if (sectionRefs.current[step - 1]) {
@@ -146,13 +148,16 @@ export default function PhishingAwareness() {
     }
   }, [step]);
 
-  const handleNext = () => {
-    if (step < sections.length) {
-      setStep(step + 1);
-    } else {
-      window.location.href = '/design-thinking';
-    }
-  };
+  const handleNext = useCallback(
+    debounce(() => {
+      if (step < sections.length) {
+        setStep((prevStep) => prevStep + 1);
+      } else {
+        window.location.href = '/design-thinking';
+      }
+    }, 300),
+    [step]
+  );
 
   return (
     <div className="relative w-full">
@@ -160,7 +165,7 @@ export default function PhishingAwareness() {
         <div
           key={index}
           ref={(el) => (sectionRefs.current[index] = el)}
-          className={`min-h-screen flex flex-col justify-center items-center px-6 text-base-100 ${
+          className={`min-h-screen flex flex-col justify-center items-center px-6 text-base-100 bg-primary ${
             section.bgColor ? section.bgColor : 'bg-pattern-primary'
           }`}
         >
@@ -169,6 +174,11 @@ export default function PhishingAwareness() {
           <div className="max-w-3xl flex flex-col md:flex-row items-center gap-6 mt-24 pb-24">
             {/* Text on the right */}
             <div className="text-center md:text-left">
+              {step != sections.length && (
+                <p className="text-[12px] mt-2 font-semibold text-ideate">
+                  {step} out of {sections.length - 1}! Keep going!
+                </p>
+              )}
               <h2 className={`text-3xl font-bold mb-4 ${section.color}`}>
                 {section.title}
               </h2>
@@ -195,7 +205,7 @@ export default function PhishingAwareness() {
             <NavbarBottomBasic
               showCenterButton={true}
               centerButtonText={
-                step < sections.length ? 'CONTINUE' : 'END ACTIVITY'
+                step < sections.length ? 'CONTINUE' : 'GO TO NEXT ACTIVITY'
               }
               centerButtonOnClick={() => handleNext()}
               isTransparent={true}
@@ -205,6 +215,14 @@ export default function PhishingAwareness() {
           )}
         </div>
       ))}
+
+      {/* Progress Bar */}
+      <div className="fixed bottom-0 left-0 w-full bg-primary h-2 z-50">
+        <div
+          className="h-2 bg-ideate transition-all duration-300"
+          style={{ width: `${progressPercentage}%` }}
+        ></div>
+      </div>
     </div>
   );
 }

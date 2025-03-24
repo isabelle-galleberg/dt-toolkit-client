@@ -4,7 +4,7 @@ import Box from '../../components/Box';
 import { usePersonaStore } from '../../store/personaStore';
 import { getStory } from '../../services/storyService';
 import { Story } from '../../types/story';
-import lockIcon from '../../assets/Vector.png';
+import { LockClosedIcon } from '@heroicons/react/24/solid';
 import { getEmotions, updateEmotions } from '../../services/emotionService';
 import { useTaskProgress } from '../../context/TaskProgressContext';
 import LoadingSpinner from '../../components/LoadingSpinner';
@@ -127,7 +127,7 @@ function Storyboard() {
                     content={
                       index > activeIndex ? (
                         <div className="flex justify-center items-center h-96">
-                          <img src={lockIcon} className="w-14" alt="locked" />
+                          <LockClosedIcon className="w-14 text-primary" />
                         </div>
                       ) : (
                         <div className="px-4 pt-4 text-primary text-sm break-words whitespace-normal relative z-10">
@@ -139,7 +139,7 @@ function Storyboard() {
                             <p>Pick an icon that fits their feelings!</p>
                             <div className="flex space-x-2 text-lg justify-center">
                               {Object.entries(labelToEmojiMap).map(
-                                ([label, emoji]) => (
+                                ([, emoji]) => (
                                   <div
                                     key={emoji}
                                     className="flex flex-col items-center"
@@ -156,11 +156,12 @@ function Storyboard() {
                                     >
                                       {emoji}
                                     </span>
-                                    <span
+                                    {/* Add this code if we want to show emoji labels */}
+                                    {/* <span
                                       className={`text-xs mt-1 ${selectedEmoji === emoji ? 'font-bold' : ''}`}
                                     >
                                       {label}
-                                    </span>
+                                    </span> */}
                                   </div>
                                 )
                               )}

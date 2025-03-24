@@ -62,6 +62,7 @@ function Navbar() {
   const [isNextDisabled, setIsNextDisabled] = useState(
     !isTaskComplete(location.pathname)
   );
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
     setIsNextDisabled(!isTaskComplete(location.pathname));
@@ -79,86 +80,123 @@ function Navbar() {
     updatePage(prevPage);
   };
 
-  const getButtonClass = (path: string, buttonType: string) => {
-    const baseClasses = 'btn btn-outline w-36';
+  const handleFinishClick = () => {
+    if (location.pathname === '/test/checklist') {
+      setIsModalOpen(true);
+    } else {
+      goToNextPage();
+    }
+  };
+
+  const getTextClass = (path: string, type: string) => {
+    const baseClasses =
+      'w-36 h-12 flex items-center justify-center text-center text-[14px] px-4 p-2 rounded-[8px] border font-bold cursor-default';
     const isActive = location.pathname.startsWith(path);
 
-    switch (buttonType) {
+    switch (type) {
       case 'empathize':
-        return `${baseClasses} ${isActive ? 'bg-empathize text-define' : 'text-empathize'} hover:text-empathize hover:bg-base-100 hover:border-empathize`;
+        return `border-empathize ${baseClasses} ${isActive ? 'bg-empathize text-define' : 'text-empathize'}`;
       case 'define':
-        return `${baseClasses} ${isActive ? 'bg-define text-empathize' : 'text-define'} hover:text-define hover:bg-base-100 hover:border-define`;
+        return `border-define ${baseClasses} ${isActive ? 'bg-define text-empathize' : 'text-define'}`;
       case 'ideate':
-        return `${baseClasses} ${isActive ? 'bg-ideate text-primary' : 'text-ideate'} hover:text-ideate hover:bg-base-100 hover:border-ideate `;
+        return `border-ideate ${baseClasses} ${isActive ? 'bg-ideate text-primary' : 'text-ideate'}`;
       case 'prototype':
-        return `${baseClasses} ${isActive ? 'bg-prototype text-test' : 'text-prototype'} hover:text-prototype hover:bg-base-100 hover:border-prototype `;
+        return `border-prototype ${baseClasses} ${isActive ? 'bg-prototype text-test' : 'text-prototype'}`;
       case 'test':
-        return `${baseClasses} ${isActive ? 'bg-test text-prototype' : 'text-test'} hover:text-test hover:bg-base-100 hover:border-test `;
+        return `border-test ${baseClasses} ${isActive ? 'bg-test text-prototype' : 'text-test'}`;
       default:
         return baseClasses;
     }
   };
 
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
   return (
-    <div className="navbar bg-base-100 fixed bottom-0 z-10 p-4 flex justify-between items-center w-full shadow-[0_-10px_30px_rgba(0,0,0,0.2)]">
-      <div className="navbar-start">
-        {/* Hide back button if on '/' page */}
-        {location.pathname !== '/' && (
-          <button
-            className="btn btn-primary btn-outline w-24"
-            onClick={goToPreviousPage}
-          >
-            Back
-          </button>
-        )}
-      </div>
-      <div className="hidden lg:flex flex-1 justify-center space-x-4">
-        <button
-          className={`${getButtonClass('/empathize', 'empathize')} cursor-auto`}
-        >
-          EMPATHIZE
-        </button>
-        <button
-          className={`${getButtonClass('/define', 'define')} cursor-auto`}
-        >
-          DEFINE
-        </button>
-        <button
-          className={`${getButtonClass('/ideate', 'ideate')} cursor-auto`}
-        >
-          IDEATE
-        </button>
-        <button
-          className={`${getButtonClass('/prototype', 'prototype')} cursor-auto`}
-        >
-          PROTOTYPE
-        </button>
-        <button className={`${getButtonClass('/test', 'test')} cursor-auto`}>
-          TEST
-        </button>
-      </div>
-
-      <div className="navbar-end">
-        <div className="relative group">
-          <button
-            className="btn btn-primary btn-outline w-24"
-            onClick={goToNextPage}
-            disabled={isNextDisabled}
-          >
-            {location.pathname === '/test/checklist' ? 'Finish' : 'Next'}
-          </button>
-
-          {isNextDisabled && (
-            <span
-              className="absolute bottom-full mb-2 bg-primary text-black text-xs px-3 py-1 rounded opacity-0
-             group-hover:opacity-100 transition-opacity whitespace-normal break-words z-50
-             right-0 left-auto max-w-[40vw] min-w-[200px] text-left block transform origin-right-bottom"
+    <div>
+      <div className="navbar bg-base-100 fixed bottom-0 z-10 p-4 flex justify-between items-center w-full shadow-[0_-10px_30px_rgba(0,0,0,0.2)]">
+        <div className="navbar-start">
+          {/* Hide back button if on '/' page */}
+          {location.pathname !== '/' && (
+            <button
+              className="btn btn-primary btn-outline w-24"
+              onClick={goToPreviousPage}
             >
-              {getNextTooltip(location.pathname)}
-            </span>
+              Back
+            </button>
           )}
         </div>
+        <div className="hidden lg:flex flex-1 justify-center space-x-4">
+          <span className={getTextClass('/empathize', 'empathize')}>
+            EMPATHIZE
+          </span>
+          <span className={getTextClass('/define', 'define')}>DEFINE</span>
+          <span className={getTextClass('/ideate', 'ideate')}>IDEATE</span>
+          <span className={getTextClass('/prototype', 'prototype')}>
+            PROTOTYPE
+          </span>
+          <span className={getTextClass('/test', 'test')}>TEST</span>
+        </div>
+
+        <div className="navbar-end">
+          <div className="relative group">
+            <button
+              className="btn btn-primary btn-outline w-24"
+              onClick={handleFinishClick}
+              disabled={isNextDisabled}
+            >
+              {location.pathname === '/test/checklist' ? 'Finish' : 'Next'}
+            </button>
+
+            {isNextDisabled && (
+              <span
+                className="absolute bottom-full mb-2 bg-primary text-black text-xs px-3 py-1 rounded opacity-0
+                 group-hover:opacity-100 transition-opacity whitespace-normal break-words z-50
+                 right-0 left-auto max-w-[40vw] min-w-[200px] text-left block transform origin-right-bottom"
+              >
+                {getNextTooltip(location.pathname)}
+              </span>
+            )}
+          </div>
+        </div>
       </div>
+
+      {isModalOpen && (
+        <div className="fixed inset-0 bg-base-100 bg-opacity-75 flex items-start justify-center z-50">
+          <div className="bg-primary p-6 rounded-lg shadow-lg flex flex-col justify-between relative py-16 mt-40">
+            <button
+              className="absolute top-2 right-3 text-base-100 text-xl hover:text-red-600"
+              onClick={closeModal}
+            >
+              &times;
+            </button>
+            <h3 className="text-xl font-semibold mb-4 text-ideate pb-4 text-roboto-slab">
+              Ready to wrap up your Scam Checklist?
+            </h3>
+            <div className="flex flex-col space-y-4 flex-grow justify-center">
+              <button
+                className="btn bg-ideate border-ideate text-primary hover:bg-base-100"
+                onClick={() => {
+                  closeModal();
+                  navigate('/ideate/checklist');
+                }}
+              >
+                Wait, I want to improve it further!
+              </button>
+              <button
+                className="btn bg-primary border-ideate text-ideate hover:bg-base-100"
+                onClick={() => {
+                  closeModal();
+                  navigate('/conclusion');
+                }}
+              >
+                Yes, I'm finished!
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

@@ -3,4 +3,6 @@ export interface Feedback {
   userId: string;
   cardId: string;
   feedback: string[];
+  score: number;
+  testCompleted: boolean;
 }

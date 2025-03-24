@@ -16,7 +16,7 @@ function ActivityPageLayout({
   centerContent = false,
 }: ActivityPageProps) {
   return (
-    <div className="relative min-h-screen flex justify-center px-4 pb-20">
+    <div className="relative min-h-screen flex justify-center px-4 pb-24">
       <div
         className={`max-w-4xl w-full py-8 ${
           centerContent

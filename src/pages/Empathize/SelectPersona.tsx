@@ -122,7 +122,7 @@ function SelectPersona() {
           </div>
           <div
             ref={cardContainerRef}
-            className="flex gap-4 overflow-x-auto scroll-smooth w-full"
+            className="flex gap-4 overflow-x-auto overflow-y-hidden scroll-smooth w-full"
           >
             {personaCards.map((card) => (
               <img

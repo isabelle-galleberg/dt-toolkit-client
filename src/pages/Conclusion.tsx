@@ -22,8 +22,6 @@ function Conclusion() {
         headerColor={'text-ideate'}
       />
       <NavbarBottomBasic
-        showBackButton={true}
-        backButtonOnClick={() => window.history.back()}
         showCenterButton={true}
         centerButtonText="RETURN TO START"
         centerButtonOnClick={() => returnToStart()}

@@ -3,7 +3,12 @@ import ActivityPageLayout from '../../components/layout/ActivityPageLayout';
 import EmailComponent from '../../components/Email';
 import { useNavigate } from 'react-router-dom';
 import { usePersonaStore } from '../../store/personaStore';
-import { getFeedback, upsertFeedback } from '../../services/feedbackService';
+import {
+  getFeedback,
+  resetTest,
+  updateTestResults,
+  upsertFeedback,
+} from '../../services/feedbackService';
 import { useTaskProgress } from '../../context/TaskProgressContext';
 
 interface Email {
@@ -274,43 +279,41 @@ const legitEmails: Email[] = [
   },
 ];
 
-const selectBalancedEmails = (numEmails = 6) => {
-  numEmails = numEmails % 2 === 0 ? numEmails : numEmails + 1;
-  const shuffledScam = [...scamEmails].sort(() => 0.5 - Math.random());
-  const shuffledLegit = [...legitEmails].sort(() => 0.5 - Math.random());
-  const numScam = numEmails / 2;
-  const numLegit = numEmails / 2;
-  return [
-    ...shuffledScam.slice(0, numScam),
-    ...shuffledLegit.slice(0, numLegit),
-  ].sort(() => 0.5 - Math.random());
-};
+const getRandomEmails = (numEmails = 6) => {
+  const numScam = Math.floor(numEmails / 2);
+  const numLegit = numEmails - numScam;
 
-const emails: Email[] = selectBalancedEmails();
+  const selectRandom = (arr: Email[], count: number) =>
+    arr.sort(() => Math.random() - 0.5).slice(0, count);
+
+  return [
+    ...selectRandom(scamEmails, numScam),
+    ...selectRandom(legitEmails, numLegit),
+  ].sort(() => Math.random() - 0.5);
+};
 
 function TestChecklist() {
   const { persona } = usePersonaStore();
   const cardId = persona?._id || '';
   const navigate = useNavigate();
+  const { markTaskComplete, markTaskUndone, isTaskComplete } =
+    useTaskProgress();
   const scrollRef = useRef<HTMLDivElement | null>(null);
-  const [remainingEmails, setRemainingEmails] = useState<Email[]>(emails);
-  const [selectedEmail, setSelectedEmail] = useState<Email | null>(null);
+  const [feedback, setFeedback] = useState<string[]>([]);
+  const [score, setScore] = useState<number>(0);
+  const [emails, setEmails] = useState<Email[]>(getRandomEmails());
+  const numEmails = emails.length;
+  const [step, setStep] = useState(1);
+  const currentEmail = emails[step - 1];
   const [finalDecision, setFinalDecision] = useState<'Scam' | 'Legit' | null>(
     null
   );
-  const [score, setScore] = useState(0);
-  const [totalAttempts, setTotalAttempts] = useState(0);
-  const [feedback, setFeedback] = useState<string[]>([]);
-  const { markTaskComplete, markTaskUndone, isTaskComplete } =
-    useTaskProgress();
-  const progress =
-    totalAttempts >= 0
-      ? ((totalAttempts / emails.length) * 100).toFixed(1)
-      : '0.0';
-  const isAllEmailsDone = totalAttempts === 6;
-  const isCorrect = selectedEmail
-    ? finalDecision === selectedEmail.correctAnswer
+  const isCorrect = currentEmail
+    ? finalDecision === currentEmail.correctAnswer
     : null;
+  const [testCompleted, setTestCompleted] = useState<boolean>(false);
+  const isAllEmailsDone = step === numEmails + 1 || testCompleted;
+  const progress = step > 0 ? ((step / numEmails) * 100).toFixed(1) : '0.0';
 
   const scrollToBottom = () => {
     setTimeout(() => {
@@ -339,16 +342,24 @@ function TestChecklist() {
   }, [isAllEmailsDone]);
 
   useEffect(() => {
-    if (!cardId) return;
-    const fetchFeedback = async () => {
+    const fetchFeedbackData = async () => {
+      if (!cardId) return;
+
       try {
-        const data = await getFeedback(cardId);
-        setFeedback(data.feedback);
+        const feedbackData = await getFeedback(cardId);
+
+        setScore(feedbackData.score || 0);
+        setTestCompleted(feedbackData.testCompleted || false);
+
+        if (feedbackData.feedback) {
+          setFeedback(feedbackData.feedback);
+        }
       } catch (error) {
-        console.error('Failed to fetch feedback:', error);
+        console.error('Error fetching feedback:', error);
       }
     };
-    fetchFeedback();
+
+    fetchFeedbackData();
   }, [cardId]);
 
   useEffect(() => {
@@ -367,37 +378,35 @@ function TestChecklist() {
     setFinalDecision(null);
     setFeedback((prev) => prev.filter((item) => item.trim() !== '•'));
 
-    if (remainingEmails.length === 0) return;
-
-    const newEmails = [...remainingEmails];
-    const randomIndex = Math.floor(Math.random() * newEmails.length);
-    const nextEmail = newEmails.splice(randomIndex, 1)[0];
-
-    setSelectedEmail(nextEmail || null);
-    setRemainingEmails(newEmails);
+    if (step === numEmails) return;
   };
 
   const handleNext = () => {
-    setTotalAttempts((prev) => prev + 1);
+    setStep((prev) => prev + 1);
     handleSelectEmail();
   };
 
   const handleFinalDecision = (decision: 'Scam' | 'Legit') => {
     setFinalDecision(decision);
 
-    if (selectedEmail && decision === selectedEmail.correctAnswer) {
+    if (currentEmail && decision === currentEmail.correctAnswer) {
       setScore((prev) => prev + 1);
     }
 
     scrollToBottom();
   };
 
-  const handleRestartTest = () => {
-    setRemainingEmails([...emails]);
+  const handleRestartTest = async () => {
+    setEmails(getRandomEmails());
     setScore(0);
-    setTotalAttempts(0);
-    setFeedback([]);
-    handleSelectEmail();
+    setStep(1);
+    setTestCompleted(false);
+
+    try {
+      await resetTest(cardId);
+    } catch (error) {
+      console.error('Failed to reset test results:', error);
+    }
   };
 
   const handleFeedbackChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -420,30 +429,79 @@ function TestChecklist() {
     handleSelectEmail();
   }, []);
 
+  const handleTestCompletion = async () => {
+    if (!cardId) return;
+
+    try {
+      await updateTestResults(cardId, score, true);
+    } catch (error) {
+      console.error('Failed to update test results:', error);
+    }
+  };
+
+  useEffect(() => {
+    if (isAllEmailsDone) {
+      handleTestCompletion();
+    }
+  }, [isAllEmailsDone]);
+
   return (
     <ActivityPageLayout
       header="Does your solution work?"
       phase="Test"
       phaseColor="text-test"
-      text={<>Use the checklist to determine if the email is a scam </>}
+      text={
+        <>
+          {!isAllEmailsDone &&
+            'Use the checklist to determine if the email is a scam'}
+        </>
+      }
       activity={
         <div className="text-primary">
           <div className="gap-6">
-            {selectedEmail && !isAllEmailsDone && (
+            {currentEmail && !isAllEmailsDone && (
               <EmailComponent
-                sender={selectedEmail.sender}
-                subject={selectedEmail.subject}
-                text={selectedEmail.content}
-                buttonText={selectedEmail.buttonText}
-                buttonLink={selectedEmail.buttonLink}
+                sender={currentEmail.sender}
+                subject={currentEmail.subject}
+                text={currentEmail.content}
+                buttonText={currentEmail.buttonText}
+                buttonLink={currentEmail.buttonLink}
               />
             )}
 
             {isAllEmailsDone ? (
               <div>
-                <p className="font-bold text-primary px-4">FEEDBACK</p>
+                {/* Score Tracking */}
+                <div className="text-center mt-4 mb-8">
+                  <h2 className="font-bold">🏆 YOUR SCORE</h2>
+                  <p className="text-[12px]">
+                    Correct Answers: {score} / {numEmails}
+                  </p>
+                </div>
+
+                {/* Modify checklist button */}
+                <div className="mt-4 flex justify-center">
+                  <button
+                    onClick={() => navigate('/ideate/checklist')}
+                    className="btn w-full text-[14px] px-4 py-2 rounded-md bg-primary text-base-100 border border-primary hover:bg-ideate  hover:text-primary hover:border-primary transition"
+                  >
+                    Modify Checklist
+                  </button>
+                </div>
+
+                {/* Restart test button */}
+                <div className="mt-2 flex justify-center">
+                  <button
+                    onClick={handleRestartTest}
+                    className="btn w-full text-[14px] px-4 py-2 rounded-md bg-base-100 text-primary border border-primary hover:bg-base-100 hover:text-test hover:border-test transition"
+                  >
+                    Restart Test
+                  </button>
+                </div>
+
+                <p className="font-bold text-primary px-4 mt-4">FEEDBACK</p>
                 {feedback.length > 0 ? (
-                  <div className="min-w-80 bg-test px-4 py-2 rounded-[12px] text-prototype text-[14px]">
+                  <div className="min-w-80 bg-test px-4 py-2 rounded-[12px] text-prototype text-[14px] mt-2">
                     <ul className="space-y-1 pe-2">
                       {feedback.map((item, index) => (
                         <li key={index} className="text-left">
@@ -457,34 +515,6 @@ function TestChecklist() {
                     No feedback provided.
                   </p>
                 )}
-
-                {/* Modify checklist button */}
-                <div className="mt-4 flex justify-center">
-                  <button
-                    onClick={() => navigate('/ideate/checklist')}
-                    className="w-full text-[14px] px-4 py-2 rounded-md bg-primary text-base-100 border border-primary hover:bg-ideate  hover:text-primary hover:border-primary transition"
-                  >
-                    Modify Checklist
-                  </button>
-                </div>
-
-                {/* Restart test button */}
-                <div className="mt-2 flex justify-center">
-                  <button
-                    onClick={handleRestartTest}
-                    className="w-full text-[14px] px-4 py-2 rounded-md bg-base-100 text-primary border border-primary hover:bg-primary hover:text-base-100 transition"
-                  >
-                    Restart Test
-                  </button>
-                </div>
-
-                {/* Score Tracking */}
-                <div className="mt-6 text-center">
-                  <h2 className="font-bold">🏆 YOUR SCORE</h2>
-                  <p className="text-[12px]">
-                    Correct Answers: {score} / {totalAttempts}
-                  </p>
-                </div>
               </div>
             ) : (
               <div className="mt-6 text-[14px]">
@@ -527,14 +557,14 @@ function TestChecklist() {
                 <p className="text-[16px]">
                   {isCorrect
                     ? 'Correct! You analyzed this email correctly!'
-                    : `Incorrect! This email was actually ${selectedEmail?.correctAnswer.toLowerCase()}. Review the checklist.`}
+                    : `Incorrect! This email was actually ${currentEmail?.correctAnswer.toLowerCase()}. Review the checklist.`}
                 </p>
 
-                {selectedEmail?.correctAnswer === 'Scam' && (
+                {currentEmail?.correctAnswer === 'Scam' && (
                   <>
                     <p className="mt-2 font-bold">🔎 Identified Scam Signs</p>
                     <ul className="text-left list-disc list-inside">
-                      {selectedEmail.scamSigns.map((sign, index) => (
+                      {currentEmail.scamSigns.map((sign, index) => (
                         <li key={index}>{sign}</li>
                       ))}
                     </ul>
@@ -542,39 +572,56 @@ function TestChecklist() {
                 )}
 
                 <h2 className="mt-4 font-bold">💡 Explanation</h2>
-                <p>{selectedEmail?.explanation}</p>
+                <p>{currentEmail?.explanation}</p>
               </div>
-
-              <p className="mt-2 text-[14px]">Give feedback</p>
-              <textarea
-                value={feedback.join('\n')}
-                onChange={handleFeedbackChange}
-                onKeyDown={handleKeyDown}
-                placeholder="• Add feedback here..."
-                className="mt-1 p-2 w-full text-[16px] rounded-md border border-primary text-primary bg-base-100"
-                rows={4}
-              />
-
-              <div className="mt-4 flex justify-end" ref={scrollRef}>
+              <div ref={scrollRef}>
+                <p className="mt-2 text-[14px]">Give feedback</p>
+                <textarea
+                  value={feedback.join('\n')}
+                  onChange={handleFeedbackChange}
+                  onKeyDown={handleKeyDown}
+                  placeholder="• Add feedback here..."
+                  className="mt-1 p-2 w-full text-[14px] rounded-md border border-primary text-primary bg-base-100"
+                  rows={4}
+                  ref={(el) => {
+                    if (el) {
+                      el.style.height = 'auto';
+                      el.style.height = el.scrollHeight + 'px';
+                    }
+                  }}
+                  onInput={(e) => {
+                    const target = e.target as HTMLTextAreaElement;
+                    target.style.height = 'auto';
+                    target.style.height = target.scrollHeight + 'px';
+                  }}
+                />
+              </div>
+              <div className="mt-1 flex justify-end" ref={scrollRef}>
+                {/* TODO: remove bottom to navbar */}
                 <button
                   onClick={handleNext}
-                  className="btn text-[14px] px-4 py-2 rounded-md bg-base-100 text-primary border border-primary hover:bg-primary hover:text-base-100 transition"
+                  className="btn w-24 text-[14px] px-4 py-2 rounded-md bg-base-100 text-primary border border-primary hover:bg-primary hover:text-base-100 transition"
                 >
-                  Test on another email
+                  Next
                 </button>
               </div>
             </div>
           )}
+
           {/* Progress */}
-          <div className="w-full bg-base-100 border border-primary rounded-full h-1.9 mt-8">
-            <div
-              className="bg-primary  border border-primary rounded-full  h-2 "
-              style={{ width: `${progress}%` }}
-            ></div>
-          </div>
-          <p className="text-center text-[12px] mt-2">
-            Progress: {totalAttempts} / {emails.length} ({progress}%)
-          </p>
+          {!isAllEmailsDone && (
+            <div className="fixed bottom-20 left-0 w-full z-5 space-y-1">
+              <p className="text-[12px] text-center font-semibold text-ideate">
+                Progress: {step} / {numEmails}
+              </p>
+              <div className="bg-base-100 h-2">
+                <div
+                  className="h-2 bg-ideate transition-all duration-300"
+                  style={{ width: `${progress}%` }}
+                ></div>
+              </div>
+            </div>
+          )}
         </div>
       }
     />
