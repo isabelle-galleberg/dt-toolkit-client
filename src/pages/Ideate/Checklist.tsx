@@ -5,11 +5,7 @@ import {
   deleteChecklistItem,
   handleChecklistFeedback,
 } from '../../services/checklistService';
-import {
-  TrashIcon,
-  PlusCircleIcon,
-  MinusCircleIcon,
-} from '@heroicons/react/24/solid';
+import { PlusCircleIcon, MinusCircleIcon } from '@heroicons/react/24/solid';
 import ActivityPageLayout from '../../components/layout/ActivityPageLayout';
 import { ChecklistFeedback, ChecklistItem } from '../../types/checklist';
 import { useTaskProgress } from '../../context/TaskProgressContext';
@@ -139,39 +135,39 @@ const Checklist = () => {
       }
       activity={
         <div className="flex flex-col max-w-4xl w-full space-y-4">
-          <div className="flex flex-row w-full space-x-2 text-[14px]">
-            <input
-              type="text"
-              value={newItemText}
-              onChange={(e) => setNewItemText(e.target.value)}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter') {
-                  handleAddItem();
-                }
-              }}
-              placeholder="Type here ..."
-              className="p-2 w-full text-[14px] rounded-[12px] border-2 border-ideate text-primary bg-base-100"
-            />
-            <button
-              onClick={handleAddItem}
-              className="btn bg-ideate rounded-[12px] text-primary hover:bg-ideate py-3 px-6 transition duration-300 ease-in-out transform hover:scale-105"
-            >
-              Add
-            </button>
-          </div>
           <div className="flex flex-row space-x-6">
-            <div className="space-y-2 w-1/2">
-              <p className="font-bold text-primary">
+            <div className="space-y-2 w-1/2 bg-base-100 border border-primary p-4 rounded-[12px]">
+              <p className="font-bold text-primary mx-2">
                 PHISHING DETECTION CHECKLIST
               </p>
-              <ul className="bg-base-100 border-ideate border-2 p-4 rounded-[20px] min-h-64 h-full text-[14px]">
-                <div className="text-primary flex flex-row space-x-4 items-center ">
+              <div className="flex flex-row space-x-2 text-[14px] mx-2">
+                <input
+                  type="text"
+                  value={newItemText}
+                  onChange={(e) => setNewItemText(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter') {
+                      handleAddItem();
+                    }
+                  }}
+                  placeholder="Type here ..."
+                  className="p-2 w-full text-[14px] rounded-[12px] text-primary bg-base-100 border border-primary"
+                />
+                <button
+                  onClick={handleAddItem}
+                  className="btn bg-ideate rounded-[12px] text-primary hover:bg-ideate py-3 px-6 transition duration-300 ease-in-out transform hover:scale-105"
+                >
+                  Add
+                </button>
+              </div>
+              <ul className="p-2 rounded-[20px] min-h-64 h-full text-[14px]">
+                <div className="text-primary flex flex-row space-x-4 items-center rounded-[12px] bg-[#214A6B] p-2 py-3">
                   <input type="checkbox" className="form-checkbox h-5 w-5" />
                   <div>Does the email ask for personal information?</div>
                 </div>
                 {checklist.map((item) => (
                   <li key={item._id}>
-                    <div className="flex flex-row space-x-4 w-full items-center justify-between">
+                    <div className="flex flex-row space-x-4 w-full items-center justify-between p-2 my-1 rounded-[12px] bg-[#214A6B] text-primary">
                       <div className="flex space-x-4 flex-row items-center my-1">
                         <div className="w-5 h-5">
                           <input
@@ -189,9 +185,9 @@ const Checklist = () => {
                       </div>
                       <button
                         onClick={() => handleDeleteItem(item._id)}
-                        className="text-primary transition duration-300 ease-in-out"
+                        className="text-xs"
                       >
-                        <TrashIcon className="w-5 h-5 text-ideate" />
+                        ✕
                       </button>
                     </div>
                   </li>
@@ -217,7 +213,7 @@ const Checklist = () => {
                 <p className="font-bold text-primary">FEEDBACK</p>
                 <div className="text-[14px]">
                   {checklist.length < 2 && (
-                    <div className="text-gray-500 mt-6">
+                    <div className="text-primary mt-6">
                       Add more items to the checklist to receive feedback.
                     </div>
                   )}
