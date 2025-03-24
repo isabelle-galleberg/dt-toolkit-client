@@ -20,17 +20,18 @@ const RegisterPage = () => {
     e.preventDefault();
     if (password !== confirmPassword) {
       setErrorMessage('Passwords do not match!');
+      setLoading(false);
       return;
     }
     try {
       await registerUser(username, password);
-      setLoading(false);
       navigate('/login');
     } catch (err: any) {
       const errorMessage =
         err.response?.data?.message || 'Registration failed. Please try again.';
       setErrorMessage(errorMessage);
     }
+    setLoading(false);
   };
 
   return (

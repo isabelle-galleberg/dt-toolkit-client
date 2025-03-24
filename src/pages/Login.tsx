@@ -19,14 +19,13 @@ const LoginForm = () => {
     e.preventDefault();
     try {
       await loginUser(username, password);
-      setLoading(false);
       navigate('/');
     } catch (err: any) {
       const errorMessage =
         err.response?.data?.message || 'Registration failed. Please try again.';
       setErrorMessage(errorMessage);
-      setLoading(false);
     }
+    setLoading(false);
   };
 
   return (
