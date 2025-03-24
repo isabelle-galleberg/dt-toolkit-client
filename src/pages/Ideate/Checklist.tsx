@@ -11,6 +11,10 @@ import { ChecklistFeedback, ChecklistItem } from '../../types/checklist';
 import { useTaskProgress } from '../../context/TaskProgressContext';
 import { usePersonaStore } from '../../store/personaStore';
 import { getFeedback } from '../../services/feedbackService';
+import {
+  getAiFeedback,
+  updateAiFeedback,
+} from '../../services/aiFeedbackService';
 
 const Checklist = () => {
   const [checklist, setChecklist] = useState<ChecklistItem[]>([]);
@@ -121,6 +125,44 @@ const Checklist = () => {
     };
     fetchFeedback();
   }, [cardId]);
+
+  useEffect(() => {
+    const fetchAiFeedbackData = async () => {
+      if (!cardId) return;
+
+      try {
+        const aiFeedbackData = await getAiFeedback(cardId);
+        if (aiFeedbackData.strengths && aiFeedbackData.improvements) {
+          setGeneratedFeedback(aiFeedbackData);
+        }
+      } catch (error) {
+        console.error('Error fetching feedback:', error);
+      }
+    };
+
+    fetchAiFeedbackData();
+  }, [cardId]);
+
+  useEffect(() => {
+    if (
+      !cardId ||
+      generatedFeedback?.strengths === undefined ||
+      generatedFeedback?.improvements === undefined
+    )
+      return;
+    const setAiFeedback = async () => {
+      try {
+        await updateAiFeedback(
+          cardId,
+          generatedFeedback?.strengths,
+          generatedFeedback?.improvements
+        );
+      } catch (error) {
+        console.error('Failed to update feedback:', error);
+      }
+    };
+    setAiFeedback();
+  }, [generatedFeedback, cardId]);
 
   return (
     <ActivityPageLayout
@@ -263,14 +305,6 @@ const Checklist = () => {
                         </ul>
                       </div>
                     </div>
-                  )}
-                  {!generatedFeedback && !loading && checklist.length >= 2 && (
-                    <button
-                      onClick={handleGeneratedFeedback}
-                      className="mt-2 btn rounded-[12px] bg-ideate hover:bg-ideate text-primary py-3 px-6 transition duration-300 ease-in-out transform hover:scale-105"
-                    >
-                      Get Feedback
-                    </button>
                   )}
                 </div>
               </div>
