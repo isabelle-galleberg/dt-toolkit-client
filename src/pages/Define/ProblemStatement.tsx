@@ -14,7 +14,7 @@ const questions = [
   'Who got scammed?',
   'Why did they fall for the scam?',
   'What tactic was used? (urgency, fear, ...)',
-  'What action did they take?',
+  'What did the scammer trick them into doing?',
   'What was the result?',
 ];
 

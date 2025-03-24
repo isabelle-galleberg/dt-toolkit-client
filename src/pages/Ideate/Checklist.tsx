@@ -5,11 +5,7 @@ import {
   deleteChecklistItem,
   handleChecklistFeedback,
 } from '../../services/checklistService';
-import {
-  TrashIcon,
-  PlusCircleIcon,
-  MinusCircleIcon,
-} from '@heroicons/react/24/solid';
+import { PlusCircleIcon, MinusCircleIcon } from '@heroicons/react/24/solid';
 import ActivityPageLayout from '../../components/layout/ActivityPageLayout';
 import { ChecklistFeedback, ChecklistItem } from '../../types/checklist';
 import { useTaskProgress } from '../../context/TaskProgressContext';
@@ -131,44 +127,47 @@ const Checklist = () => {
       header="Create a Scam Spotter Checklist!"
       phase="Ideate"
       phaseColor="text-ideate"
+      text={
+        <div className="flex flex-row space-x-2">
+          Enter questions to create a checklist for spotting phishing scams in
+          emails!
+        </div>
+      }
       activity={
         <div className="flex flex-col max-w-4xl w-full space-y-4">
-          <div className="flex flex-col space-y-2 items-center border-2 border-primary p-4 rounded-[20px]">
-            <p className="text-left text-primary w-full">
-              ENTER QUESTIONS TO HELP SPOT PHISHING IN EMAILS
-            </p>
-            <div className="flex flex-row w-full space-x-4 text-[14px]">
-              <input
-                type="text"
-                value={newItemText}
-                onChange={(e) => setNewItemText(e.target.value)}
-                onKeyDown={(e) => {
-                  if (e.key === 'Enter') {
-                    handleAddItem();
-                  }
-                }}
-                placeholder="Type here ..."
-                className="w-full p-3 rounded-[8px] bg-white placeholder-gray-500 text-base-100"
-              />
-              <button
-                onClick={handleAddItem}
-                className="btn btn-primary py-3 px-6 transition duration-300 ease-in-out transform hover:scale-105"
-              >
-                Add
-              </button>
-            </div>
-          </div>
           <div className="flex flex-row space-x-6">
-            <div className="space-y-2 w-1/2">
-              <p className="font-bold text-primary">SCAM SPOTTER CHECKLIST</p>
-              <ul className="bg-primary p-4 rounded-[20px] min-h-64 h-full text-[14px]">
-                <div className="text-black flex flex-row space-x-4 items-center ">
+            <div className="space-y-2 w-1/2 bg-base-100 border border-primary p-4 rounded-[12px]">
+              <p className="font-bold text-primary mx-2">
+                PHISHING DETECTION CHECKLIST
+              </p>
+              <div className="flex flex-row space-x-2 text-[14px] mx-2">
+                <input
+                  type="text"
+                  value={newItemText}
+                  onChange={(e) => setNewItemText(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter') {
+                      handleAddItem();
+                    }
+                  }}
+                  placeholder="Type here ..."
+                  className="p-2 w-full text-[14px] rounded-[12px] text-primary bg-base-100 border border-primary"
+                />
+                <button
+                  onClick={handleAddItem}
+                  className="btn bg-ideate rounded-[12px] text-primary hover:bg-ideate py-3 px-6 transition duration-300 ease-in-out transform hover:scale-105"
+                >
+                  Add
+                </button>
+              </div>
+              <ul className="p-2 rounded-[20px] min-h-64 h-full text-[14px]">
+                <div className="text-primary flex flex-row space-x-4 items-center rounded-[12px] bg-[#214A6B] p-2 py-3">
                   <input type="checkbox" className="form-checkbox h-5 w-5" />
                   <div>Does the email ask for personal information?</div>
                 </div>
                 {checklist.map((item) => (
                   <li key={item._id}>
-                    <div className="flex flex-row space-x-4 w-full items-center justify-between">
+                    <div className="flex flex-row space-x-4 w-full items-center justify-between p-2 my-1 rounded-[12px] bg-[#214A6B] text-primary">
                       <div className="flex space-x-4 flex-row items-center my-1">
                         <div className="w-5 h-5">
                           <input
@@ -179,16 +178,16 @@ const Checklist = () => {
                         </div>
                         <label
                           htmlFor={`check-${item._id}`}
-                          className=" text-black "
+                          className="text-primary "
                         >
                           {item.text}
                         </label>
                       </div>
                       <button
                         onClick={() => handleDeleteItem(item._id)}
-                        className="text-primary transition duration-300 ease-in-out"
+                        className="text-xs"
                       >
-                        <TrashIcon className="w-5 h-5 text-ideate" />
+                        ✕
                       </button>
                     </div>
                   </li>
@@ -211,10 +210,10 @@ const Checklist = () => {
                     </div>
                   </div>
                 )}
-                <p className="font-bold text-primary">GENERATED FEEDBACK</p>
+                <p className="font-bold text-primary">FEEDBACK</p>
                 <div className="text-[14px]">
                   {checklist.length < 2 && (
-                    <div className="text-gray-500 mt-6">
+                    <div className="text-primary mt-6">
                       Add more items to the checklist to receive feedback.
                     </div>
                   )}
@@ -263,9 +262,9 @@ const Checklist = () => {
                   {!generatedFeedback && !loading && checklist.length >= 2 && (
                     <button
                       onClick={handleGeneratedFeedback}
-                      className="mt-2 btn btn-primary py-3 px-6 transition duration-300 ease-in-out transform hover:scale-105"
+                      className="mt-2 btn rounded-[12px] bg-ideate hover:bg-ideate text-primary py-3 px-6 transition duration-300 ease-in-out transform hover:scale-105"
                     >
-                      Generate Feedback
+                      Get Feedback
                     </button>
                   )}
                 </div>

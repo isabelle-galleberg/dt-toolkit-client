@@ -88,11 +88,11 @@ function DesignThinkingPhases() {
                     {phase.id}
                   </span>
                 </div>
-                <p className="text-left text-lg font-semibold">{phase.title}</p>
+                <p className="text-lg font-semibold">{phase.title}</p>
               </div>
             </div>
 
-            <div className="flex-grow p-4 text-sm text-end">{phase.text}</div>
+            <div className="text-start flex-grow p-4 text-sm">{phase.text}</div>
           </div>
         ))}
       </div>
