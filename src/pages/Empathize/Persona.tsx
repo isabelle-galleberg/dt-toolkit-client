@@ -171,7 +171,7 @@ function Persona() {
                         value={newTrait}
                         onChange={(e) => setNewTrait(e.target.value)}
                         onKeyDown={handleKeyDown}
-                        placeholder="Add more trait ..."
+                        placeholder="Add more traits ..."
                         maxLength={20}
                         className="p-1.5 rounded-lg text-define text-[10px] font-regular border border-empathize bg-base-100"
                       />
