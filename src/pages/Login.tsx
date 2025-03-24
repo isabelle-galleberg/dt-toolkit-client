@@ -25,6 +25,7 @@ const LoginForm = () => {
       const errorMessage =
         err.response?.data?.message || 'Registration failed. Please try again.';
       setErrorMessage(errorMessage);
+      setLoading(false);
     }
   };
 
