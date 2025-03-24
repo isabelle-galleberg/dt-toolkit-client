@@ -38,7 +38,7 @@ function GearsBot() {
         </>
       }
       activity={
-        <div className="flex flex-col space-y-4 items-start text-left justify-start w-full">
+        <div className="flex flex-row justify-between w-full">
           <button
             className="btn bg-prototype text-test px-6 py-2 hover:bg-prototype hover:text-test hover:border-test"
             onClick={() =>
