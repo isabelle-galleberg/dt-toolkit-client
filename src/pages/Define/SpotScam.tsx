@@ -178,6 +178,7 @@ function SpotScam() {
           inputRefs.current[newPinIndex]?.focus();
         }, 0);
 
+        scrollToBottom();
         return newPins;
       });
     },
