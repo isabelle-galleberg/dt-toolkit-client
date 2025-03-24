@@ -145,11 +145,11 @@ function Storyboard() {
                                     className="flex flex-col items-center"
                                   >
                                     <span
-                                      className={`cursor-pointer transition-all rounded-full h-9 w-9 flex justify-center items-center text-center ${
+                                      className={`cursor-pointer transition-all rounded-full h-9 w-9 flex justify-center items-center text-center text-[20px] ${
                                         selectedEmoji === emoji
-                                          ? 'opacity-100 bg-primary'
+                                          ? 'opacity-100 text-[24px]'
                                           : 'grayscale opacity-50'
-                                      }  hover:grayscale-0 hover:opacity-100`}
+                                      }  hover:grayscale-0 hover:opacity-100 hover:text-[24px]`}
                                       onClick={() =>
                                         handleEmojiClick(index, emoji)
                                       }
