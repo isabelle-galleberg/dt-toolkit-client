@@ -136,7 +136,7 @@ const Checklist = () => {
       activity={
         <div className="flex flex-col max-w-4xl w-full space-y-4">
           <div className="flex flex-row space-x-6">
-            <div className="space-y-2 w-1/2 bg-base-100 border border-primary p-4 rounded-[12px]">
+            <div className="space-y-2 w-1/2 bg-base-100 border border-primary p-3 rounded-[12px]">
               <p className="font-bold text-primary mx-2">
                 PHISHING DETECTION CHECKLIST
               </p>
@@ -162,7 +162,11 @@ const Checklist = () => {
               </div>
               <ul className="p-2 rounded-[20px] min-h-64 h-full text-[14px]">
                 <div className="text-primary flex flex-row space-x-4 items-center rounded-[12px] bg-[#214A6B] p-2 py-3">
-                  <input type="checkbox" className="form-checkbox h-5 w-5" />
+                  <input
+                    type="checkbox"
+                    className="form-checkbox h-5 w-5"
+                    style={{ accentColor: 'green' }}
+                  />
                   <div>Does the email ask for personal information?</div>
                 </div>
                 {checklist.map((item) => (
@@ -174,6 +178,7 @@ const Checklist = () => {
                             type="checkbox"
                             id={`check-${item._id}`}
                             className="form-checkbox h-5 w-5"
+                            style={{ accentColor: 'green' }}
                           />
                         </div>
                         <label

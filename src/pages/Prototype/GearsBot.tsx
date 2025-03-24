@@ -52,7 +52,11 @@ function GearsBot() {
               PHISHING DETECTION CHECKLIST
             </div>
             <div className="text-primary flex flex-row space-x-4 items-center rounded-[12px] bg-[#214A6B] p-2 py-3">
-              <input type="checkbox" className="form-checkbox h-5 w-5" />
+              <input
+                type="checkbox"
+                className="form-checkbox h-5 w-5"
+                style={{ accentColor: 'green' }}
+              />
               <div>Does the email ask for personal information?</div>
             </div>
             {checklist.map((item) => (
@@ -63,12 +67,10 @@ function GearsBot() {
                       type="checkbox"
                       id={`check-${item._id}`}
                       className="form-checkbox h-5 w-5"
+                      style={{ accentColor: 'green' }}
                     />
                   </div>
-                  <label
-                    htmlFor={`check-${item._id}`}
-                    className="text-primary "
-                  >
+                  <label htmlFor={`check-${item._id}`} className="text-primary">
                     {item.text}
                   </label>
                 </div>
