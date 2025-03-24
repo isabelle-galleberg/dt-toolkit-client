@@ -1,10 +1,11 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useCallback } from 'react';
 import phishing from '../assets/phishing.png';
 import harmful from '../assets/harmful.png';
 import textMessage from '../assets/text-message.png';
 import fakeMessage from '../assets/fake-websites.png';
 import phoneCall from '../assets/phone-call-scams.png';
 import NavbarBottomBasic from '../components/layout/NavbarBottomBasic';
+import { debounce } from 'lodash';
 
 const sections = [
   {
@@ -147,13 +148,16 @@ export default function PhishingAwareness() {
     }
   }, [step]);
 
-  const handleNext = () => {
-    if (step < sections.length) {
-      setStep(step + 1);
-    } else {
-      window.location.href = '/design-thinking';
-    }
-  };
+  const handleNext = useCallback(
+    debounce(() => {
+      if (step < sections.length) {
+        setStep((prevStep) => prevStep + 1);
+      } else {
+        window.location.href = '/design-thinking';
+      }
+    }, 300),
+    [step]
+  );
 
   return (
     <div className="relative w-full">
