@@ -13,6 +13,7 @@ import { SpottedScam } from '../../types/define';
 import { usePersonaStore } from '../../store/personaStore';
 import { useUserStore } from '../../store/userStore';
 import LoadingSpinner from '../../components/LoadingSpinner';
+import PhoneComponent from '../../components/Phone';
 
 interface Pin {
   id: number;
@@ -161,7 +162,7 @@ function SpotScam() {
   }, [spottedScams]);
 
   const handleEmailClick = useCallback(
-    (e: React.MouseEvent<HTMLImageElement>) => {
+    (e: React.MouseEvent<HTMLDivElement>) => {
       const rect = e.currentTarget.getBoundingClientRect();
       const x = ((e.clientX - rect.left) / rect.width) * 100;
       const y = ((e.clientY - rect.top) / rect.height) * 100;
@@ -177,6 +178,7 @@ function SpotScam() {
           inputRefs.current[newPinIndex]?.focus();
         }, 0);
 
+        scrollToBottom();
         return newPins;
       });
     },
@@ -282,14 +284,25 @@ function SpotScam() {
                 }
               />
             </div>
-            <div className="w-1/4 relative h-[400px]">
-              <img
-                src={persona?.phoneImageUrl}
-                alt="Email"
-                className="h-full cursor-pointer"
+            <div className="w-1/4 relative h-[430px]">
+              <PhoneComponent
+                sender={persona?.sender}
+                subject={persona?.subject}
+                text={
+                  <>
+                    {persona?.text?.map((line, index) => (
+                      <span key={index}>
+                        {line}
+                        <br />
+                        <br />
+                      </span>
+                    ))}
+                  </>
+                }
+                buttonText={persona?.buttonText}
+                buttonLink={persona?.buttonLink}
                 onClick={handleEmailClick}
               />
-
               {pins.map((pin, index) => (
                 <div
                   key={pin.id}
