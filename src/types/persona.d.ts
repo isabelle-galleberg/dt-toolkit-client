@@ -15,8 +15,12 @@ export interface PersonaCard {
   alias: string;
   cardImageUrl: string;
   personaImageUrl: string;
-  phoneImageUrl: string;
   traits: string[];
+  sender?: string;
+  subject?: string;
+  text?: string[];
+  buttonText?: string;
+  buttonLink?: string;
 }
 
 export interface PersonaInfo {
