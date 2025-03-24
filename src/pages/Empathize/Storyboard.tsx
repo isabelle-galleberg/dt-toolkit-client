@@ -4,7 +4,7 @@ import Box from '../../components/Box';
 import { usePersonaStore } from '../../store/personaStore';
 import { getStory } from '../../services/storyService';
 import { Story } from '../../types/story';
-import lockIcon from '../../assets/Vector.png';
+import { LockClosedIcon } from '@heroicons/react/24/solid';
 import { getEmotions, updateEmotions } from '../../services/emotionService';
 import { useTaskProgress } from '../../context/TaskProgressContext';
 import LoadingSpinner from '../../components/LoadingSpinner';
@@ -127,7 +127,7 @@ function Storyboard() {
                     content={
                       index > activeIndex ? (
                         <div className="flex justify-center items-center h-96">
-                          <img src={lockIcon} className="w-14" alt="locked" />
+                          <LockClosedIcon className="w-14 text-primary" />
                         </div>
                       ) : (
                         <div className="px-4 pt-4 text-primary text-sm break-words whitespace-normal relative z-10">
