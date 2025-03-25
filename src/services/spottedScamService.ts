@@ -1,5 +1,5 @@
 import api from './api';
-import { SpottedScam } from '../types/define';
+import { SpottedScam } from '../types/scam';
 
 const API_URL = '/spot-scam';
 
