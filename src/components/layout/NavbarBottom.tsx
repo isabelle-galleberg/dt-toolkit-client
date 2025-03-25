@@ -28,7 +28,7 @@ const getNextTooltip = (pathname: string) => {
   const tooltips: Record<string, string> = {
     '/empathize/select-persona': 'Choose a persona to proceed',
     '/empathize/persona':
-      'Fill out all persona details and add some personal traits to proceed',
+      'Fill out all persona details and add at least two personal traits to proceed',
     '/empathize/storyboard': 'Choose an emotion for each story to proceed',
     '/define/spot-scam': 'Identify at least three signs of a scam to proceed',
     '/define/problem-understanding':
