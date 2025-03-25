@@ -20,10 +20,29 @@ const SECTIONS: Section[] = [
   { id: 3, title: "What's the consequences?" },
 ];
 
+const SECTION_HINTS: { [key: number]: string[] } = {
+  1: [
+    'What type of message or alert did the character receive, and how did they respond to it?',
+    'How did the character feel when they first saw the message or offer?',
+    'What actions did the character take after they interacted with the message?',
+  ],
+  2: [
+    'What made the message seem urgent, trustworthy, or convincing to the character?',
+    'Why did the character trust the email or website, even though it was a scam?',
+    'How did the character’s emotions or situation influence their decision?',
+  ],
+  3: [
+    'What did the character discover after taking action?',
+    'How did the scam impact the character’s finances or personal life?',
+    'What could the character have done differently to avoid falling for the scam?',
+  ],
+};
+
 function ProblemUnderstanding() {
   const { persona } = usePersonaStore();
   const cardId = persona?._id || '';
   const [loading, setLoading] = useState<boolean>(true);
+  const [loadHint, setLoadHint] = useState<boolean>(false);
   const { markTaskComplete, markTaskUndone, isTaskComplete } =
     useTaskProgress();
   const [answers, setAnswers] = useState<{ [key: number]: string[] } | null>(
@@ -35,6 +54,36 @@ function ProblemUnderstanding() {
   const [editingIndex, setEditingIndex] = useState<{
     [key: number]: number | null;
   }>(SECTIONS.reduce((acc, section) => ({ ...acc, [section.id]: null }), {}));
+  const [showHints, setShowHints] = useState<{ [key: number]: boolean }>({
+    1: false,
+    2: false,
+    3: false,
+  });
+  const [currentHintIndex, setCurrentHintIndex] = useState<{
+    [key: number]: number;
+  }>({
+    1: 0,
+    2: 0,
+    3: 0,
+  });
+  const [hint, setHint] = useState<string>('');
+
+  const showNextHint = (sectionId: number) => {
+    setShowHints((prev) => ({ ...prev, [sectionId]: false }));
+    setLoadHint(true);
+
+    setTimeout(() => {
+      setHint(SECTION_HINTS[sectionId][currentHintIndex[sectionId]]);
+      setCurrentHintIndex((prev) => {
+        const currentIndex = prev[sectionId] || 0;
+        const nextIndex = (currentIndex + 1) % SECTION_HINTS[sectionId].length;
+        return { ...prev, [sectionId]: nextIndex };
+      });
+
+      setLoadHint(false);
+      setShowHints((prev) => ({ ...prev, [sectionId]: true }));
+    }, 1500);
+  };
 
   useEffect(() => {
     if (
@@ -172,67 +221,108 @@ function ProblemUnderstanding() {
         </>
       }
       activity={
-        <div className="flex justify-center items-start mt-8 space-x-4 w-full">
-          {answers &&
-            SECTIONS.map((section) => (
-              <div key={section.id} className="w-full sm:w-1/2 md:w-1/3">
-                <Box
-                  header={section.title}
-                  fillHeight={true}
-                  content={
-                    <div className="p-4 flex flex-col text-[12px] tracking-widest space-y-2">
-                      {/* Input field */}
-                      <div className="relative flex items-center border-2 border-define rounded-[20px] bg-transparent">
-                        <input
-                          type="text"
-                          value={inputValues[section.id] || ''}
-                          onChange={(e) =>
-                            handleInputChange(section.id, e.target.value)
-                          }
-                          onKeyDown={(e) => handleKeyDown(e, section.id)}
-                          placeholder="Type here ..."
-                          className="w-full p-2 pr-[55px] bg-transparent text-primary focus:outline-none resize-none"
-                        />
-                        <button
-                          onClick={() => addAnswer(section.id)}
-                          disabled={!inputValues[section.id].trim()}
-                          className="absolute right-2 px-2 py-1 text-[10px] text-empathize bg-define rounded-full disabled:text-base-100 disabled:bg-[color-mix(in_oklch,#e5e7eb_35%,transparent)]"
-                        >
-                          Add
-                        </button>
-                      </div>
-
-                      {/* Answers list */}
-                      <div className="overflow-auto mt-2 space-y-2">
-                        {answers[section.id]?.map((answer, index) => (
-                          <div
-                            key={index}
-                            className="flex justify-between items-center p-2 bg-define text-empathize rounded-[20px] cursor-pointer"
-                            onClick={() => handleEdit(section.id, index)}
+        <div className="flex flex-col items-center w-full">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 w-full items-stretch pb-2">
+            {answers &&
+              SECTIONS.map((section) => (
+                <div key={section.id} className="w-full">
+                  <Box
+                    header={section.title}
+                    fillHeight={true}
+                    content={
+                      <div className="p-4 flex flex-col text-[12px] tracking-widest gap-3">
+                        {/* Input field */}
+                        <div className="relative flex items-center border-2 border-define rounded-full bg-transparent">
+                          <input
+                            type="text"
+                            value={inputValues[section.id] || ''}
+                            onChange={(e) =>
+                              handleInputChange(section.id, e.target.value)
+                            }
+                            onKeyDown={(e) => handleKeyDown(e, section.id)}
+                            placeholder="Type here ..."
+                            className="w-full p-2 pr-12 bg-transparent text-primary focus:outline-none"
+                          />
+                          <button
+                            onClick={() => addAnswer(section.id)}
+                            disabled={!inputValues[section.id]?.trim()}
+                            className="absolute right-2 px-3 py-1 text-[10px] text-empathize bg-define rounded-full disabled:opacity-50"
                           >
-                            {/* Clickable answer for editing */}
-                            <span className="break-words overflow-hidden text-ellipsis">
-                              {answer}
-                            </span>
+                            Add
+                          </button>
+                        </div>
 
-                            {/* Delete button */}
-                            <button
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                handleDelete(section.id, index);
-                              }}
-                              className="text-sm ml-2 text-empathize hover:text-red-500"
+                        {/* Answers list */}
+                        <div className=" space-y-1">
+                          {answers[section.id]?.map((answer, index) => (
+                            <div
+                              key={index}
+                              className="flex justify-between items-center p-2 bg-define text-empathize rounded-full cursor-pointer"
+                              onClick={() => handleEdit(section.id, index)}
                             >
-                              ✕
-                            </button>
-                          </div>
-                        ))}
+                              <span className="truncate">{answer}</span>
+                              <button
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  handleDelete(section.id, index);
+                                }}
+                                className="text-sm ml-2 text-empathize hover:text-red-500"
+                              >
+                                ✕
+                              </button>
+                            </div>
+                          ))}
+                        </div>
                       </div>
-                    </div>
-                  }
-                />
+                    }
+                  />
+
+                  {/* Hint Button */}
+                  <button
+                    className="px-4 text-primary text-sm hover:opacity-70 mb-2 mt-3"
+                    onClick={() => showNextHint(section.id)}
+                  >
+                    {hint ? 'New hint' : 'Get hint'}
+                  </button>
+                </div>
+              ))}
+          </div>
+
+          {/* Hint */}
+          {(hint || loadHint) && (
+            <div className="hints-container w-full text-center mt-4 flex flex-col text-primary gap-3 py-4">
+              <div className="w-full flex gap-4">
+                {SECTIONS.map(({ id }) => (
+                  <div
+                    key={id}
+                    className={`w-1/3  bg-[#214A6B] p-2 rounded-[12px] text-primary flex justify-center items-center transition-all duration-500 transform relative ${
+                      SECTION_HINTS[id]?.includes(hint)
+                        ? 'opacity-100'
+                        : loadHint && !hint && id === 1
+                          ? 'opacity-100'
+                          : 'opacity-0'
+                    }`}
+                  >
+                    {loadHint ? (
+                      <div>
+                        <p className="text-sm pt-2">Thinking...</p>
+                        <span className="loading loading-dots loading-sm"></span>
+                      </div>
+                    ) : (
+                      <div className="text-start relative">
+                        {showHints[id] && !loadHint && hint && (
+                          <div className="flex flex-row space-x-2 items-center">
+                            <div>💡</div>
+                            <div className="text-sm">{hint}</div>
+                          </div>
+                        )}
+                      </div>
+                    )}
+                  </div>
+                ))}
               </div>
-            ))}
+            </div>
+          )}
         </div>
       }
     />
