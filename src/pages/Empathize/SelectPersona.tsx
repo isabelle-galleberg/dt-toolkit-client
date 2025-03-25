@@ -129,7 +129,7 @@ function SelectPersona() {
                 key={card._id}
                 src={card.cardImageUrl}
                 alt="persona-card"
-                className={`w-52 cursor-pointer rounded-lg transition-all duration-300 
+                className={`w-52 cursor-pointer rounded-lg transition-all duration-300 hover:scale-110
                   ${persona?._id === card._id ? 'scale-110 shadow-lg' : ''}`}
                 onClick={() => handlePersonaSelection(card)}
               />
