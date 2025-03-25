@@ -14,6 +14,9 @@ export default {
         pattern: "url('/src/assets/bg-pattern-dark.svg')",
         'pattern-primary': "url('/src/assets/bg-pattern-primary.svg')",
       },
+      scale: {
+        115: '1.15',
+      },
     },
   },
   plugins: [require('daisyui')],

@@ -122,15 +122,15 @@ function SelectPersona() {
           </div>
           <div
             ref={cardContainerRef}
-            className="flex gap-4 overflow-x-auto overflow-y-hidden scroll-smooth w-full"
+            className="flex gap-4 overflow-x-auto p-4 scroll-smooth w-full"
           >
             {personaCards.map((card) => (
               <img
                 key={card._id}
                 src={card.cardImageUrl}
                 alt="persona-card"
-                className={`py-1 w-52 cursor-pointer rounded-lg transition-all duration-300 hover:scale-110 hover:rotate-2
-                  ${persona?._id === card._id ? 'scale-110 shadow-lg' : ''}`}
+                className={`py-1 w-52 cursor-pointer rounded-lg transition-all duration-300 hover:rotate-2
+                  ${persona?._id === card._id ? 'scale-115 shadow-lg' : ''}`}
                 onClick={() => handlePersonaSelection(card)}
               />
             ))}
