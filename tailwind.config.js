@@ -23,7 +23,7 @@ export default {
         mytheme: {
           primary: '#BEEBFA',
           'base-100': '#112E45',
-          success: '#12824E',
+          success: '#43A047',
         },
       },
     ],
