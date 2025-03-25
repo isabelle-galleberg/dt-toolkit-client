@@ -44,7 +44,7 @@ const Checklist = () => {
   };
 
   useEffect(() => {
-    if (checklist.length >= 5) {
+    if (checklist.length >= 4) {
       if (!isTaskComplete('/ideate/checklist')) {
         markTaskComplete('/ideate/checklist');
       }

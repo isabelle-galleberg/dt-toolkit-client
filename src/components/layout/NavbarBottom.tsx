@@ -35,7 +35,8 @@ const getNextTooltip = (pathname: string) => {
       'Identify at least 3 incidents, causes, and consequences to proceed',
     '/define/problem-statement':
       'Fill out all parts of the problem statement to proceed',
-    '/ideate/checklist': 'Add at least 5 items to the checklist to proceed',
+    '/ideate/checklist':
+      'You need at least 5 items on your checklist to proceed',
     '/test/checklist': 'Test the checklist on all emails to finish',
   };
 
