@@ -8,19 +8,12 @@ import {
   addSpottedScam,
   deleteSpottedScam,
 } from '../../services/spottedScamService';
-import { SpottedScam } from '../../types/define';
+import { Pin, SpottedScam } from '../../types/scam';
 import { usePersonaStore } from '../../store/personaStore';
 import { useUserStore } from '../../store/userStore';
 import LoadingSpinner from '../../components/LoadingSpinner';
 import PhoneComponent from '../../components/Phone';
 import { getHint } from '../../services/spottedScamService';
-
-interface Pin {
-  id: number;
-  x: number;
-  y: number;
-  inputText: string;
-}
 
 function SpotScam() {
   const { persona } = usePersonaStore();
@@ -33,11 +26,9 @@ function SpotScam() {
   const cardId = persona?._id;
   const userId = user?._id;
   const [loading, setLoading] = useState<boolean>(true);
-  const [currentHintIndex, setCurrentHintIndex] = useState(0);
-  const [showHints, setShowHints] = useState(false);
   const scrollRef = useRef<HTMLDivElement | null>(null);
   const [hint, setHint] = useState<string>('');
-  const [hintLoading, setHintLoading] = useState<boolean>(false);
+  const [loadingHint, setLoadingHint] = useState<boolean>(false);
 
   const scrollToBottom = () => {
     setTimeout(() => {
@@ -54,18 +45,11 @@ function SpotScam() {
   };
 
   const handleHintClick = async () => {
-    setHintLoading(true);
+    setLoadingHint(true);
     const scamTexts = spottedScams.map((scam) => scam.inputText);
-    console.log(scamTexts);
     const response = await getHint(scamTexts);
-    setHintLoading(false);
     setHint(response.hint);
-  };
-
-  const toggleHints = () => {
-    setShowHints((prev) => !prev);
-    scrollToBottom();
-    setCurrentHintIndex(0);
+    setLoadingHint(false);
   };
 
   useEffect(() => {
@@ -261,21 +245,20 @@ function SpotScam() {
               ))}
             </div>
           </div>
-
           <button
-            className="px-4 text-primary text-sm hover:opacity-80"
+            className="px-4 text-primary text-sm hover:opacity-70 mb-2"
             onClick={handleHintClick}
           >
             {hint ? 'New hint' : 'Get hint'}
           </button>
-          {hintLoading && (
+          {loadingHint && (
             <div className="text-primary px-4">
               <p className="text-sm text-primary">Thinking</p>
               <span className="loading loading-dots loading-sm text-primary"></span>
             </div>
           )}
-          {hint && !hintLoading && (
-            <div className="text-primary bg-base-100 p-4 shadow-md rounded-[20px] flex flex-row items-center space-x-3">
+          {hint && !loadingHint && (
+            <div className="bg-[#214A6B] p-2 rounded-[12px] text-primary flex flex-row space-x-3 items-center">
               <div>💡</div>
               <div className="text-sm">{hint}</div>
             </div>
