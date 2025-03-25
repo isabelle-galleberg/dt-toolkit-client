@@ -54,7 +54,7 @@ function GearsBot() {
             <div className="text-primary flex flex-row space-x-4 items-center rounded-[12px] bg-[#214A6B] p-2 py-3">
               <input
                 type="checkbox"
-                className="form-checkbox h-5 w-5"
+                className="checkbox checkbox-success checkbox-sm rounded-md border-2 border-primary hover:bg-primary hover:border-none"
                 style={{ accentColor: 'green' }}
               />
               <div>Does the email ask for personal information?</div>
@@ -66,7 +66,7 @@ function GearsBot() {
                     <input
                       type="checkbox"
                       id={`check-${item._id}`}
-                      className="form-checkbox h-5 w-5"
+                      className="checkbox checkbox-success checkbox-sm rounded-md border-2 border-primary hover:bg-primary hover:border-none"
                       style={{ accentColor: 'green' }}
                     />
                   </div>

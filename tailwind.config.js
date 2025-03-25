@@ -14,6 +14,9 @@ export default {
         pattern: "url('/src/assets/bg-pattern-dark.svg')",
         'pattern-primary': "url('/src/assets/bg-pattern-primary.svg')",
       },
+      scale: {
+        115: '1.15',
+      },
     },
   },
   plugins: [require('daisyui')],
@@ -23,7 +26,7 @@ export default {
         mytheme: {
           primary: '#BEEBFA',
           'base-100': '#112E45',
-          success: '#12824E',
+          success: '#43A047',
         },
       },
     ],

@@ -63,7 +63,7 @@ const sections = [
   },
   {
     title: 'Fake emails',
-    color: 'text-ideate',
+    color: 'text-base-100',
     content: (
       <>
         Scammers send emails that look like they come from your bank, school, or
@@ -74,7 +74,7 @@ const sections = [
   },
   {
     title: 'Text message scams',
-    color: 'text-ideate',
+    color: 'text-base-100',
     content: (
       <>
         A scammer might send a message pretending to be from a delivery service
@@ -86,7 +86,7 @@ const sections = [
   },
   {
     title: 'Fake websites',
-    color: 'text-ideate',
+    color: 'text-base-100',
     content: (
       <>
         Some phishing scams create fake websites that look like real ones. They
@@ -98,7 +98,7 @@ const sections = [
   },
   {
     title: 'Phone call scams',
-    color: 'text-ideate',
+    color: 'text-base-100',
     content: (
       <>
         Scammers may call and pretend to be from your school, bank, or even the

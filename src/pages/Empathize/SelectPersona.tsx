@@ -113,7 +113,7 @@ function SelectPersona() {
             <button
               onClick={handlePrevCard}
               disabled={isAtStart}
-              className={`p-2 rounded-full text-bold text-define transition duration-200 text-xl bg-empathize px-4 ${
+              className={`p-2 rounded-full text-bold text-define transition duration-200 text-xl bg-empathize hover:bg-[#18A060] px-4 ${
                 isAtStart ? 'opacity-50 cursor-not-allowed' : ''
               }`}
             >
@@ -122,15 +122,15 @@ function SelectPersona() {
           </div>
           <div
             ref={cardContainerRef}
-            className="flex gap-4 overflow-x-auto overflow-y-hidden scroll-smooth w-full"
+            className="flex gap-4 overflow-x-auto p-4 scroll-smooth w-full"
           >
             {personaCards.map((card) => (
               <img
                 key={card._id}
                 src={card.cardImageUrl}
                 alt="persona-card"
-                className={`w-52 cursor-pointer rounded-lg transition-all duration-300 
-                  ${persona?._id === card._id ? 'scale-110 shadow-lg' : ''}`}
+                className={`py-1 w-52 cursor-pointer rounded-lg transition-all duration-300 hover:rotate-2
+                  ${persona?._id === card._id ? 'scale-115 shadow-lg' : ''}`}
                 onClick={() => handlePersonaSelection(card)}
               />
             ))}
@@ -139,7 +139,7 @@ function SelectPersona() {
             <button
               onClick={handleNextCard}
               disabled={isAtEnd}
-              className={`p-2 rounded-full text-bold text-define transition duration-200 text-xl bg-empathize px-4 ${
+              className={`p-2 rounded-full text-bold text-define transition duration-200 text-xl bg-empathize hover:bg-[#18A060] px-4 ${
                 isAtEnd ? 'opacity-50 cursor-not-allowed' : ''
               }`}
             >

@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import ActivityPageLayout from '../../components/layout/ActivityPageLayout';
 import { useTaskProgress } from '../../context/TaskProgressContext';
 import { usePersonaStore } from '../../store/personaStore';
+import { motion } from 'framer-motion';
 
 function PersonaInfo() {
   const { persona } = usePersonaStore();
@@ -27,13 +28,15 @@ function PersonaInfo() {
           </>
         }
         activity={
-          <div>
-            <img
-              src={persona?.cardImageUrl}
-              alt="persona-card"
-              className="w-60"
-            />
-          </div>
+          <motion.img
+            src={persona?.cardImageUrl}
+            alt="persona-card"
+            className="w-60"
+            initial={{ opacity: 0, y: 50, scale: 0.8, rotate: -5 }}
+            animate={{ opacity: 1, y: 0, scale: 1, rotate: 0 }}
+            transition={{ type: 'spring', stiffness: 120, damping: 10 }}
+            whileHover={{ scale: 1.05, rotate: 2 }}
+          />
         }
       ></ActivityPageLayout>
     </>
