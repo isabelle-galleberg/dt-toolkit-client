@@ -3,6 +3,7 @@ import ActivityPageLayout from '../../components/layout/ActivityPageLayout';
 import { useTaskProgress } from '../../context/TaskProgressContext';
 import { usePersonaStore } from '../../store/personaStore';
 import { motion } from 'framer-motion';
+import ProgressBar from '../../components/ProgressBar';
 
 function PersonaInfo() {
   const { persona } = usePersonaStore();
@@ -39,6 +40,7 @@ function PersonaInfo() {
           />
         }
       ></ActivityPageLayout>
+      <ProgressBar phase="empathize" currentStep={2} totalSteps={6} />
     </>
   );
 }

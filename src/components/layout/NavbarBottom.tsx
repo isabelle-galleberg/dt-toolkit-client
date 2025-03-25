@@ -11,16 +11,21 @@ const routes = [
   '/empathize/persona',
   '/empathize/storyboard-info',
   '/empathize/storyboard',
+  '/empathize/complete',
   '/define',
   '/define/spot-scam',
   '/define/problem-understanding',
   '/define/problem-statement',
+  '/define/complete',
   '/ideate',
   '/ideate/checklist',
+  '/ideate/complete',
   '/prototype',
   '/prototype/gearsbot',
+  '/prototype/complete',
   '/test',
   '/test/checklist',
+  '/test/complete',
   '/conclusion',
 ].filter(Boolean);
 
@@ -82,7 +87,7 @@ function Navbar() {
   };
 
   const handleFinishClick = () => {
-    if (location.pathname === '/test/checklist') {
+    if (location.pathname === '/test/complete') {
       setIsModalOpen(true);
     } else {
       goToNextPage();
@@ -147,7 +152,7 @@ function Navbar() {
               onClick={handleFinishClick}
               disabled={isNextDisabled}
             >
-              {location.pathname === '/test/checklist' ? 'Finish' : 'Next'}
+              {location.pathname === '/test/complete' ? 'Finish' : 'Next'}
             </button>
 
             {isNextDisabled && (

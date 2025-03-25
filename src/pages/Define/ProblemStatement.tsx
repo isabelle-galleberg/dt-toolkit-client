@@ -9,6 +9,7 @@ import {
   upsertProblemStatement,
 } from '../../services/problemStatementService';
 import LoadingSpinner from '../../components/LoadingSpinner';
+import ProgressBar from '../../components/ProgressBar';
 
 const questions = [
   'Who got scammed?',
@@ -150,6 +151,7 @@ const ProblemStatement = () => {
           <div className="space-y-3 pt-6">
             {[1, 2, 3, 4, 5].map((sectionId) => renderInputBox(sectionId))}
           </div>
+          <ProgressBar phase={'define'} currentStep={3} totalSteps={4} />
         </div>
       }
     />

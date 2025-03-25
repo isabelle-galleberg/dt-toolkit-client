@@ -14,6 +14,7 @@ import { useUserStore } from '../../store/userStore';
 import LoadingSpinner from '../../components/LoadingSpinner';
 import PhoneComponent from '../../components/Phone';
 import { getHint } from '../../services/spottedScamService';
+import ProgressBar from '../../components/ProgressBar';
 
 function SpotScam() {
   const { persona } = usePersonaStore();
@@ -263,6 +264,7 @@ function SpotScam() {
               <div className="text-sm">{hint}</div>
             </div>
           )}
+          <ProgressBar phase={'define'} currentStep={1} totalSteps={4} />
         </div>
       }
     />

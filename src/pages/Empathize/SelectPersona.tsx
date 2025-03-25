@@ -7,6 +7,7 @@ import { PersonaCard } from '../../types/persona';
 import { getPersonaCards } from '../../services/personaCardService';
 import LoadingSpinner from '../../components/LoadingSpinner';
 import { useUserStore } from '../../store/userStore';
+import ProgressBar from '../../components/ProgressBar';
 
 // shuffle array based on a seed
 const seededShuffle = (array: PersonaCard[], seed: string): PersonaCard[] => {
@@ -146,6 +147,7 @@ function SelectPersona() {
               &gt;
             </button>
           </div>
+          <ProgressBar phase="empathize" currentStep={1} totalSteps={6} />
         </div>
       }
     />

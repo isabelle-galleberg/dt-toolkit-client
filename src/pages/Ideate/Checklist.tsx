@@ -15,6 +15,7 @@ import {
   getAiFeedback,
   updateAiFeedback,
 } from '../../services/aiFeedbackService';
+import ProgressBar from '../../components/ProgressBar';
 
 const Checklist = () => {
   const [checklist, setChecklist] = useState<ChecklistItem[]>([]);
@@ -309,6 +310,7 @@ const Checklist = () => {
               </div>
             </div>
           </div>
+          <ProgressBar phase={'ideate'} currentStep={1} totalSteps={2} />
         </div>
       }
     />

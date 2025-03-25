@@ -26,6 +26,11 @@ import { TaskProgressProvider } from './context/TaskProgressContext';
 import NavbarTop from './components/layout/NavbarTop';
 import NotFoundPage from './pages/NotFoundPage';
 import Checklist from './pages/Ideate/Checklist';
+import CompleteEmpathize from './pages/Empathize/CompleteEmpathize';
+import CompleteDefine from './pages/Define/CompleteDefine';
+import CompleteIdeate from './pages/Ideate/CompleteIdeate';
+import CompletePrototype from './pages/Prototype/CompletePrototype';
+import CompleteTest from './pages/Test/CompleteTest';
 
 function App() {
   const { token } = useUserStore();
@@ -74,6 +79,10 @@ function App() {
                 element={<StoryboardInfo />}
               />
               <Route path="/empathize/storyboard" element={<Storyboard />} />
+              <Route
+                path="/empathize/complete"
+                element={<CompleteEmpathize />}
+              />
               <Route path="/define" element={<Define />} />
               <Route path="/define/spot-scam" element={<SpotScam />} />
               <Route
@@ -84,12 +93,19 @@ function App() {
                 path="/define/problem-statement"
                 element={<ProblemStatement />}
               />
+              <Route path="/define/complete" element={<CompleteDefine />} />
               <Route path="/ideate" element={<Ideate />} />
               <Route path="/ideate/checklist" element={<Checklist />} />
+              <Route path="/ideate/complete" element={<CompleteIdeate />} />
               <Route path="/prototype" element={<Prototype />} />
               <Route path="/prototype/gearsbot" element={<GearsBot />} />
+              <Route
+                path="/prototype/complete"
+                element={<CompletePrototype />}
+              />
               <Route path="/test" element={<Test />} />
               <Route path="/test/checklist" element={<TestChecklist />} />
+              <Route path="/test/complete" element={<CompleteTest />} />
               <Route path="/conclusion" element={<Conclusion />} />
             </Routes>
           </>
