@@ -113,7 +113,7 @@ function SelectPersona() {
             <button
               onClick={handlePrevCard}
               disabled={isAtStart}
-              className={`p-2 rounded-full text-bold text-define transition duration-200 text-xl bg-empathize px-4 ${
+              className={`p-2 rounded-full text-bold text-define transition duration-200 text-xl bg-empathize hover:bg-[#18A060] px-4 ${
                 isAtStart ? 'opacity-50 cursor-not-allowed' : ''
               }`}
             >
@@ -139,7 +139,7 @@ function SelectPersona() {
             <button
               onClick={handleNextCard}
               disabled={isAtEnd}
-              className={`p-2 rounded-full text-bold text-define transition duration-200 text-xl bg-empathize px-4 ${
+              className={`p-2 rounded-full text-bold text-define transition duration-200 text-xl bg-empathize hover:bg-[#18A060] px-4 ${
                 isAtEnd ? 'opacity-50 cursor-not-allowed' : ''
               }`}
             >
