@@ -258,7 +258,7 @@ function SpotScam() {
             </div>
           )}
           {hint && !loadingHint && (
-            <div className="bg-[#214A6B] p-2 rounded-[12px] text-primary flex flex-row space-x-3 items-center">
+            <div className="bg-[#214A6B] p-2 rounded-[12px] text-primary flex flex-row space-x-2 items-center">
               <div>💡</div>
               <div className="text-sm">{hint}</div>
             </div>
