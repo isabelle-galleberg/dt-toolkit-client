@@ -1,5 +1,5 @@
 import api from './api';
-import { SpottedScam } from '../types/define';
+import { SpottedScam } from '../types/scam';
 
 const API_URL = '/spot-scam';
 
@@ -32,6 +32,20 @@ export const deleteSpottedScam = async (id: string): Promise<void> => {
     await api.delete(`${API_URL}/${id}`);
   } catch (error) {
     console.error('Error deleting spotted scam:', error);
+    throw error;
+  }
+};
+
+export const getHint = async (
+  scamsDetected: string[]
+): Promise<{ hint: string }> => {
+  try {
+    const response = await api.post<{ hint: string }>(`${API_URL}/hint`, {
+      scamsDetected,
+    });
+    return response.data;
+  } catch (error) {
+    console.error('Error generating hint:', error);
     throw error;
   }
 };

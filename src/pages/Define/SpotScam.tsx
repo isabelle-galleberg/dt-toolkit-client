@@ -8,19 +8,12 @@ import {
   addSpottedScam,
   deleteSpottedScam,
 } from '../../services/spottedScamService';
-import { ChevronDownIcon, ChevronUpIcon } from '@heroicons/react/24/solid';
-import { SpottedScam } from '../../types/define';
+import { Pin, SpottedScam } from '../../types/scam';
 import { usePersonaStore } from '../../store/personaStore';
 import { useUserStore } from '../../store/userStore';
 import LoadingSpinner from '../../components/LoadingSpinner';
 import PhoneComponent from '../../components/Phone';
-
-interface Pin {
-  id: number;
-  x: number;
-  y: number;
-  inputText: string;
-}
+import { getHint } from '../../services/spottedScamService';
 
 function SpotScam() {
   const { persona } = usePersonaStore();
@@ -33,9 +26,9 @@ function SpotScam() {
   const cardId = persona?._id;
   const userId = user?._id;
   const [loading, setLoading] = useState<boolean>(true);
-  const [currentHintIndex, setCurrentHintIndex] = useState(0);
-  const [showHints, setShowHints] = useState(false);
   const scrollRef = useRef<HTMLDivElement | null>(null);
+  const [hint, setHint] = useState<string>('');
+  const [loadingHint, setLoadingHint] = useState<boolean>(false);
 
   const scrollToBottom = () => {
     setTimeout(() => {
@@ -51,78 +44,12 @@ function SpotScam() {
     }, 300);
   };
 
-  const scamHints = [
-    {
-      id: 1,
-      text: (
-        <>
-          <strong>Check the sender:</strong> Does the email address look
-          legitimate? (Look for misspellings or domain mismatches)
-        </>
-      ),
-    },
-    {
-      id: 2,
-      text: (
-        <>
-          <strong>Watch out for pressure or unrealistic offers:</strong> Is it
-          urging immediate action, threatening consequences, or offering
-          something too good to be true?
-        </>
-      ),
-    },
-    {
-      id: 3,
-      text: (
-        <>
-          <strong>Check the links:</strong> Hover over links—do the actual URLs
-          match the displayed text or the company's website?
-        </>
-      ),
-    },
-    {
-      id: 4,
-      text: (
-        <>
-          <strong>Check the greeting:</strong> Does it use a generic greeting
-          like "Dear Customer" instead of your name?
-        </>
-      ),
-    },
-    {
-      id: 5,
-      text: (
-        <>
-          <strong>Look for errors:</strong> Are there typos, grammatical
-          mistakes, or strange phrasing?
-        </>
-      ),
-    },
-    {
-      id: 6,
-      text: (
-        <>
-          <strong>Think about the requests:</strong> Does it ask for sensitive
-          information like passwords or credit card numbers?
-        </>
-      ),
-    },
-  ];
-
-  const toggleHints = () => {
-    setShowHints((prev) => !prev);
-    scrollToBottom();
-    setCurrentHintIndex(0);
-  };
-
-  const nextHint = () => {
-    setCurrentHintIndex((prev) => (prev + 1) % scamHints.length);
-  };
-
-  const prevHint = () => {
-    setCurrentHintIndex(
-      (prev) => (prev - 1 + scamHints.length) % scamHints.length
-    );
+  const handleHintClick = async () => {
+    setLoadingHint(true);
+    const scamTexts = spottedScams.map((scam) => scam.inputText);
+    const response = await getHint(scamTexts);
+    setHint(response.hint);
+    setLoadingHint(false);
   };
 
   useEffect(() => {
@@ -318,53 +245,24 @@ function SpotScam() {
               ))}
             </div>
           </div>
-
-          {/* Hint Button */}
           <button
-            className="px-4 relative text-define text-sm tracking-wide transition-all duration-300 hover:underline hover:opacity-80 flex items-center gap-1"
-            onClick={toggleHints}
+            className="px-4 text-primary text-sm hover:opacity-70 mb-2"
+            onClick={handleHintClick}
           >
-            {showHints ? (
-              <>
-                <span>Hide Hints</span> <ChevronUpIcon className="h-5 w-5" />
-              </>
-            ) : (
-              <>
-                <span>Get Hints</span> <ChevronDownIcon className="h-5 w-5" />
-              </>
-            )}
+            {hint ? 'New hint' : 'Get hint'}
           </button>
-
-          {/* Hint Section */}
-          <div
-            className={`transition-all duration-300 ease-in-out shadow-md text-[12px] tracking-widest bg-base-100 ${
-              showHints ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
-            } overflow-hidden`}
-            ref={scrollRef}
-          >
-            <div className="hints-container bg-light p-4 rounded shadow-md flex items-center justify-between">
-              <button
-                className="p-2 rounded-full text-bold text-define transition duration-200 text-xl border border-define px-4 hover:bg-define hover:text-empathize"
-                onClick={prevHint}
-              >
-                &lt;
-              </button>
-
-              <div className="text-center w-full">
-                <h3 className="font-semibold text-[16px]">
-                  💡 Hint {currentHintIndex + 1} of {scamHints.length}
-                </h3>
-                <p className="px-8">{scamHints[currentHintIndex].text}</p>
-              </div>
-
-              <button
-                className="p-2 rounded-full text-bold text-define transition duration-200 text-xl border border-define px-4 hover:bg-define hover:text-empathize"
-                onClick={nextHint}
-              >
-                &gt;
-              </button>
+          {loadingHint && (
+            <div className="text-primary px-4">
+              <p className="text-sm text-primary">Thinking</p>
+              <span className="loading loading-dots loading-sm text-primary"></span>
             </div>
-          </div>
+          )}
+          {hint && !loadingHint && (
+            <div className="bg-[#214A6B] p-2 rounded-[12px] text-primary flex flex-row space-x-3 items-center">
+              <div>💡</div>
+              <div className="text-sm">{hint}</div>
+            </div>
+          )}
         </div>
       }
     />
