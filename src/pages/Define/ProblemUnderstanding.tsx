@@ -241,12 +241,12 @@ function ProblemUnderstanding() {
                             }
                             onKeyDown={(e) => handleKeyDown(e, section.id)}
                             placeholder="Type here ..."
-                            className="w-full p-2 pr-12 bg-transparent text-primary focus:outline-none"
+                            className="w-full p-2 pr-[50px] bg-transparent text-primary focus:outline-none"
                           />
                           <button
                             onClick={() => addAnswer(section.id)}
                             disabled={!inputValues[section.id]?.trim()}
-                            className="absolute right-2 px-3 py-1 text-[10px] text-empathize bg-define rounded-full disabled:opacity-50"
+                            className="absolute right-2 px-2 py-1 text-[10px] text-empathize bg-define rounded-full disabled:opacity-50"
                           >
                             Add
                           </button>
