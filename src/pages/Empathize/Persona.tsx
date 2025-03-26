@@ -129,7 +129,7 @@ function Persona() {
         <div className="grid grid-cols-[1.5fr_1fr] gap-6 text-primary w-full">
           <div className="space-y-4">
             <div className="flex space-x-6 tracking-widest">
-              <div className="relative w-46 h-46 hover:scale-105">
+              <div className="relative w-46 h-46 hover:scale-105 transition-transform">
                 <img
                   src={persona?.personaImageUrl || ''}
                   alt="persona grandma"
