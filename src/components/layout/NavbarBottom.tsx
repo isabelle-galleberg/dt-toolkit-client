@@ -177,8 +177,8 @@ function Navbar() {
             >
               &times;
             </button>
-            <h3 className="text-xl font-semibold mb-4 text-ideate pb-4 text-roboto-slab">
-              Ready to wrap up your Scam Checklist?
+            <h3 className="text-xl font-semibold text-ideate mb-4 pb-4 text-roboto-slab text-center">
+              Are you sure you're ready to finish?
             </h3>
             <div className="flex flex-col space-y-4 flex-grow justify-center">
               <button
