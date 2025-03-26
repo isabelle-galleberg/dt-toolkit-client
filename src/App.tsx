@@ -31,6 +31,7 @@ import CompleteDefine from './pages/Define/CompleteDefine';
 import CompleteIdeate from './pages/Ideate/CompleteIdeate';
 import CompletePrototype from './pages/Prototype/CompletePrototype';
 import CompleteTest from './pages/Test/CompleteTest';
+import TestInfo from './pages/Test/TestInfo';
 
 function App() {
   const { token } = useUserStore();
@@ -104,6 +105,7 @@ function App() {
                 element={<CompletePrototype />}
               />
               <Route path="/test" element={<Test />} />
+              <Route path="/test/info" element={<TestInfo />} />
               <Route path="/test/checklist" element={<TestChecklist />} />
               <Route path="/test/complete" element={<CompleteTest />} />
               <Route path="/conclusion" element={<Conclusion />} />

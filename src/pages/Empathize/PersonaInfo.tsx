@@ -40,7 +40,12 @@ function PersonaInfo() {
           />
         }
       ></ActivityPageLayout>
-      <ProgressBar phase="empathize" currentStep={2} totalSteps={6} />
+      <ProgressBar
+        phase="empathize"
+        moveProgressBar={false}
+        currentStep={1}
+        totalSteps={4}
+      />
     </>
   );
 }

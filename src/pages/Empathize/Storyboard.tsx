@@ -192,7 +192,7 @@ function Storyboard() {
               );
             })}
           </div>
-          <ProgressBar phase="empathize" currentStep={5} totalSteps={6} />
+          <ProgressBar phase="empathize" currentStep={3} totalSteps={4} />
         </div>
       }
     />

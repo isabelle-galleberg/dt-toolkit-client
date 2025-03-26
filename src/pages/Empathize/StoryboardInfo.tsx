@@ -40,6 +40,12 @@ function StoryboardInfo() {
 
   return (
     <>
+      <ProgressBar
+        phase="empathize"
+        moveProgressBar={false}
+        currentStep={2}
+        totalSteps={4}
+      />
       <ActivityPageLayout
         header="Ohh no ..! 😱"
         text={
@@ -53,8 +59,7 @@ function StoryboardInfo() {
           </div>
         }
         centerContent={true}
-      ></ActivityPageLayout>
-      <ProgressBar phase="empathize" currentStep={4} totalSteps={6} />
+      />
     </>
   );
 }
