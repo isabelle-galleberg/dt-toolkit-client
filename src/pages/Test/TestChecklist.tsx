@@ -11,17 +11,9 @@ import {
 } from '../../services/feedbackService';
 import { useTaskProgress } from '../../context/TaskProgressContext';
 import Tooltip from '../../components/Tooltip';
+import { Email } from '../../types/email';
 
-interface Email {
-  sender: string;
-  subject: string;
-  content: JSX.Element;
-  buttonText: string;
-  buttonLink: string;
-  correctAnswer: 'Scam' | 'Legit';
-  scamSigns: string[];
-  explanation: string;
-}
+const { persona } = usePersonaStore();
 
 const scamEmails: Email[] = [
   {
@@ -87,7 +79,7 @@ const scamEmails: Email[] = [
     subject: 'Subject: Hey, check this out!',
     content: (
       <>
-        <p>Hey Emma,</p>
+        <p>{`Hey ${persona?.alias},`}</p>
         <p className="mt-2">
           I found this really cool website where you can win prizes just for
           signing up. You should totally check it out!
@@ -187,7 +179,7 @@ const legitEmails: Email[] = [
     subject: 'Subject: Your order has been shipped!',
     content: (
       <>
-        <p>Hello John,</p>
+        <p>{`Hello ${persona?.alias},`}</p>
         <p className="mt-2">
           Your order <b>#5678-1234</b> has been shipped. You can track it
           through your Amazon account.
@@ -225,7 +217,7 @@ const legitEmails: Email[] = [
     subject: 'Subject: Your Spotify Premium Payment Was Successful',
     content: (
       <>
-        <p>Hi Noah,</p>
+        <p>{`Hi ${persona?.alias},`}</p>
         <p className="mt-2">
           Your payment for Spotify Premium has been processed successfully. Your
           next billing date is May 15, 2025.
@@ -264,7 +256,7 @@ const legitEmails: Email[] = [
     subject: 'Subject: Your SAS Booking Confirmation - Flight to London',
     content: (
       <>
-        <p>Dear Emily,</p>
+        <p>{`Dear ${persona?.alias},`}</p>
         <p className="mt-2">
           Your booking for Flight SK531 to London on June 10, 2025, has been
           confirmed. You can check your itinerary and manage your booking below.
