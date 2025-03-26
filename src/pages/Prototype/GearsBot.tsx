@@ -41,9 +41,7 @@ function GearsBot() {
         <div className="flex flex-row justify-between w-full">
           <button
             className="btn bg-prototype text-test px-6 py-2 hover:bg-prototype hover:text-test hover:border-test"
-            onClick={() =>
-              window.open('https://gears.aposteriori.com.sg', '_blank')
-            }
+            onClick={() => window.open('https://extendt2.com/', '_blank')}
           >
             GO TO GEARSBOT
           </button>
