@@ -28,7 +28,6 @@ function ProgressBar({ phase, currentStep, totalSteps }: ProgressBarProps) {
           : currentStep >= totalSteps
             ? 'All activities completed!'
             : `${currentStep} out of ${totalSteps - 1} activities! Keep going!`}
-        {/* or should totaltSteps be -1 */}
       </motion.p>
 
       <div className="bg-base-100 h-2 overflow-hidden rounded-full">
