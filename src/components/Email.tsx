@@ -1,23 +1,30 @@
 import ProfileIcon from '../assets/profile-icon.svg';
+import { usePersonaStore } from '../store/personaStore';
 
 interface EmailProps {
   sender?: string;
   subject?: string;
-  text?: JSX.Element;
+  greeting?: string;
+  text?: string;
   buttonText?: string;
   buttonLink?: string;
+  personal?: boolean;
 }
 
 function EmailComponent({
   sender,
   subject,
+  greeting,
   text,
   buttonText,
   buttonLink,
+  personal,
 }: EmailProps) {
+  const { persona } = usePersonaStore();
+
   return (
     <div className="w-full max-w-md mx-auto text-[12px]">
-      <div className="bg-white border border-base-100 border-8 rounded-xl shadow-md shadow-primary overflow-hidden">
+      <div className="bg-white border-8 border-base-100 rounded-xl shadow-md shadow-primary overflow-hidden">
         {/* Inbox Header */}
         <div className="bg-primary px-2 py-1">
           <span className="font-bold text-gray-700">Inbox </span>
@@ -34,7 +41,11 @@ function EmailComponent({
 
         {/* Email Content */}
         <div className="px-4 py-1 text-base-100 bg-[#F5F8EF] border-t-2 border-primary">
-          {text}
+          <p>
+            {greeting}
+            {personal && persona?.alias ? ` ${persona.alias},` : ','}
+          </p>
+          <p className="mt-2">{text}</p>
         </div>
 
         {/* Action Button */}
