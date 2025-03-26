@@ -1,5 +1,4 @@
 import { useEffect } from 'react';
-import { motion } from 'framer-motion'; // Import Framer Motion
 import InfoPageLayout from '../../components/layout/InfoPageLayout';
 import { useTaskProgress } from '../../context/TaskProgressContext';
 import ProgressBar from '../../components/ProgressBar';
@@ -15,22 +14,12 @@ function CompleteDefine() {
     }
   }, [isTaskComplete, markTaskComplete]);
 
-  const animationProps = {
-    initial: { opacity: 0, scale: 0.8 },
-    animate: { opacity: 1, scale: 1 },
-    transition: { duration: 1 },
-  };
-
   return (
     <>
       <InfoPageLayout
-        header={<motion.h1 {...animationProps}>STAGE COMPLETE! 🏆</motion.h1>}
+        header={'STAGE COMPLETE! 🏆'}
         text={
-          <motion.p {...animationProps}>
-            Great job! 🎉 You have finished this step in the Design Thinking
-            process. Got some extra time? Go back and refine your work for an
-            even better result! ✏️
-          </motion.p>
+          'Greate job! 🎉 You have finished this step in the Design Thinking process. Got some extra time? Go back and refine your work for an even better result! ✏️'
         }
         headerColor={'text-define'}
       />
