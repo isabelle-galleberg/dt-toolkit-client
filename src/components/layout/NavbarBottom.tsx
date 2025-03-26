@@ -169,7 +169,7 @@ function Navbar() {
       </div>
 
       {isModalOpen && (
-        <div className="fixed inset-0 bg-base-100 bg-opacity-75 flex items-start justify-center z-50">
+        <div className="fixed inset-0 bg-base-100 bg-opacity-50 flex items-start justify-center z-50">
           <div className="bg-primary p-6 rounded-lg shadow-lg flex flex-col justify-between relative py-16 mt-40">
             <button
               className="absolute top-2 right-3 text-base-100 text-xl hover:text-red-600"
