@@ -8,6 +8,7 @@ import { LockClosedIcon } from '@heroicons/react/24/solid';
 import { getEmotions, updateEmotions } from '../../services/emotionService';
 import { useTaskProgress } from '../../context/TaskProgressContext';
 import LoadingSpinner from '../../components/LoadingSpinner';
+import ProgressBar from '../../components/ProgressBar';
 
 function Storyboard() {
   const { persona } = usePersonaStore();
@@ -191,6 +192,7 @@ function Storyboard() {
               );
             })}
           </div>
+          <ProgressBar phase="empathize" currentStep={5} totalSteps={6} />
         </div>
       }
     />

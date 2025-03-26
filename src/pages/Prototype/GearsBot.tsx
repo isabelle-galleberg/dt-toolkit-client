@@ -3,6 +3,7 @@ import { useTaskProgress } from '../../context/TaskProgressContext';
 import ActivityPageLayout from '../../components/layout/ActivityPageLayout';
 import { getChecklist } from '../../services/checklistService';
 import { ChecklistItem } from '../../types/checklist';
+import ProgressBar from '../../components/ProgressBar';
 
 function GearsBot() {
   const { markTaskComplete, isTaskComplete } = useTaskProgress();
@@ -75,6 +76,7 @@ function GearsBot() {
               </li>
             ))}
           </ul>
+          <ProgressBar phase={'prototype'} currentStep={1} totalSteps={2} />
         </div>
       }
     />
