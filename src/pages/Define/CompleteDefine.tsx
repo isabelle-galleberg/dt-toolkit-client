@@ -17,9 +17,9 @@ function CompleteDefine() {
   return (
     <>
       <InfoPageLayout
-        header={'CONGRATULATION! 🏆'}
+        header={'STAGE COMPLETE! 🏆'}
         text={
-          'Got some extra time? Go back and refine your work for an even better result!'
+          'Greate job! 🎉 You have finished this step in the Design Thinking process. Got some extra time? Go back and refine your work for an even better result! ✏️'
         }
         headerColor={'text-define'}
       />
