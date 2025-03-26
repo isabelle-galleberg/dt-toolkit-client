@@ -20,6 +20,7 @@ const routes = [
   '/prototype',
   '/prototype/gearsbot',
   '/test',
+  '/test/info',
   '/test/checklist',
   '/conclusion',
 ].filter(Boolean);

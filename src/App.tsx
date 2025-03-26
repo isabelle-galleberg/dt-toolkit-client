@@ -26,6 +26,7 @@ import { TaskProgressProvider } from './context/TaskProgressContext';
 import NavbarTop from './components/layout/NavbarTop';
 import NotFoundPage from './pages/NotFoundPage';
 import Checklist from './pages/Ideate/Checklist';
+import TestInfo from './pages/Test/TestInfo';
 
 function App() {
   const { token } = useUserStore();
@@ -89,6 +90,7 @@ function App() {
               <Route path="/prototype" element={<Prototype />} />
               <Route path="/prototype/gearsbot" element={<GearsBot />} />
               <Route path="/test" element={<Test />} />
+              <Route path="/test/info" element={<TestInfo />} />
               <Route path="/test/checklist" element={<TestChecklist />} />
               <Route path="/conclusion" element={<Conclusion />} />
             </Routes>
