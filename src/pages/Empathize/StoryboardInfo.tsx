@@ -5,6 +5,7 @@ import { usePersonaStore } from '../../store/personaStore';
 import { Story } from '../../types/story';
 import { getStory } from '../../services/storyService';
 import LoadingSpinner from '../../components/LoadingSpinner';
+import ProgressBar from '../../components/ProgressBar';
 
 function StoryboardInfo() {
   const { markTaskComplete, isTaskComplete } = useTaskProgress();
@@ -53,6 +54,7 @@ function StoryboardInfo() {
         }
         centerContent={true}
       ></ActivityPageLayout>
+      <ProgressBar phase="empathize" currentStep={4} totalSteps={6} />
     </>
   );
 }

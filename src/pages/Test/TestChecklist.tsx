@@ -306,7 +306,8 @@ function TestChecklist() {
     : null;
   const [testCompleted, setTestCompleted] = useState<boolean>(false);
   const isAllEmailsDone = step === numEmails + 1 || testCompleted;
-  const progress = step > 0 ? ((step / numEmails) * 100).toFixed(1) : '0.0';
+  const progress =
+    step > 0 ? ((step / (numEmails + 1)) * 100).toFixed(1) : '0.0';
 
   const scrollToBottom = () => {
     setTimeout(() => {
@@ -607,19 +608,28 @@ function TestChecklist() {
           )}
 
           {/* Progress */}
-          {!isAllEmailsDone && (
-            <div className="fixed bottom-20 left-0 w-full z-5 space-y-1">
-              <p className="text-[12px] text-center font-semibold text-ideate">
-                Progress: {step} / {numEmails}
+          {/* {!isAllEmailsDone && ( */}
+          <div className="fixed bottom-20 left-0 w-full z-5 space-y-1">
+            {!testCompleted && !isAllEmailsDone ? (
+              <p className="text-[12px] text-center font-semibold text-test">
+                {step} out of {numEmails} emails! Keep going!
               </p>
-              <div className="bg-base-100 h-2">
-                <div
-                  className="h-2 bg-ideate transition-all duration-300"
-                  style={{ width: `${progress}%` }}
-                ></div>
-              </div>
+            ) : (
+              <p className="text-[12px] text-center font-semibold text-test">
+                Test completed!
+              </p>
+            )}
+
+            <div className="bg-base-100 h-2">
+              <div
+                className="h-2 bg-test transition-all duration-300"
+                style={{
+                  width: testCompleted ? '100%' : `${progress}%`,
+                }}
+              ></div>
             </div>
-          )}
+          </div>
+          {/* )} */}
         </div>
       }
     />

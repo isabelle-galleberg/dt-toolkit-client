@@ -3,6 +3,7 @@ import { useTaskProgress } from '../../context/TaskProgressContext';
 import ActivityPageLayout from '../../components/layout/ActivityPageLayout';
 import { getChecklist } from '../../services/checklistService';
 import { ChecklistItem } from '../../types/checklist';
+import ProgressBar from '../../components/ProgressBar';
 
 function GearsBot() {
   const { markTaskComplete, isTaskComplete } = useTaskProgress();
@@ -41,9 +42,7 @@ function GearsBot() {
         <div className="flex flex-row justify-between w-full">
           <button
             className="btn bg-prototype text-test px-6 py-2 hover:bg-prototype hover:text-test hover:border-test"
-            onClick={() =>
-              window.open('https://gears.aposteriori.com.sg', '_blank')
-            }
+            onClick={() => window.open('https://extendt2.com/', '_blank')}
           >
             GO TO GEARSBOT
           </button>
@@ -77,6 +76,7 @@ function GearsBot() {
               </li>
             ))}
           </ul>
+          <ProgressBar phase={'prototype'} currentStep={1} totalSteps={2} />
         </div>
       }
     />

@@ -8,6 +8,7 @@ import {
 } from '../../services/problemUnderstandingService';
 import { usePersonaStore } from '../../store/personaStore';
 import LoadingSpinner from '../../components/LoadingSpinner';
+import ProgressBar from '../../components/ProgressBar';
 
 interface Section {
   id: number;
@@ -323,6 +324,7 @@ function ProblemUnderstanding() {
               </div>
             </div>
           )}
+          <ProgressBar phase={'define'} currentStep={2} totalSteps={4} />
         </div>
       }
     />

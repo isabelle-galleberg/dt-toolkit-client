@@ -3,29 +3,29 @@ import InfoPageLayout from '../../components/layout/InfoPageLayout';
 import { useTaskProgress } from '../../context/TaskProgressContext';
 import ProgressBar from '../../components/ProgressBar';
 
-const EMPATHIZE_PATH = '/empathize';
+const COMPLETE_PATH = '/empathize/complete';
 
-function Empathize() {
+function CompleteEmpathize() {
   const { markTaskComplete, isTaskComplete } = useTaskProgress();
 
   useEffect(() => {
-    if (!isTaskComplete(EMPATHIZE_PATH)) {
-      markTaskComplete(EMPATHIZE_PATH);
+    if (!isTaskComplete(COMPLETE_PATH)) {
+      markTaskComplete(COMPLETE_PATH);
     }
   }, [isTaskComplete, markTaskComplete]);
 
   return (
     <>
       <InfoPageLayout
-        header={'EMPATHIZE'}
+        header={'STAGE COMPLETE! 🏆'}
         text={
-          "Now, we have learned how phishing scams work, let's explore who might fall for them. By understanding why people fall for phishing, we can learn how to protect ourselves and others.🌟"
+          'Greate job! 🎉 You have finished this step in the Design Thinking process. Got some extra time? Go back and refine your work for an even better result! ✏️'
         }
         headerColor={'text-empathize'}
       />
-      <ProgressBar phase="empathize" currentStep={0} totalSteps={6} />
+      <ProgressBar phase="empathize" currentStep={6} totalSteps={6} />
     </>
   );
 }
 
-export default Empathize;
+export default CompleteEmpathize;
