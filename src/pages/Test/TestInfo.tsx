@@ -22,7 +22,12 @@ function TestInfo() {
         }
         centerContent={true}
       />
-      <ProgressBar phase={'test'} currentStep={0} totalSteps={2} />
+      <ProgressBar
+        phase={'test'}
+        moveProgressBar={false}
+        currentStep={0}
+        totalSteps={2}
+      />
     </>
   );
 }

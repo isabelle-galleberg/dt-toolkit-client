@@ -23,7 +23,7 @@ function CompleteEmpathize() {
         }
         headerColor={'text-empathize'}
       />
-      <ProgressBar phase="empathize" currentStep={6} totalSteps={6} />
+      <ProgressBar phase="empathize" currentStep={4} totalSteps={4} />
     </>
   );
 }
