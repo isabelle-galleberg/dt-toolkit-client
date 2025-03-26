@@ -97,15 +97,15 @@ function Navbar() {
 
     switch (type) {
       case 'empathize':
-        return `border-empathize ${baseClasses} ${isActive ? 'bg-empathize text-define' : 'text-empathize'}`;
+        return `${baseClasses} ${isActive ? 'bg-empathize text-define border-define' : 'text-empathize border-empathize'}`;
       case 'define':
-        return `border-define ${baseClasses} ${isActive ? 'bg-define text-empathize' : 'text-define'}`;
+        return `${baseClasses} ${isActive ? 'bg-define text-empathize border-empathize' : 'text-define border-define'}`;
       case 'ideate':
-        return `border-ideate ${baseClasses} ${isActive ? 'bg-ideate text-primary' : 'text-ideate'}`;
+        return `${baseClasses} ${isActive ? 'bg-ideate text-primary border-primary' : 'text-ideate border-ideate '}`;
       case 'prototype':
-        return `border-prototype ${baseClasses} ${isActive ? 'bg-prototype text-test' : 'text-prototype'}`;
+        return `${baseClasses} ${isActive ? 'bg-prototype text-test border-test' : 'text-prototype border-prototype'}`;
       case 'test':
-        return `border-test ${baseClasses} ${isActive ? 'bg-test text-prototype' : 'text-test'}`;
+        return `${baseClasses} ${isActive ? 'bg-test text-prototype border-prototype' : 'text-test border-test '}`;
       default:
         return baseClasses;
     }
