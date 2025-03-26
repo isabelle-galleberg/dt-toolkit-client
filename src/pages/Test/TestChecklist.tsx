@@ -10,6 +10,7 @@ import {
   upsertFeedback,
 } from '../../services/feedbackService';
 import { useTaskProgress } from '../../context/TaskProgressContext';
+import Tooltip from '../../components/Tooltip';
 
 interface Email {
   sender: string;
@@ -453,7 +454,7 @@ function TestChecklist() {
       text={
         <>
           {!isAllEmailsDone &&
-            'Use the checklist to determine if the email is a scam'}
+            'Use the checklist implemented in Gearsbot to determine whether each email is a phishing scam or not.'}
         </>
       }
       activity={
@@ -570,17 +571,22 @@ function TestChecklist() {
                     </ul>
                   </>
                 )}
-
                 <h2 className="mt-4 font-bold">💡 Explanation</h2>
                 <p>{currentEmail?.explanation}</p>
               </div>
               <div ref={scrollRef}>
-                <p className="mt-2 text-[14px]">Give feedback</p>
+                <div className="flex flex-row items-center h-full mt-2 space-x-2">
+                  <p className="text-[14px]">Checklist feedback</p>
+                  <Tooltip
+                    text="What worked well in the checklist? How could it be improved to help you better identify phishing scams?"
+                    position="right"
+                  />
+                </div>
                 <textarea
                   value={feedback.join('\n')}
                   onChange={handleFeedbackChange}
                   onKeyDown={handleKeyDown}
-                  placeholder="• Add feedback here..."
+                  placeholder="• Type here..."
                   className="mt-1 p-2 w-full text-[14px] rounded-md border border-primary text-primary bg-base-100"
                   rows={4}
                   ref={(el) => {
