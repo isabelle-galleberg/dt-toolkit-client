@@ -129,7 +129,7 @@ function Persona() {
         <div className="grid grid-cols-[1.5fr_1fr] gap-6 text-primary w-full">
           <div className="space-y-4">
             <div className="flex space-x-6 tracking-widest">
-              <div className="relative w-46 h-46">
+              <div className="relative w-46 h-46 hover:scale-105">
                 <img
                   src={persona?.personaImageUrl || ''}
                   alt="persona grandma"
@@ -137,7 +137,6 @@ function Persona() {
                 />
                 <div className="absolute inset-0 border-[4px] border-[#216646] rounded-full pointer-events-none aspect-square"></div>
               </div>
-
               <div className="w-4/5">
                 <p className="text-left font-semibold text-[16px] mb-4">
                   PERSONAL TRAITS
