@@ -9,9 +9,11 @@ import { getEmotions, updateEmotions } from '../../services/emotionService';
 import { useTaskProgress } from '../../context/TaskProgressContext';
 import LoadingSpinner from '../../components/LoadingSpinner';
 import ProgressBar from '../../components/ProgressBar';
+import { usePersonaNameStore } from '../../store/personaNameStore';
 
 function Storyboard() {
   const { persona } = usePersonaStore();
+  const { name } = usePersonaNameStore();
   const [story, setStory] = useState<Story | null>(null);
   const [emotions, setEmotions] = useState<string[]>([]);
   const [activeIndex, setActiveIndex] = useState(0);
@@ -133,7 +135,7 @@ function Storyboard() {
                       ) : (
                         <div className="px-4 pt-4 text-primary text-sm break-words whitespace-normal relative z-10">
                           <div className="flex flex-col space-y-2 h-28">
-                            <p>{scene[1]}</p>
+                            <p>{scene[1].replace('PERSONA', name)}</p>
                             <p>{scene[2]}</p>
                           </div>
                           <div className="flex flex-col items-center space-y-2">
