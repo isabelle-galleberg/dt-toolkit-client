@@ -175,7 +175,7 @@ function Storyboard() {
                     bottomContent={
                       index <= activeIndex && (
                         <div className="flex flex-col items-center">
-                          <div className="relative w-32 h-32 flex justify-center items-center">
+                          <div className="relative w-32 h-32 flex justify-center items-center hover:scale-105 transition-transform">
                             <img
                               src={imageUrl}
                               alt="emotion"

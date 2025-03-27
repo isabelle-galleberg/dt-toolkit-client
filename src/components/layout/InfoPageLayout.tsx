@@ -1,6 +1,6 @@
 interface InfoPageProps {
-  header: string;
-  text: string;
+  header: string | JSX.Element;
+  text: string | JSX.Element;
   headerColor?: string;
 }
 

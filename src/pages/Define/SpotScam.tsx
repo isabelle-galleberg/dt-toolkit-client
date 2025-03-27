@@ -15,6 +15,7 @@ import LoadingSpinner from '../../components/LoadingSpinner';
 import PhoneComponent from '../../components/Phone';
 import { getHint } from '../../services/spottedScamService';
 import ProgressBar from '../../components/ProgressBar';
+import { motion } from 'framer-motion';
 
 function SpotScam() {
   const { persona } = usePersonaStore();
@@ -30,6 +31,7 @@ function SpotScam() {
   const scrollRef = useRef<HTMLDivElement | null>(null);
   const [hint, setHint] = useState<string>('');
   const [loadingHint, setLoadingHint] = useState<boolean>(false);
+  const [shake, setShake] = useState(false);
 
   const scrollToBottom = () => {
     setTimeout(() => {
@@ -88,6 +90,16 @@ function SpotScam() {
       }
     }
   }, [spottedScams]);
+
+  useEffect(() => {
+    if (spottedScams.length < 5) {
+      const interval = setInterval(() => {
+        setShake(true);
+        setTimeout(() => setShake(false), 2000);
+      }, 15000); // shake every 15 seconds
+      return () => clearInterval(interval);
+    }
+  }, []);
 
   const handleEmailClick = useCallback(
     (e: React.MouseEvent<HTMLDivElement>) => {
@@ -246,12 +258,22 @@ function SpotScam() {
               ))}
             </div>
           </div>
-          <button
+          <motion.button
             className="px-4 text-primary text-sm hover:opacity-70 mb-2"
             onClick={handleHintClick}
+            animate={{
+              rotate: shake ? [0, -5, 5, -5, 5, 0] : 0,
+              x: shake ? [0, -5, 5, -5, 5, 0] : 0,
+            }}
+            transition={{
+              duration: 0.5,
+              ease: 'easeInOut',
+              repeat: shake ? Infinity : 0,
+              repeatType: 'loop',
+            }}
           >
             {hint ? 'New hint' : 'Get hint'}
-          </button>
+          </motion.button>
           {loadingHint && (
             <div className="text-primary px-4">
               <p className="text-sm text-primary">Thinking</p>
