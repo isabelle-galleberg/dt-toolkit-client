@@ -10,7 +10,7 @@ import ProgressBar from '../../components/ProgressBar';
 
 function Persona() {
   const { persona } = usePersonaStore();
-  const [loading, setLoading] = useState<boolean>(true);
+  const [loading, setLoading] = useState<boolean>(false);
   const cardId = persona?._id;
   const { markTaskComplete, markTaskUndone, isTaskComplete } =
     useTaskProgress();
@@ -31,12 +31,19 @@ function Persona() {
   const debounceTimer = useRef<NodeJS.Timeout | null>(null); // avoid resetting the timer on every render
 
   useEffect(() => {
-    if (!cardId) return;
-    setLoading(true);
-    getPersona(cardId)
-      .then(setPersonaInfo)
-      .catch((error) => console.error('Error fetching persona data:', error));
-    setLoading(false);
+    const fetchPersona = async () => {
+      if (!cardId) return;
+      setLoading(true);
+      try {
+        const persona = await getPersona(cardId);
+        setPersonaInfo(persona);
+      } catch (error) {
+        console.error('Error fetching persona data:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchPersona();
   }, [cardId]);
 
   const handleInputChange =
