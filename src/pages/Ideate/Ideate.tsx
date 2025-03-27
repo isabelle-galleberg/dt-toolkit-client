@@ -1,15 +1,14 @@
 import { useTaskProgress } from '../../context/TaskProgressContext';
 import { useEffect } from 'react';
 import InfoPageLayout from '../../components/layout/InfoPageLayout';
-import { usePersonaStore } from '../../store/personaStore';
 import ProgressBar from '../../components/ProgressBar';
+import { usePersonaNameStore } from '../../store/personaNameStore';
 
 const IDEATE_PATH = '/ideate';
 
 function Ideate() {
   const { markTaskComplete, isTaskComplete } = useTaskProgress();
-  const { persona } = usePersonaStore();
-  const alias = persona?.alias;
+  const { name } = usePersonaNameStore();
 
   useEffect(() => {
     if (!isTaskComplete(IDEATE_PATH)) {
@@ -23,7 +22,7 @@ function Ideate() {
         header={'IDEATE'}
         text={`
         Now that we've defined the problem, it’s time to get creative! 🧠✨
-        Let’s make a checklist to help ${alias} spot phishing emails, so they never fall for a scam again! 📝
+        Let’s make a checklist to help ${name} spot phishing emails, so they never fall for a scam again! 📝
         `}
         headerColor={'text-ideate'}
       />
