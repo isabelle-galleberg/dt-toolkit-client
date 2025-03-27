@@ -109,7 +109,7 @@ function SelectPersona() {
         </>
       }
       activity={
-        <div className="flex items-center gap-4 w-[780px]">
+        <div className="flex items-center gap-4 max-w-[800px] w-full">
           <div className="h-[300px] flex items-center">
             <button
               onClick={handlePrevCard}
