@@ -2,10 +2,9 @@ import api from './api';
 
 const API_URL = '/ai-feedback';
 
-// Fetch AI feedback
-export const getAiFeedback = async (cardId: string) => {
+export const getAiFeedback = async () => {
   try {
-    const response = await api.get(`${API_URL}/${cardId}`);
+    const response = await api.get(API_URL);
     return response.data;
   } catch (error) {
     console.error('Error fetching feedback:', error);
@@ -13,14 +12,12 @@ export const getAiFeedback = async (cardId: string) => {
   }
 };
 
-// Update AI feedback
 export const updateAiFeedback = async (
-  cardId: string,
   strengths: string,
   improvements: string
 ) => {
   try {
-    const requestData = { cardId, strengths, improvements };
+    const requestData = { strengths, improvements };
     const response = await api.put(API_URL, requestData);
     return response.data;
   } catch (error) {
