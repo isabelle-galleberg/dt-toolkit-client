@@ -59,6 +59,8 @@ function App() {
               <Route path="/" element={<Welcome />} />
               <Route path="/not-found" element={<NotFoundPage />} />
               <Route path="*" element={<Navigate to="/not-found" replace />} />
+              <Route path="/login" element={<Navigate to="/" replace />} />
+              <Route path="/register" element={<Navigate to="/" replace />} />
               {/* <Route path="/introduction" element={<Introduction />} /> */}
               <Route
                 path="/phishing-activity"
