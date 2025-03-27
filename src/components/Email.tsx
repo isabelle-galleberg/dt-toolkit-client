@@ -1,5 +1,5 @@
 import ProfileIcon from '../assets/profile-icon.svg';
-import { usePersonaStore } from '../store/personaStore';
+import { usePersonaNameStore } from '../store/personaNameStore';
 
 interface EmailProps {
   sender?: string;
@@ -20,7 +20,7 @@ function EmailComponent({
   buttonLink,
   personal,
 }: EmailProps) {
-  const { persona } = usePersonaStore();
+  const { name } = usePersonaNameStore();
 
   return (
     <div className="w-full max-w-md mx-auto text-[12px]">
@@ -43,7 +43,7 @@ function EmailComponent({
         <div className="px-4 py-1 text-base-100 bg-[#F5F8EF] border-t-2 border-primary">
           <p>
             {greeting}
-            {personal && persona?.alias ? ` ${persona.alias},` : ','}
+            {personal && name ? ` ${name},` : ','}
           </p>
           <p className="mt-2">{text}</p>
         </div>

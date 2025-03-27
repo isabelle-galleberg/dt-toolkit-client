@@ -7,9 +7,11 @@ import Box from '../../components/Box';
 import { useTaskProgress } from '../../context/TaskProgressContext';
 import LoadingSpinner from '../../components/LoadingSpinner';
 import ProgressBar from '../../components/ProgressBar';
+import { usePersonaNameStore } from '../../store/personaNameStore';
 
 function Persona() {
   const { persona } = usePersonaStore();
+  const { setName } = usePersonaNameStore();
   const [loading, setLoading] = useState<boolean>(false);
   const cardId = persona?._id;
   const { markTaskComplete, markTaskUndone, isTaskComplete } =
@@ -88,6 +90,10 @@ function Persona() {
       technologyUsage.trim() !== ''
     );
   };
+
+  useEffect(() => {
+    setName(personaInfo.name);
+  }, [personaInfo.name]);
 
   useEffect(() => {
     if (validatePersonaInfo() && personaInfo.traits.length > 1) {
