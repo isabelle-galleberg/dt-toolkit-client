@@ -15,7 +15,7 @@ function Conclusion() {
   return (
     <>
       <InfoPageLayout
-        header={'Congratulations on Completing the Workshop!'}
+        header={'Congratulations on completing the workshop!'}
         text={
           "We hope you enjoyed the adventure, and remember, the internet is full of opportunities, but it's important to be aware of the risks. Keep practicing your skills, and always remember to think before you click! 🌐✨"
         }
