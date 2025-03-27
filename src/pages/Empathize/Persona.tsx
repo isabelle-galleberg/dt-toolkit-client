@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { getPersona, upsertPersona } from '../../services/personaService';
 import type { PersonaInfo, Persona } from '../../types/persona';
 import { usePersonaStore } from '../../store/personaStore';
@@ -12,7 +12,6 @@ function Persona() {
   const { persona } = usePersonaStore();
   const [loading, setLoading] = useState<boolean>(true);
   const cardId = persona?._id;
-  let debounceTimer: NodeJS.Timeout | null = null;
   const { markTaskComplete, markTaskUndone, isTaskComplete } =
     useTaskProgress();
 
@@ -28,6 +27,8 @@ function Persona() {
 
   const [personaInfo, setPersonaInfo] = useState<PersonaInfo>(initialPersona);
   const [newTrait, setNewTrait] = useState('');
+
+  const debounceTimer = useRef<NodeJS.Timeout | null>(null); // avoid resetting the timer on every render
 
   useEffect(() => {
     if (!cardId) return;
@@ -56,14 +57,14 @@ function Persona() {
   };
 
   const autoSave = (updatedPersona: PersonaInfo) => {
-    if (debounceTimer) clearTimeout(debounceTimer);
-    debounceTimer = setTimeout(() => {
+    if (debounceTimer.current) clearTimeout(debounceTimer.current); // Clear any existing timer
+    debounceTimer.current = setTimeout(() => {
       if (cardId) {
         upsertPersona({ ...updatedPersona, cardId })
           .then(() => console.log('Auto-save complete'))
           .catch((error) => console.error('Error during auto-save:', error));
       }
-    }, 1000);
+    }, 1000); // delay for 1 second to wait for further input
   };
 
   useEffect(() => {
