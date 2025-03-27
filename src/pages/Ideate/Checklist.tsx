@@ -136,10 +136,8 @@ const Checklist = () => {
 
   useEffect(() => {
     const fetchAiFeedbackData = async () => {
-      if (!cardId) return;
-      setLoading(true);
       try {
-        const aiFeedbackData = await getAiFeedback(cardId);
+        const aiFeedbackData = await getAiFeedback();
         if (aiFeedbackData.strengths && aiFeedbackData.improvements) {
           setGeneratedFeedback(aiFeedbackData);
         }
@@ -151,11 +149,10 @@ const Checklist = () => {
     };
 
     fetchAiFeedbackData();
-  }, [cardId]);
+  }, []);
 
   useEffect(() => {
     if (
-      !cardId ||
       generatedFeedback?.strengths === undefined ||
       generatedFeedback?.improvements === undefined
     )
@@ -163,7 +160,6 @@ const Checklist = () => {
     const setAiFeedback = async () => {
       try {
         await updateAiFeedback(
-          cardId,
           generatedFeedback?.strengths,
           generatedFeedback?.improvements
         );
@@ -172,7 +168,11 @@ const Checklist = () => {
       }
     };
     setAiFeedback();
-  }, [generatedFeedback, cardId]);
+  }, [generatedFeedback]);
+
+  if (loading) {
+    return <LoadingSpinner />;
+  }
 
   if (loading) {
     return <LoadingSpinner />;
