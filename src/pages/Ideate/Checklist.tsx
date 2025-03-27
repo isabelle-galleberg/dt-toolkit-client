@@ -174,6 +174,10 @@ const Checklist = () => {
     return <LoadingSpinner />;
   }
 
+  if (loading) {
+    return <LoadingSpinner />;
+  }
+
   return (
     <ActivityPageLayout
       header="Create a Scam Spotter Checklist!"
