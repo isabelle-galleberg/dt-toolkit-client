@@ -8,6 +8,7 @@ import { useTaskProgress } from '../../context/TaskProgressContext';
 import LoadingSpinner from '../../components/LoadingSpinner';
 import ProgressBar from '../../components/ProgressBar';
 import { usePersonaNameStore } from '../../store/personaNameStore';
+import { Quote } from 'lucide-react';
 
 function Persona() {
   const { persona } = usePersonaStore();
@@ -250,11 +251,11 @@ function Persona() {
               }
             ></Box>
           </div>
-          <div className="flex flex-col space-y-10">
+          <div className="flex flex-col space-y-4">
             <div className="space-y-2">
-              <p className="text-left font-semibold text-[16px]  tracking-widest mb-6">
+              <div className="text-left font-semibold text-[16px] tracking-widest mb-2">
                 TECHNOLOGY & INTERNET USAGE
-              </p>
+              </div>
               <div className="flex flex-col space-y-8">
                 {[
                   { labelLeft: 'Tech Beginner', labelRight: 'Tech Expert' },
@@ -297,6 +298,17 @@ function Persona() {
                   </div>
                 ))}
               </div>
+            </div>
+            <div className="text-left font-semibold text-[16px] tracking-widest mb-2">
+              QUOTE
+            </div>
+            <div className="bg-primary w-full min-h-10 h-full rounded-[12px] p-2 flex flex-row relative">
+              <Quote className="absolute top-2 left-2 w-4 h-4 text-base-100 scale-x-[-1]" />
+              <textarea
+                rows={2}
+                className="text-base-100 w-full bg-primary px-6 font-sm"
+              ></textarea>
+              <Quote className="absolute bottom-2 right-2 w-4 h-4 text-base-100" />
             </div>
           </div>
           <ProgressBar phase="empathize" currentStep={2} totalSteps={4} />
