@@ -9,7 +9,6 @@ import LoadingSpinner from '../../components/LoadingSpinner';
 import { useUserStore } from '../../store/userStore';
 import ProgressBar from '../../components/ProgressBar';
 
-// shuffle array based on a seed
 const seededShuffle = (array: PersonaCard[], seed: string): PersonaCard[] => {
   const rng = seedrandom(seed);
   return array
@@ -26,15 +25,13 @@ function SelectPersona() {
   const [loading, setLoading] = useState<boolean>(true);
   const { user } = useUserStore();
   const userId = user?._id || '';
-  const [isAtStart, setIsAtStart] = useState(true);
-  const [isAtEnd, setIsAtEnd] = useState(false);
 
   useEffect(() => {
     const fetchPersonaCards = async () => {
       setLoading(true);
       try {
         const cards = await getPersonaCards();
-        const shuffledCards = seededShuffle(cards, userId); // shuffle based on user ID
+        const shuffledCards = seededShuffle(cards, userId);
         setPersonaCards(shuffledCards);
       } catch (error) {
         console.error('Error fetching persona cards:', error);
@@ -44,29 +41,6 @@ function SelectPersona() {
     };
     fetchPersonaCards();
   }, [userId]);
-
-  useEffect(() => {
-    const updateScrollState = () => {
-      if (cardContainerRef.current) {
-        const { scrollLeft, scrollWidth, clientWidth } =
-          cardContainerRef.current;
-        setIsAtStart(scrollLeft === 0);
-        setIsAtEnd(scrollLeft + clientWidth >= scrollWidth - 1);
-      }
-    };
-
-    const container = cardContainerRef.current;
-    if (container) {
-      container.addEventListener('scroll', updateScrollState);
-      updateScrollState();
-    }
-
-    return () => {
-      if (container) {
-        container.removeEventListener('scroll', updateScrollState);
-      }
-    };
-  }, [personaCards]);
 
   const handlePersonaSelection = (selectedCard: PersonaCard) => {
     setPersona(selectedCard);
@@ -83,13 +57,26 @@ function SelectPersona() {
 
   const handlePrevCard = () => {
     if (cardContainerRef.current) {
-      cardContainerRef.current.scrollBy({ left: -225, behavior: 'smooth' });
+      const { scrollLeft, clientWidth, scrollWidth } = cardContainerRef.current;
+      if (scrollLeft <= 0) {
+        cardContainerRef.current.scrollTo({
+          left: scrollWidth - clientWidth,
+          behavior: 'instant',
+        });
+      } else {
+        cardContainerRef.current.scrollBy({ left: -225, behavior: 'smooth' });
+      }
     }
   };
 
   const handleNextCard = () => {
     if (cardContainerRef.current) {
-      cardContainerRef.current.scrollBy({ left: 225, behavior: 'smooth' });
+      const { scrollLeft, clientWidth, scrollWidth } = cardContainerRef.current;
+      if (scrollLeft + clientWidth >= scrollWidth - 1) {
+        cardContainerRef.current.scrollTo({ left: 0, behavior: 'instant' });
+      } else {
+        cardContainerRef.current.scrollBy({ left: 225, behavior: 'smooth' });
+      }
     }
   };
 
@@ -109,18 +96,13 @@ function SelectPersona() {
         </>
       }
       activity={
-        <div className="flex items-center gap-4 max-w-[800px] w-full">
-          <div className="h-[300px] flex items-center">
-            <button
-              onClick={handlePrevCard}
-              disabled={isAtStart}
-              className={`p-2 rounded-full text-bold text-define transition duration-200 text-xl bg-empathize hover:bg-[#18A060] px-4 ${
-                isAtStart ? 'opacity-50 cursor-not-allowed' : ''
-              }`}
-            >
-              &lt;
-            </button>
-          </div>
+        <div className="flex items-center gap-4 w-[780px]">
+          <button
+            onClick={handlePrevCard}
+            className="p-2 rounded-full text-bold text-define transition duration-200 text-xl bg-empathize hover:bg-[#18A060] px-4"
+          >
+            &lt;
+          </button>
           <div
             ref={cardContainerRef}
             className="flex gap-4 overflow-x-auto p-4 scroll-smooth w-full"
@@ -136,18 +118,13 @@ function SelectPersona() {
               />
             ))}
           </div>
-          <div className="h-[300px] flex items-center">
-            <button
-              onClick={handleNextCard}
-              disabled={isAtEnd}
-              className={`p-2 rounded-full text-bold text-define transition duration-200 text-xl bg-empathize hover:bg-[#18A060] px-4 ${
-                isAtEnd ? 'opacity-50 cursor-not-allowed' : ''
-              }`}
-            >
-              &gt;
-            </button>
-          </div>
-          <ProgressBar phase="empathize" currentStep={1} totalSteps={4} />
+          <button
+            onClick={handleNextCard}
+            className="p-2 rounded-full text-bold text-define transition duration-200 text-xl bg-empathize hover:bg-[#18A060] px-4"
+          >
+            &gt;
+          </button>
+          <ProgressBar phase="empathize" currentStep={1} totalSteps={6} />
         </div>
       }
     />
