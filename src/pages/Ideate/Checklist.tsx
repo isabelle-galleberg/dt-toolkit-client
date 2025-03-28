@@ -16,6 +16,7 @@ import {
   updateAiFeedback,
 } from '../../services/aiFeedbackService';
 import ProgressBar from '../../components/ProgressBar';
+import LoadingSpinner from '../../components/LoadingSpinner';
 
 const Checklist = () => {
   const [checklist, setChecklist] = useState<ChecklistItem[]>([]);
@@ -23,6 +24,7 @@ const Checklist = () => {
   const [generatedFeedback, setGeneratedFeedback] =
     useState<ChecklistFeedback | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
+  const [loadingFeedback, setLoadingFeedback] = useState<boolean>(false);
   const { markTaskComplete, markTaskUndone, isTaskComplete } =
     useTaskProgress();
   const { persona } = usePersonaStore();
@@ -58,14 +60,16 @@ const Checklist = () => {
 
   useEffect(() => {
     const fetchChecklist = async () => {
+      setLoading(true);
       try {
         const data = await getChecklist();
         setChecklist(data);
       } catch (error) {
         console.error('Error loading checklist', error);
+      } finally {
+        setLoading(false);
       }
     };
-
     fetchChecklist();
   }, []);
 
@@ -101,7 +105,7 @@ const Checklist = () => {
       setGeneratedFeedback(null);
       return;
     }
-    setLoading(true);
+    setLoadingFeedback(true);
     try {
       const checklistText = checklist.map((item) => item.text);
       const feedbackData = await handleChecklistFeedback(checklistText);
@@ -109,7 +113,7 @@ const Checklist = () => {
     } catch (error) {
       console.error('Error generating feedback:', error);
     } finally {
-      setLoading(false);
+      setLoadingFeedback(false);
     }
     scrollToBottom();
   };
@@ -117,11 +121,14 @@ const Checklist = () => {
   useEffect(() => {
     if (!cardId) return;
     const fetchFeedback = async () => {
+      setLoading(true);
       try {
         const data = await getFeedback(cardId);
         setFeedback(data.feedback);
       } catch (error) {
         console.error('Failed to fetch feedback:', error);
+      } finally {
+        setLoading(false);
       }
     };
     fetchFeedback();
@@ -129,24 +136,23 @@ const Checklist = () => {
 
   useEffect(() => {
     const fetchAiFeedbackData = async () => {
-      if (!cardId) return;
-
       try {
-        const aiFeedbackData = await getAiFeedback(cardId);
+        const aiFeedbackData = await getAiFeedback();
         if (aiFeedbackData.strengths && aiFeedbackData.improvements) {
           setGeneratedFeedback(aiFeedbackData);
         }
       } catch (error) {
         console.error('Error fetching feedback:', error);
+      } finally {
+        setLoading(false);
       }
     };
 
     fetchAiFeedbackData();
-  }, [cardId]);
+  }, []);
 
   useEffect(() => {
     if (
-      !cardId ||
       generatedFeedback?.strengths === undefined ||
       generatedFeedback?.improvements === undefined
     )
@@ -154,7 +160,6 @@ const Checklist = () => {
     const setAiFeedback = async () => {
       try {
         await updateAiFeedback(
-          cardId,
           generatedFeedback?.strengths,
           generatedFeedback?.improvements
         );
@@ -163,7 +168,15 @@ const Checklist = () => {
       }
     };
     setAiFeedback();
-  }, [generatedFeedback, cardId]);
+  }, [generatedFeedback]);
+
+  if (loading) {
+    return <LoadingSpinner />;
+  }
+
+  if (loading) {
+    return <LoadingSpinner />;
+  }
 
   return (
     <ActivityPageLayout
@@ -264,32 +277,25 @@ const Checklist = () => {
                       Add more items to the checklist to receive feedback.
                     </div>
                   )}
-                  {loading && checklist.length >= 2 && (
+                  {loadingFeedback && checklist.length >= 2 && (
                     <div className="mt-4 text-primary">
                       <p className="font-medium">Generating feedback</p>
                       <span className="loading loading-dots loading-sm"></span>
                     </div>
                   )}
-                  {generatedFeedback && !loading && checklist.length >= 2 && (
-                    <div ref={scrollRef}>
-                      <ul className="space-y-1 mt-2">
-                        {generatedFeedback.strengths
-                          .split('\n')
-                          .map((item, index) => (
-                            <li
-                              key={index}
-                              className="bg-[#214A6B] p-2 rounded-[12px] text-primary flex flex-row space-x-3 items-center"
-                            >
-                              <div className="w-5 h-5">
-                                <PlusCircleIcon className="w-5 h-5 text-green-600 font-bold" />
-                              </div>
-                              <div> {item.replace(/^-\s*/, '')}</div>
-                            </li>
-                          ))}
-                      </ul>
-                      <div className="mt-1">
-                        <ul className="space-y-1">
-                          {generatedFeedback.improvements
+                  {!loadingFeedback &&
+                    checklist.length >= 2 &&
+                    !generatedFeedback && (
+                      <div className="text-primary mt-2">
+                        Get feedback by modifying the checklist.
+                      </div>
+                    )}
+                  {generatedFeedback &&
+                    !loadingFeedback &&
+                    checklist.length >= 2 && (
+                      <div ref={scrollRef}>
+                        <ul className="space-y-1 mt-2">
+                          {generatedFeedback.strengths
                             .split('\n')
                             .map((item, index) => (
                               <li
@@ -297,15 +303,31 @@ const Checklist = () => {
                                 className="bg-[#214A6B] p-2 rounded-[12px] text-primary flex flex-row space-x-3 items-center"
                               >
                                 <div className="w-5 h-5">
-                                  <MinusCircleIcon className="w-5 h-5 text-red-600" />
+                                  <PlusCircleIcon className="w-5 h-5 text-green-600 font-bold" />
                                 </div>
                                 <div> {item.replace(/^-\s*/, '')}</div>
                               </li>
                             ))}
                         </ul>
+                        <div className="mt-1">
+                          <ul className="space-y-1">
+                            {generatedFeedback.improvements
+                              .split('\n')
+                              .map((item, index) => (
+                                <li
+                                  key={index}
+                                  className="bg-[#214A6B] p-2 rounded-[12px] text-primary flex flex-row space-x-3 items-center"
+                                >
+                                  <div className="w-5 h-5">
+                                    <MinusCircleIcon className="w-5 h-5 text-red-600" />
+                                  </div>
+                                  <div> {item.replace(/^-\s*/, '')}</div>
+                                </li>
+                              ))}
+                          </ul>
+                        </div>
                       </div>
-                    </div>
-                  )}
+                    )}
                 </div>
               </div>
             </div>

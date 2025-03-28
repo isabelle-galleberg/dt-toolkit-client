@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { getPersona, upsertPersona } from '../../services/personaService';
 import type { PersonaInfo, Persona } from '../../types/persona';
 import { usePersonaStore } from '../../store/personaStore';
@@ -7,12 +7,13 @@ import Box from '../../components/Box';
 import { useTaskProgress } from '../../context/TaskProgressContext';
 import LoadingSpinner from '../../components/LoadingSpinner';
 import ProgressBar from '../../components/ProgressBar';
+import { usePersonaNameStore } from '../../store/personaNameStore';
 
 function Persona() {
   const { persona } = usePersonaStore();
-  const [loading, setLoading] = useState<boolean>(true);
+  const { setName } = usePersonaNameStore();
+  const [loading, setLoading] = useState<boolean>(false);
   const cardId = persona?._id;
-  let debounceTimer: NodeJS.Timeout | null = null;
   const { markTaskComplete, markTaskUndone, isTaskComplete } =
     useTaskProgress();
 
@@ -29,13 +30,22 @@ function Persona() {
   const [personaInfo, setPersonaInfo] = useState<PersonaInfo>(initialPersona);
   const [newTrait, setNewTrait] = useState('');
 
+  const debounceTimer = useRef<NodeJS.Timeout | null>(null); // avoid resetting the timer on every render
+
   useEffect(() => {
-    if (!cardId) return;
-    setLoading(true);
-    getPersona(cardId)
-      .then(setPersonaInfo)
-      .catch((error) => console.error('Error fetching persona data:', error));
-    setLoading(false);
+    const fetchPersona = async () => {
+      if (!cardId) return;
+      setLoading(true);
+      try {
+        const persona = await getPersona(cardId);
+        setPersonaInfo(persona);
+      } catch (error) {
+        console.error('Error fetching persona data:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchPersona();
   }, [cardId]);
 
   const handleInputChange =
@@ -56,14 +66,14 @@ function Persona() {
   };
 
   const autoSave = (updatedPersona: PersonaInfo) => {
-    if (debounceTimer) clearTimeout(debounceTimer);
-    debounceTimer = setTimeout(() => {
+    if (debounceTimer.current) clearTimeout(debounceTimer.current); // Clear any existing timer
+    debounceTimer.current = setTimeout(() => {
       if (cardId) {
         upsertPersona({ ...updatedPersona, cardId })
           .then(() => console.log('Auto-save complete'))
           .catch((error) => console.error('Error during auto-save:', error));
       }
-    }, 1000);
+    }, 1000); // delay for 1 second to wait for further input
   };
 
   useEffect(() => {
@@ -80,6 +90,10 @@ function Persona() {
       technologyUsage.trim() !== ''
     );
   };
+
+  useEffect(() => {
+    setName(personaInfo.name);
+  }, [personaInfo.name]);
 
   useEffect(() => {
     if (validatePersonaInfo() && personaInfo.traits.length > 1) {
@@ -129,7 +143,7 @@ function Persona() {
         <div className="grid grid-cols-[1.5fr_1fr] gap-6 text-primary w-full">
           <div className="space-y-4">
             <div className="flex space-x-6 tracking-widest">
-              <div className="relative w-46 h-46">
+              <div className="relative w-46 h-46 hover:scale-105 transition-transform">
                 <img
                   src={persona?.personaImageUrl || ''}
                   alt="persona grandma"
@@ -137,7 +151,6 @@ function Persona() {
                 />
                 <div className="absolute inset-0 border-[4px] border-[#216646] rounded-full pointer-events-none aspect-square"></div>
               </div>
-
               <div className="w-4/5">
                 <p className="text-left font-semibold text-[16px] mb-4">
                   PERSONAL TRAITS

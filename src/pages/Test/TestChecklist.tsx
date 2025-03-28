@@ -13,6 +13,7 @@ import { useTaskProgress } from '../../context/TaskProgressContext';
 import Tooltip from '../../components/Tooltip';
 import { Email } from '../../types/email';
 import { legitEmails, scamEmails } from '../../services/emailData';
+import LoadingSpinner from '../../components/LoadingSpinner';
 
 function TestChecklist() {
   const { persona } = usePersonaStore();
@@ -38,6 +39,7 @@ function TestChecklist() {
   const [feedback, setFeedback] = useState<string[]>([]);
   const [score, setScore] = useState<number>(0);
   const [emails, setEmails] = useState<Email[]>(getRandomEmails());
+  const [loading, setLoading] = useState<boolean>(false);
   const numEmails = emails.length;
   const [step, setStep] = useState(1);
   const currentEmail = emails[step - 1];
@@ -81,7 +83,7 @@ function TestChecklist() {
   useEffect(() => {
     const fetchFeedbackData = async () => {
       if (!cardId) return;
-
+      setLoading(true);
       try {
         const feedbackData = await getFeedback(cardId);
 
@@ -94,6 +96,7 @@ function TestChecklist() {
       } catch (error) {
         console.error('Error fetching feedback:', error);
       }
+      setLoading(false);
     };
 
     fetchFeedbackData();
@@ -168,12 +171,13 @@ function TestChecklist() {
 
   const handleTestCompletion = async () => {
     if (!cardId) return;
-
+    setLoading(true);
     try {
       await updateTestResults(cardId, score, true);
     } catch (error) {
       console.error('Failed to update test results:', error);
     }
+    setLoading(false);
   };
 
   useEffect(() => {
@@ -181,6 +185,10 @@ function TestChecklist() {
       handleTestCompletion();
     }
   }, [isAllEmailsDone]);
+
+  if (loading) {
+    return <LoadingSpinner />;
+  }
 
   return (
     <ActivityPageLayout

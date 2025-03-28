@@ -179,7 +179,7 @@ function Navbar() {
               &times;
             </button>
             <h3 className="text-xl font-semibold text-ideate mb-4 pb-4 text-roboto-slab text-center">
-              Are you sure you're ready to finish?
+              Have you completed all tasks and are ready to finish?
             </h3>
             <div className="flex flex-col space-y-4 flex-grow justify-center">
               <button
@@ -189,7 +189,7 @@ function Navbar() {
                   navigate('/ideate/checklist');
                 }}
               >
-                Wait, I want to improve it further!
+                Wait, I want to improve my checklist!
               </button>
               <button
                 className="btn bg-primary border-ideate text-ideate hover:bg-base-100"
@@ -198,7 +198,7 @@ function Navbar() {
                   navigate('/conclusion');
                 }}
               >
-                Yes, I'm finished!
+                Yes, I’m done! ✅
               </button>
             </div>
           </div>

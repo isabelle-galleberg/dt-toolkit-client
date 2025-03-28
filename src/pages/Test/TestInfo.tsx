@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import ActivityPageLayout from '../../components/layout/ActivityPageLayout';
 import ProgressBar from '../../components/ProgressBar';
 import { useTaskProgress } from '../../context/TaskProgressContext';
@@ -5,9 +6,11 @@ import { useTaskProgress } from '../../context/TaskProgressContext';
 function TestInfo() {
   const { markTaskComplete, isTaskComplete } = useTaskProgress();
 
-  if (!isTaskComplete('/test/info')) {
-    markTaskComplete('/test/info');
-  }
+  useEffect(() => {
+    if (!isTaskComplete('/test/info')) {
+      markTaskComplete('/test/info');
+    }
+  }, [isTaskComplete, markTaskComplete]);
 
   return (
     <>

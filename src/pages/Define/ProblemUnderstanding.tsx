@@ -9,6 +9,7 @@ import {
 import { usePersonaStore } from '../../store/personaStore';
 import LoadingSpinner from '../../components/LoadingSpinner';
 import ProgressBar from '../../components/ProgressBar';
+import { usePersonaNameStore } from '../../store/personaNameStore';
 
 interface Section {
   id: number;
@@ -41,6 +42,7 @@ const SECTION_HINTS: { [key: number]: string[] } = {
 
 function ProblemUnderstanding() {
   const { persona } = usePersonaStore();
+  const { name } = usePersonaNameStore();
   const cardId = persona?._id || '';
   const [loading, setLoading] = useState<boolean>(true);
   const [loadHint, setLoadHint] = useState<boolean>(false);
@@ -213,7 +215,7 @@ function ProblemUnderstanding() {
 
   return (
     <ActivityPageLayout
-      header={`Why did ${persona?.alias} fall for the scam?`}
+      header={`Why did ${name} fall for the scam?`}
       phase="Define"
       phaseColor="text-define"
       text={

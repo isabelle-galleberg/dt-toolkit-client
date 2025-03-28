@@ -21,7 +21,7 @@ function Welcome() {
       {!started ? (
         <InfoPage
           header={'Think Before You Click!'}
-          text={'a design thinking workshop on phishing awareness'}
+          text={'A design thinking workshop on phishing awareness'}
           headerColor="text-ideate"
         />
       ) : (
