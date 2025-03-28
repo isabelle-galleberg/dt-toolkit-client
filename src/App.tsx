@@ -32,6 +32,7 @@ import CompleteIdeate from './pages/Ideate/CompleteIdeate';
 import CompletePrototype from './pages/Prototype/CompletePrototype';
 import CompleteTest from './pages/Test/CompleteTest';
 import TestInfo from './pages/Test/TestInfo';
+import ReflectEmpathize from './pages/Empathize/ReflectEmpathize';
 
 function App() {
   const { token } = useUserStore();
@@ -82,6 +83,7 @@ function App() {
                 element={<StoryboardInfo />}
               />
               <Route path="/empathize/storyboard" element={<Storyboard />} />
+              <Route path="/empathize/reflect" element={<ReflectEmpathize />} />
               <Route
                 path="/empathize/complete"
                 element={<CompleteEmpathize />}

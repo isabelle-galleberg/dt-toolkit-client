@@ -11,6 +11,7 @@ const routes = [
   '/empathize/persona',
   '/empathize/storyboard-info',
   '/empathize/storyboard',
+  '/empathize/reflect',
   '/empathize/complete',
   '/define',
   '/define/spot-scam',

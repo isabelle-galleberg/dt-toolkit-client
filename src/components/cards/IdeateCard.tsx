@@ -1,20 +1,22 @@
-import cardLogo from '../../assets/idea-card-logo.png';
-
 interface CardProps {
   text: string;
+  classOff?: string;
+  classOn?: string;
 }
 
-function IdeateCard({ text }: CardProps) {
+function IdeateCard({ text, classOff, classOn }: CardProps) {
   return (
-    <label className="swap swap-flip">
-      <input type="checkbox" />
-      <div className="swap-off card w-40 h-52 shadow-xl bg-[#1ab3f7] p-4 justify-between text-center items-center">
-        <img src={cardLogo} alt="idea-card-logo" className="w-16 pt-2" />
-        <div className="text-[#beebfa] font-semibold text-lg">IDEA CARD</div>
+    <label className="swap swap-flip cursor-pointer">
+      <input type="checkbox" readOnly />
+      <div
+        className={`swap-off card w-48 h-64 shadow-xl p-4 flex justify-center text-center items-center ${classOff}`}
+      >
+        <div className="text-3xl">?</div>
       </div>
-      <div className="swap-on card w-40 h-52 shadow-xl bg-[#beebfa] p-4 justify-between text-center text-[#1ab3f7] pt-8">
+      <div
+        className={`swap-on card w-48 h-64 shadow-xl p-4 flex justify-center text-center items-center ${classOn}`}
+      >
         <div>{text}</div>
-        <div className="font-semibold text-lg">IDEA CARD</div>
       </div>
     </label>
   );
