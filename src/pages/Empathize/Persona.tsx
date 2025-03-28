@@ -299,16 +299,18 @@ function Persona() {
                 ))}
               </div>
             </div>
-            <div className="text-left font-semibold text-[16px] tracking-widest mb-2">
-              QUOTE
-            </div>
-            <div className="bg-primary w-full min-h-10 h-full rounded-[12px] p-2 flex flex-row relative">
-              <Quote className="absolute top-2 left-2 w-4 h-4 text-base-100 scale-x-[-1]" />
-              <textarea
-                rows={2}
-                className="text-base-100 w-full bg-primary px-6 font-sm"
-              ></textarea>
-              <Quote className="absolute bottom-2 right-2 w-4 h-4 text-base-100" />
+            <div>
+              <div className="text-left font-semibold text-[16px] tracking-widest mb-2">
+                QUOTE
+              </div>
+              <div className="bg-primary w-full min-h-10 rounded-[12px] p-2 flex flex-row relative">
+                <Quote className="absolute top-2 left-2 w-4 h-4 text-base-100 scale-x-[-1]" />
+                <textarea
+                  rows={2}
+                  className="text-base-100 w-full bg-primary px-6 font-sm"
+                ></textarea>
+                <Quote className="absolute bottom-2 right-2 w-4 h-4 text-base-100" />
+              </div>
             </div>
           </div>
           <ProgressBar phase="empathize" currentStep={2} totalSteps={4} />
