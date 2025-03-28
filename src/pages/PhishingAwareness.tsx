@@ -115,7 +115,7 @@ const sections = [
     bgColor: 'bg-pattern',
     content: (
       <>
-        Now that you know more about this, take <strong>ten minutes</strong> to
+        Now that you know more about this, take <strong>five minutes</strong> to
         chat with your group! Have you or someone you know ever come across a
         tricky message, email, or website that tried to mislead you? Share your
         stories and get ready to tell the class about them!
