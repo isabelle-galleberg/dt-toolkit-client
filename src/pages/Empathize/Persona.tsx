@@ -24,7 +24,9 @@ function Persona() {
     name: '',
     age: null,
     occupationAndHobbies: '',
-    technologyUsage: '',
+    hopes: '',
+    challenges: '',
+    quote: '',
     sliders: [50, 50, 50, 50, 50, 50],
   };
 
@@ -82,13 +84,16 @@ function Persona() {
   }, [personaInfo]);
 
   const validatePersonaInfo = (): boolean => {
-    const { name, age, occupationAndHobbies, technologyUsage } = personaInfo;
+    const { name, age, occupationAndHobbies, hopes, challenges, quote } =
+      personaInfo;
     return (
       name.trim() !== '' &&
       age !== null &&
       age > 0 &&
       occupationAndHobbies.trim() !== '' &&
-      technologyUsage.trim() !== ''
+      hopes.trim() !== '' &&
+      challenges.trim() !== '' &&
+      quote.trim() !== ''
     );
   };
 
@@ -204,7 +209,7 @@ function Persona() {
             <Box
               header={persona?.alias || ''}
               content={
-                <div className="p-6 space-y-4 text-[12px] tracking-widest">
+                <div className="p-6 text-[12px] tracking-widest">
                   <div className="flex gap-4">
                     <label className="font-semibold">Name:</label>
                     <input
@@ -222,7 +227,9 @@ function Persona() {
                     />
                   </div>
                   <div>
-                    <p className="font-semibold">Occupation and Hobbies:</p>
+                    <p className="font-semibold mt-4">
+                      Occupation and Hobbies:
+                    </p>
                     <textarea
                       value={personaInfo.occupationAndHobbies}
                       onChange={handleInputChange('occupationAndHobbies')}
@@ -237,8 +244,23 @@ function Persona() {
                   <div>
                     <p className="font-semibold">Hopes and Dreams:</p>
                     <textarea
-                      value={personaInfo.technologyUsage}
-                      onChange={handleInputChange('technologyUsage')}
+                      value={personaInfo.hopes}
+                      onChange={handleInputChange('hopes')}
+                      onInput={(e) => {
+                        const target = e.target as HTMLTextAreaElement;
+                        target.style.height = 'auto';
+                        target.style.height = `${target.scrollHeight}px`;
+                      }}
+                      className="border border-gray-500 w-full my-2 px-2 py-1 bg-transparent resize-none overflow-hidden"
+                    />
+                  </div>
+                  <div>
+                    <p className="font-semibold">
+                      Challenges and Frustrations:
+                    </p>
+                    <textarea
+                      value={personaInfo.challenges}
+                      onChange={handleInputChange('challenges')}
                       onInput={(e) => {
                         const target = e.target as HTMLTextAreaElement;
                         target.style.height = 'auto';
@@ -308,6 +330,8 @@ function Persona() {
                 <textarea
                   rows={2}
                   className="text-base-100 w-full bg-primary px-6 font-sm"
+                  value={personaInfo.quote}
+                  onChange={handleInputChange('quote')}
                 ></textarea>
                 <Quote className="absolute bottom-2 right-2 w-4 h-4 text-base-100" />
               </div>
