@@ -6,7 +6,9 @@ export interface Persona {
   name: string;
   age: number | null;
   occupationAndHobbies: string;
-  technologyUsage: string;
+  hopes: string;
+  challenges: string;
+  quote: string;
   sliders: number[];
 }
 
@@ -29,6 +31,8 @@ export interface PersonaInfo {
   name: string;
   age: number | null;
   occupationAndHobbies: string;
-  technologyUsage: string;
+  hopes: string;
+  challenges: string;
+  quote: string;
   sliders: number[];
 }
