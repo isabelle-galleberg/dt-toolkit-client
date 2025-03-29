@@ -151,7 +151,7 @@ const ProblemStatement = () => {
           <div className="space-y-3 pt-6">
             {[1, 2, 3, 4, 5].map((sectionId) => renderInputBox(sectionId))}
           </div>
-          <ProgressBar phase={'define'} currentStep={3} totalSteps={4} />
+          <ProgressBar phase={'define'} currentStep={3} totalSteps={5} />
         </div>
       }
     />

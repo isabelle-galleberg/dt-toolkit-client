@@ -25,7 +25,7 @@ function DefinePage() {
         `}
         headerColor={'text-define'}
       ></InfoPage>
-      <ProgressBar phase={'define'} currentStep={0} totalSteps={4} />
+      <ProgressBar phase={'define'} currentStep={0} totalSteps={5} />
     </>
   );
 }
