@@ -12,7 +12,7 @@ import {
 import { useTaskProgress } from '../../context/TaskProgressContext';
 import Tooltip from '../../components/Tooltip';
 import { Email } from '../../types/email';
-import { legitEmails, scamEmails } from '../../services/emailData';
+import { legitEmails, scamEmails } from '../../utils/email';
 import LoadingSpinner from '../../components/LoadingSpinner';
 
 function TestChecklist() {

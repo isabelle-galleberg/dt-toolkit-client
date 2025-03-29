@@ -11,14 +11,17 @@ const routes = [
   '/empathize/persona',
   '/empathize/storyboard-info',
   '/empathize/storyboard',
+  '/empathize/reflect',
   '/empathize/complete',
   '/define',
   '/define/spot-scam',
   '/define/problem-understanding',
   '/define/problem-statement',
+  '/define/reflect',
   '/define/complete',
   '/ideate',
   '/ideate/checklist',
+  '/ideate/reflect',
   '/ideate/complete',
   '/prototype',
   '/prototype/gearsbot',
@@ -171,19 +174,19 @@ function Navbar() {
 
       {isModalOpen && (
         <div className="fixed inset-0 bg-base-100 bg-opacity-50 flex items-start justify-center z-50">
-          <div className="bg-primary p-6 rounded-lg shadow-lg flex flex-col justify-between relative py-16 mt-40">
+          <div className="bg-[#214A6B] p-6 rounded-lg shadow-lg flex flex-col justify-between relative py-16 mt-40">
             <button
-              className="absolute top-2 right-3 text-base-100 text-xl hover:text-red-600"
+              className="absolute top-2 right-3 text-primary text-xl hover:text-red-600"
               onClick={closeModal}
             >
               &times;
             </button>
-            <h3 className="text-xl font-semibold text-ideate mb-4 pb-4 text-roboto-slab text-center">
+            <h3 className="text-xl font-semibold text-primary mb-4 pb-4 text-roboto-slab text-center">
               Have you completed all tasks and are ready to finish?
             </h3>
             <div className="flex flex-col space-y-4 flex-grow justify-center">
               <button
-                className="btn bg-ideate border-ideate text-primary hover:bg-base-100"
+                className="btn bg-primary text-base-100 border-primary hover:bg-ideate hover:border-primary hover:text-primary"
                 onClick={() => {
                   closeModal();
                   navigate('/ideate/checklist');
@@ -192,7 +195,7 @@ function Navbar() {
                 Wait, I want to improve my checklist!
               </button>
               <button
-                className="btn bg-primary border-ideate text-ideate hover:bg-base-100"
+                className="btn bg-base-100 border-primary text-primary hover:text-test hover:border-test"
                 onClick={() => {
                   closeModal();
                   navigate('/conclusion');

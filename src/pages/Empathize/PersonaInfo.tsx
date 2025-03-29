@@ -44,7 +44,7 @@ function PersonaInfo() {
         phase="empathize"
         moveProgressBar={false}
         currentStep={1}
-        totalSteps={4}
+        totalSteps={5}
       />
     </>
   );

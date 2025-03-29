@@ -326,7 +326,7 @@ function ProblemUnderstanding() {
               </div>
             </div>
           )}
-          <ProgressBar phase={'define'} currentStep={2} totalSteps={4} />
+          <ProgressBar phase={'define'} currentStep={2} totalSteps={5} />
         </div>
       }
     />

@@ -23,7 +23,7 @@ function CompleteDefine() {
         }
         headerColor={'text-define'}
       />
-      <ProgressBar phase="define" currentStep={4} totalSteps={4} />
+      <ProgressBar phase="define" currentStep={5} totalSteps={5} />
     </>
   );
 }

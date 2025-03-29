@@ -124,7 +124,7 @@ function SelectPersona() {
           >
             &gt;
           </button>
-          <ProgressBar phase="empathize" currentStep={1} totalSteps={6} />
+          <ProgressBar phase="empathize" currentStep={1} totalSteps={5} />
         </div>
       }
     />

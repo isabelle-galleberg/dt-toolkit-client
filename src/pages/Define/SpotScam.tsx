@@ -286,7 +286,7 @@ function SpotScam() {
               <div className="text-sm">{hint}</div>
             </div>
           )}
-          <ProgressBar phase={'define'} currentStep={1} totalSteps={4} />
+          <ProgressBar phase={'define'} currentStep={1} totalSteps={5} />
         </div>
       }
     />
