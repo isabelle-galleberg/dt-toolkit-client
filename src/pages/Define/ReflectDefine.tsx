@@ -4,6 +4,7 @@ import ProgressBar from '../../components/ProgressBar';
 import QuestionCard from '../../components/cards/QuestionCard';
 import { questions } from '../../utils/define';
 import { useTaskProgress } from '../../context/TaskProgressContext';
+import question from '../../assets/question.svg';
 
 function ReflectDefine() {
   const cardWidth = 232; // fixed width per scroll
@@ -69,6 +70,7 @@ function ReflectDefine() {
                       text={text}
                       classFront="bg-define text-empathize"
                       classBack="bg-empathize text-define"
+                      cardImg={question}
                     />
                   </div>
                 ))}

@@ -4,6 +4,7 @@ import ProgressBar from '../../components/ProgressBar';
 import QuestionCard from '../../components/cards/QuestionCard';
 import { questions } from '../../utils/ideate';
 import { useTaskProgress } from '../../context/TaskProgressContext';
+import question from '../../assets/question.svg';
 
 function ReflectIdeate() {
   const cardWidth = 232; // fixed width per scroll
@@ -69,6 +70,7 @@ function ReflectIdeate() {
                       text={text}
                       classFront="bg-ideate text-primary"
                       classBack="bg-primary text-ideate"
+                      cardImg={question}
                     />
                   </div>
                 ))}

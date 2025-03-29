@@ -4,6 +4,7 @@ import ProgressBar from '../../components/ProgressBar';
 import QuestionCard from '../../components/cards/QuestionCard';
 import { questions } from '../../utils/empathize';
 import { useTaskProgress } from '../../context/TaskProgressContext';
+import question from '../../assets/question.svg';
 
 function ReflectEmpathize() {
   const cardWidth = 232; // fixed width per scroll
@@ -69,6 +70,7 @@ function ReflectEmpathize() {
                       text={text}
                       classFront="bg-empathize text-define"
                       classBack="bg-define text-empathize"
+                      cardImg={question}
                     />
                   </div>
                 ))}
