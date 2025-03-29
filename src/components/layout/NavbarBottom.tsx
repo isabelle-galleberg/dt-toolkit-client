@@ -17,6 +17,7 @@ const routes = [
   '/define/spot-scam',
   '/define/problem-understanding',
   '/define/problem-statement',
+  '/define/reflect',
   '/define/complete',
   '/ideate',
   '/ideate/checklist',

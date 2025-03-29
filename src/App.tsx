@@ -33,6 +33,7 @@ import CompletePrototype from './pages/Prototype/CompletePrototype';
 import CompleteTest from './pages/Test/CompleteTest';
 import TestInfo from './pages/Test/TestInfo';
 import ReflectEmpathize from './pages/Empathize/ReflectEmpathize';
+import ReflectDefine from './pages/Define/ReflectDefine';
 
 function App() {
   const { token } = useUserStore();
@@ -98,6 +99,7 @@ function App() {
                 path="/define/problem-statement"
                 element={<ProblemStatement />}
               />
+              <Route path="/define/reflect" element={<ReflectDefine />} />
               <Route path="/define/complete" element={<CompleteDefine />} />
               <Route path="/ideate" element={<Ideate />} />
               <Route path="/ideate/checklist" element={<Checklist />} />

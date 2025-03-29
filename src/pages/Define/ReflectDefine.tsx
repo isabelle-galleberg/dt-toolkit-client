@@ -5,15 +5,15 @@ import QuestionCard from '../../components/cards/QuestionCard';
 import { questions } from '../../utils/empathize';
 import { useTaskProgress } from '../../context/TaskProgressContext';
 
-function ReflectEmpathize() {
+function ReflectDefine() {
   const cardWidth = 232; // fixed width per scroll
   const cardContainerRef = useRef(null);
   const [currentIndex, setCurrentIndex] = useState(0);
   const { markTaskComplete, isTaskComplete } = useTaskProgress();
 
   useEffect(() => {
-    if (!isTaskComplete('/empathize/reflect')) {
-      markTaskComplete('/empathize/reflect');
+    if (!isTaskComplete('/define/reflect')) {
+      markTaskComplete('/define/reflect');
     }
   }, []);
 
@@ -32,7 +32,7 @@ function ReflectEmpathize() {
         text={
           <div>
             Draw a card and discuss the questions with your group. Think about
-            what you did in the Empathize phase! 💡
+            what you did in the Define phase! 💡
           </div>
         }
         activity={
@@ -40,7 +40,7 @@ function ReflectEmpathize() {
             {/* Left button */}
             <button
               onClick={handlePrevCard}
-              className={`p-2 rounded-full text-bold text-define transition duration-200 text-xl bg-empathize hover:bg-[#18A060] px-4 ${
+              className={`p-2 rounded-full text-bold text-empathize transition duration-200 text-xl bg-define hover:bg-[#A3E6A3] px-4 ${
                 currentIndex === 0 ? 'opacity-50 cursor-not-allowed' : ''
               }`}
               disabled={currentIndex === 0}
@@ -67,8 +67,8 @@ function ReflectEmpathize() {
                   >
                     <QuestionCard
                       text={text}
-                      classFront="bg-empathize text-define"
-                      classBack="bg-define text-empathize"
+                      classFront="bg-define text-empathize"
+                      classBack="bg-empathize text-define"
                     />
                   </div>
                 ))}
@@ -78,7 +78,7 @@ function ReflectEmpathize() {
             {/* Right button */}
             <button
               onClick={handleNextCard}
-              className={`p-2 rounded-full text-bold text-define transition duration-200 text-xl bg-empathize hover:bg-[#18A060] px-4 ${
+              className={`p-2 rounded-full text-bold text-empathize transition duration-200 text-xl bg-define hover:bg-[#A3E6A3] px-4 ${
                 currentIndex === questions.length - 1
                   ? 'opacity-50 cursor-not-allowed'
                   : ''
@@ -91,7 +91,7 @@ function ReflectEmpathize() {
         }
       />
       <ProgressBar
-        phase="empathize"
+        phase="define"
         moveProgressBar={true}
         currentStep={4}
         totalSteps={5}
@@ -100,4 +100,4 @@ function ReflectEmpathize() {
   );
 }
 
-export default ReflectEmpathize;
+export default ReflectDefine;
