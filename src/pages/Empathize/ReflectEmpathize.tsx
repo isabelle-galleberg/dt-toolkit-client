@@ -1,13 +1,21 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import ActivityPageLayout from '../../components/layout/ActivityPageLayout';
 import ProgressBar from '../../components/ProgressBar';
-import IdeateCard from '../../components/cards/IdeateCard';
+import IdeateCard from '../../components/cards/QuestionCard';
 import { questions } from '../../utils/empathize';
+import { useTaskProgress } from '../../context/TaskProgressContext';
 
 function ReflectEmpathize() {
   const cardWidth = 232; // fixed width per scroll
   const cardContainerRef = useRef(null);
   const [currentIndex, setCurrentIndex] = useState(0);
+  const { markTaskComplete, isTaskComplete } = useTaskProgress();
+
+  useEffect(() => {
+    if (!isTaskComplete('/empathize/reflect')) {
+      markTaskComplete('/empathize/reflect');
+    }
+  }, []);
 
   const handlePrevCard = () => {
     setCurrentIndex((prev) => Math.max(0, prev - 1));
@@ -23,8 +31,8 @@ function ReflectEmpathize() {
         header="Time to Reflect"
         text={
           <div>
-            Draw a card and discuss the questions with your group based on what
-            you implemented in the Empathize phase.
+            Draw a card and discuss the questions with your group. Think about
+            what you did in the Empathize phase! 💡
           </div>
         }
         activity={
@@ -59,8 +67,8 @@ function ReflectEmpathize() {
                   >
                     <IdeateCard
                       text={text}
-                      classOff="bg-empathize text-define"
-                      classOn="bg-define text-empathize"
+                      classFront="bg-empathize text-define"
+                      classBack="bg-define text-empathize"
                     />
                   </div>
                 ))}
@@ -85,8 +93,8 @@ function ReflectEmpathize() {
       <ProgressBar
         phase="empathize"
         moveProgressBar={false}
-        currentStep={3}
-        totalSteps={4}
+        currentStep={4}
+        totalSteps={5}
       />
     </>
   );
