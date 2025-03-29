@@ -4,7 +4,7 @@ import ProgressBar from '../../components/ProgressBar';
 import QuestionCard from '../../components/cards/QuestionCard';
 import { questions } from '../../utils/ideate';
 import { useTaskProgress } from '../../context/TaskProgressContext';
-import question from '../../assets/question.svg';
+import question from '../../assets/question-mark-primary.png';
 
 function ReflectIdeate() {
   const cardWidth = 232; // fixed width per scroll
@@ -36,6 +36,8 @@ function ReflectIdeate() {
             what you did in the Ideate phase! 💡
           </div>
         }
+        phase="Ideate"
+        phaseColor="text-ideate"
         activity={
           <div className="flex items-center gap-4 w-[350px]">
             {/* Left button */}

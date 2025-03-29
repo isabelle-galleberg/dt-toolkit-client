@@ -4,7 +4,7 @@ import ProgressBar from '../../components/ProgressBar';
 import QuestionCard from '../../components/cards/QuestionCard';
 import { questions } from '../../utils/define';
 import { useTaskProgress } from '../../context/TaskProgressContext';
-import question from '../../assets/question.svg';
+import question from '../../assets/question-mark-empathize.png';
 
 function ReflectDefine() {
   const cardWidth = 232; // fixed width per scroll
@@ -36,6 +36,8 @@ function ReflectDefine() {
             what you did in the Define phase! 💡
           </div>
         }
+        phase="Define"
+        phaseColor="text-define"
         activity={
           <div className="flex items-center gap-4 w-[350px]">
             {/* Left button */}

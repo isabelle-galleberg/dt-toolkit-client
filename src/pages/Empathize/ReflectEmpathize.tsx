@@ -4,7 +4,7 @@ import ProgressBar from '../../components/ProgressBar';
 import QuestionCard from '../../components/cards/QuestionCard';
 import { questions } from '../../utils/empathize';
 import { useTaskProgress } from '../../context/TaskProgressContext';
-import question from '../../assets/question.svg';
+import question from '../../assets/question-mark-define.png';
 
 function ReflectEmpathize() {
   const cardWidth = 232; // fixed width per scroll
@@ -36,6 +36,8 @@ function ReflectEmpathize() {
             what you did in the Empathize phase! 💡
           </div>
         }
+        phase="Empathize"
+        phaseColor="text-empathize"
         activity={
           <div className="flex items-center gap-4 w-[350px]">
             {/* Left button */}

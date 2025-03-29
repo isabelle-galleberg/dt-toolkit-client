@@ -10,9 +10,12 @@ function IdeateCard({ text, classFront, classBack, cardImg }: CardProps) {
     <label className="swap swap-flip cursor-pointer">
       <input type="checkbox" readOnly />
       <div
-        className={`hover:scale-105 swap-off card w-48 h-64 shadow-xl p-4 flex justify-center text-center items-center ${classFront}`}
+        className={`hover:scale-105 swap-off card w-48 h-64 shadow-xl p-4 py-16 flex justify-center text-center items-center ${classFront}`}
       >
-        <img src={cardImg} />
+        <img
+          src={cardImg}
+          className="max-w-full max-h-full h-auto object-contain"
+        />
       </div>
       <div
         className={`swap-on card w-48 h-64 shadow-xl p-4 flex justify-center text-center items-center ${classBack}`}
