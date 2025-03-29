@@ -21,6 +21,7 @@ const routes = [
   '/define/complete',
   '/ideate',
   '/ideate/checklist',
+  '/ideate/reflect',
   '/ideate/complete',
   '/prototype',
   '/prototype/gearsbot',

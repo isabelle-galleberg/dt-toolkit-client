@@ -332,7 +332,7 @@ const Checklist = () => {
               </div>
             </div>
           </div>
-          <ProgressBar phase={'ideate'} currentStep={1} totalSteps={2} />
+          <ProgressBar phase={'ideate'} currentStep={1} totalSteps={3} />
         </div>
       }
     />

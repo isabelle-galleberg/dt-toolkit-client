@@ -2,18 +2,18 @@ import { useState, useRef, useEffect } from 'react';
 import ActivityPageLayout from '../../components/layout/ActivityPageLayout';
 import ProgressBar from '../../components/ProgressBar';
 import QuestionCard from '../../components/cards/QuestionCard';
-import { questions } from '../../utils/define';
+import { questions } from '../../utils/ideate';
 import { useTaskProgress } from '../../context/TaskProgressContext';
 
-function ReflectDefine() {
+function ReflectIdeate() {
   const cardWidth = 232; // fixed width per scroll
   const cardContainerRef = useRef(null);
   const [currentIndex, setCurrentIndex] = useState(0);
   const { markTaskComplete, isTaskComplete } = useTaskProgress();
 
   useEffect(() => {
-    if (!isTaskComplete('/define/reflect')) {
-      markTaskComplete('/define/reflect');
+    if (!isTaskComplete('/ideate/reflect')) {
+      markTaskComplete('/ideate/reflect');
     }
   }, []);
 
@@ -32,7 +32,7 @@ function ReflectDefine() {
         text={
           <div>
             Draw a card and discuss the questions with your group. Think about
-            what you did in the Define phase! 💡
+            what you did in the Ideate phase! 💡
           </div>
         }
         activity={
@@ -40,7 +40,7 @@ function ReflectDefine() {
             {/* Left button */}
             <button
               onClick={handlePrevCard}
-              className={`p-2 rounded-full text-bold text-empathize transition duration-200 text-xl bg-define hover:bg-[#A3E6A3] px-4 ${
+              className={`p-2 rounded-full text-bold text-primary transition duration-200 text-xl bg-ideate hover:bg-[#0F9AD6] px-4 ${
                 currentIndex === 0 ? 'opacity-50 cursor-not-allowed' : ''
               }`}
               disabled={currentIndex === 0}
@@ -67,8 +67,8 @@ function ReflectDefine() {
                   >
                     <QuestionCard
                       text={text}
-                      classFront="bg-define text-empathize"
-                      classBack="bg-empathize text-define"
+                      classFront="bg-ideate text-primary"
+                      classBack="bg-primary text-ideate"
                     />
                   </div>
                 ))}
@@ -78,7 +78,7 @@ function ReflectDefine() {
             {/* Right button */}
             <button
               onClick={handleNextCard}
-              className={`p-2 rounded-full text-bold text-empathize transition duration-200 text-xl bg-define hover:bg-[#A3E6A3] px-4 ${
+              className={`p-2 rounded-full text-bold text-primary transition duration-200 text-xl bg-ideate hover:bg-[#0F9AD6] px-4 ${
                 currentIndex === questions.length - 1
                   ? 'opacity-50 cursor-not-allowed'
                   : ''
@@ -91,13 +91,13 @@ function ReflectDefine() {
         }
       />
       <ProgressBar
-        phase="define"
+        phase="ideate"
         moveProgressBar={true}
-        currentStep={4}
-        totalSteps={5}
+        currentStep={2}
+        totalSteps={3}
       />
     </>
   );
 }
 
-export default ReflectDefine;
+export default ReflectIdeate;

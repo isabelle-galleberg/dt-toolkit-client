@@ -34,6 +34,7 @@ import CompleteTest from './pages/Test/CompleteTest';
 import TestInfo from './pages/Test/TestInfo';
 import ReflectEmpathize from './pages/Empathize/ReflectEmpathize';
 import ReflectDefine from './pages/Define/ReflectDefine';
+import ReflectIdeate from './pages/Ideate/ReflectIdeate';
 
 function App() {
   const { token } = useUserStore();
@@ -104,6 +105,7 @@ function App() {
               <Route path="/ideate" element={<Ideate />} />
               <Route path="/ideate/checklist" element={<Checklist />} />
               <Route path="/ideate/complete" element={<CompleteIdeate />} />
+              <Route path="/ideate/reflect" element={<ReflectIdeate />} />
               <Route path="/prototype" element={<Prototype />} />
               <Route path="/prototype/gearsbot" element={<GearsBot />} />
               <Route
