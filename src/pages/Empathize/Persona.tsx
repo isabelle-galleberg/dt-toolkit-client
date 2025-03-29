@@ -299,7 +299,7 @@ function Persona() {
               </div>
             </div>
           </div>
-          <ProgressBar phase="empathize" currentStep={2} totalSteps={4} />
+          <ProgressBar phase="empathize" currentStep={2} totalSteps={5} />
         </div>
       }
     />

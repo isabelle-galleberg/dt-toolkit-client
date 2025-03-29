@@ -46,7 +46,7 @@ function StoryboardInfo() {
         phase="empathize"
         moveProgressBar={false}
         currentStep={2}
-        totalSteps={4}
+        totalSteps={5}
       />
       <ActivityPageLayout
         header="Ohh no ..! 😱"
