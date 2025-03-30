@@ -217,6 +217,7 @@ function Persona() {
                       value={personaInfo.name ?? ''}
                       onChange={handleInputChange('name')}
                       className="border-b border-dashed border-gray-500 w-48 bg-transparent px-2"
+                      maxLength={30}
                     />
                     <label className=" font-semibold">Age:</label>
                     <input
