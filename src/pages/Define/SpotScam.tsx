@@ -92,11 +92,11 @@ function SpotScam() {
   }, [spottedScams]);
 
   useEffect(() => {
-    if (spottedScams.length < 5) {
+    if (spottedScams.length < 5 && !hint) {
       const interval = setInterval(() => {
         setShake(true);
         setTimeout(() => setShake(false), 2000);
-      }, 15000); // shake every 15 seconds
+      }, 60000); // shake every 60 seconds
       return () => clearInterval(interval);
     }
   }, []);
