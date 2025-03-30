@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useUserStore } from '../store/userStore';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { UserIcon } from '@heroicons/react/16/solid';
 import Alert from '../components/Alert';
 import PasswordInput from '../components/PasswordInput';
