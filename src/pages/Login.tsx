@@ -60,12 +60,12 @@ const LoginForm = () => {
                 )}
               </button>
             </form>
-            <p className="mt-4 text-center">
+            {/* <p className="mt-4 text-center">
               Don't have an account?{' '}
               <Link to="/register" className="cursor-pointer text-ideate">
                 Register here
               </Link>
-            </p>
+            </p> */}
             <div>{errorMessage && <Alert message={errorMessage} />}</div>
           </div>
         }

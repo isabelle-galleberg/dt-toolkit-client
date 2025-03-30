@@ -53,12 +53,12 @@ function Welcome() {
               >
                 START ACTIVITY
               </button>
-              <Link
+              {/* <Link
                 to="/design-thinking"
                 className="mt-4 text-ideate hover:underline"
               >
                 Skip
-              </Link>
+              </Link> */}
             </div>
           }
         />
