@@ -96,7 +96,7 @@ function SelectPersona() {
         </>
       }
       activity={
-        <div className="flex items-center gap-4 w-[780px]">
+        <div className="flex items-center gap-4 w-[780px] h-full">
           <button
             onClick={handlePrevCard}
             className="p-2 rounded-full text-bold text-define transition duration-200 text-xl bg-empathize hover:bg-[#18A060] px-4"
@@ -105,7 +105,7 @@ function SelectPersona() {
           </button>
           <div
             ref={cardContainerRef}
-            className="flex gap-4 overflow-x-auto p-4 scroll-smooth w-full"
+            className="flex gap-4 overflow-x-auto p-6 scroll-smooth w-full"
           >
             {personaCards.map((card) => (
               <img
@@ -113,7 +113,7 @@ function SelectPersona() {
                 src={card.cardImageUrl}
                 alt="persona-card"
                 className={`py-1 w-52 cursor-pointer rounded-lg transition-all duration-300 hover:rotate-2
-                  ${persona?._id === card._id ? 'scale-115 shadow-lg' : ''}`}
+                  ${persona?._id === card._id ? 'scale-115' : ''}`}
                 onClick={() => handlePersonaSelection(card)}
               />
             ))}
