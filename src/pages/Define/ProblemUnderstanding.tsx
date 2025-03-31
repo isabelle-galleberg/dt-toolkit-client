@@ -256,20 +256,22 @@ function ProblemUnderstanding() {
                         </div>
 
                         {/* Answers list */}
-                        <div className=" space-y-1">
+                        <div className="space-y-1">
                           {answers[section.id]?.map((answer, index) => (
                             <div
                               key={index}
-                              className="flex justify-between items-center p-2 bg-define text-empathize rounded-full cursor-pointer"
+                              className="flex p-2 bg-define text-empathize rounded-[12px] cursor-pointer w-full items-center"
                               onClick={() => handleEdit(section.id, index)}
                             >
-                              <span className="truncate">{answer}</span>
+                              <span className="whitespace-normal break-words w-[calc(100%-15px)] pr-2">
+                                {answer}
+                              </span>
                               <button
                                 onClick={(e) => {
                                   e.stopPropagation();
                                   handleDelete(section.id, index);
                                 }}
-                                className="text-sm ml-2 text-empathize hover:text-red-500"
+                                className="text-sm text-empathize hover:text-red-500 flex-shrink-0 ml-auto"
                               >
                                 ✕
                               </button>
