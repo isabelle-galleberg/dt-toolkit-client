@@ -136,7 +136,7 @@ function Storyboard() {
                         <div className="px-4 pt-4 text-primary text-sm break-words whitespace-normal relative z-10">
                           <div className="flex flex-col space-y-2 h-28">
                             <p>{scene[1].replace('PERSONA', name)}</p>
-                            <p>{scene[2]}</p>
+                            <p>{scene[2].replace('PERSONA', name)}</p>
                           </div>
                           <div className="flex flex-col items-center space-y-2">
                             <p>Pick an icon that fits their feelings!</p>
