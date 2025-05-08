@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import InfoPage from '../components/layout/InfoPageLayout';
 import ActivityPageLayout from '../components/layout/ActivityPageLayout';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useUserStore } from '../store/userStore';
 import NavbarBottomBasic from '../components/layout/NavbarBottomBasic';
 
@@ -53,12 +53,12 @@ function Welcome() {
               >
                 START ACTIVITY
               </button>
-              {/* <Link
+              <Link
                 to="/design-thinking"
                 className="mt-4 text-ideate hover:underline"
               >
                 Skip
-              </Link> */}
+              </Link>
             </div>
           }
         />
