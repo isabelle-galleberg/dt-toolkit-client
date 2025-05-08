@@ -1,50 +1,53 @@
-# React + TypeScript + Vite
+# DT Toolkit — Client
+This code was developed as part of the master’s thesis by [@isabelle-galleberg](https://github.com/isabelle-galleberg) and [@evateis](https://github.com/evateis).
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This repository contains the **frontend application**, built using [React](https://reactjs.org/) and [Vite](https://vitejs.dev/).
 
-Currently, two official plugins are available:
+## 💡 Project Overview
+**DT Toolkit** is a digital toolkit developed to support Design Thinking (DT) workshops focused on educating K–12 students about phishing scams. It provides interactive, structured activities that guide students through the stages of the Design Thinking process. The toolkit is intended for use by educators or facilitators leading workshops and aims to promote critical thinking, creativity, and cybersecurity awareness among young learners.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
 
-## Expanding the ESLint configuration
+## 💻 Project setup
+Follow the steps below to set up and run the frontend application locally.
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+### 1. Clone the repository
+<div class="copy-box">
+  <pre><code>git clone https://github.com/isabelle-galleberg/dt-toolkit-client.git</code></pre>
+  <button class="copy-btn" onclick="navigator.clipboard.writeText('git clone https://github.com/isabelle-galleberg/dt-toolkit-client.git')"></button>
+</div>
 
-- Configure the top-level `parserOptions` property like this:
+### 2. Install Dependencies 
+Navigate to the root folder of the project and run the following command to install dependencies. 
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-});
-```
+<div class="copy-box">
+  <pre><code>npm install</code></pre>
+  <button class="copy-btn" onclick="navigator.clipboard.writeText('npm install')"></button>
+</div>
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react';
+### 3. Create Environment File
+Create a .env file in the root directory and add the following:
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-});
-```
+<div class="copy-box">
+  <pre><code>VITE_API_URL=your-api-endpoint</code></pre>
+  <button class="copy-btn" onclick="navigator.clipboard.writeText('VITE_API_URL=<your-api-endpoint>')"></button>
+</div>
+
+Replace `your-api-endpoint` with the actual backend API URL.
+
+
+### 4. Run in Development Mode 
+<div class="copy-box">
+  <pre><code>npm run dev</code></pre>
+  <button class="copy-btn" onclick="navigator.clipboard.writeText('npm run dev')"></button>
+</div>
+
+
+Open [http://localhost:5137](http://localhost:5137) to view it in the browser.
+
+### 5. Build for Production
+<div class="copy-box">
+  <pre><code>npm run build</code></pre>
+  <button class="copy-btn" onclick="navigator.clipboard.writeText('npm run build')"></button>
+</div>
+
